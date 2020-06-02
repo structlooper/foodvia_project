@@ -14,7 +14,15 @@ Route::get('/', 'WelcomeController@home');
  * @structlooper
  */
 
-//  .
+Route::group(['namespace' => 'Front', 'prefix' => 'web'], function () {
+    Route::get('/','WebController@index')->name('home');
+    Route::get('about', 'WebController@about')->name('about');
+    Route::get('add_restaurant','WebController@add_restaurant')->name('add_restaurant');
+    Route::get('login','WebController@login')->name('web_login');
+    Route::get('register','WebController@register')->name('web_register');
+    Route::get('checkout','WebController@checkout')->name('web_checkout');
+    Route::get('order_details','WebController@order_details')->name('order_details');
+});
 
 
 Route::get('privacy', function () {
