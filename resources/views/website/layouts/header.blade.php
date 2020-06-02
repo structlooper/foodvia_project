@@ -53,7 +53,7 @@
                         <!-- logo -->
                         <div class="logo mainNavCol">
                             <a href="{{ route('home') }}">
-                                <img src={{ asset("website/assets/img/food-via.jpg") }} class="img-fluid" alt="Logo">
+                                <img src={{ asset("website/assets/img/hunger_wings.png") }} class="img-fluid" alt="Logo">
                             </a>
                         </div>
                         <!-- logo -->
