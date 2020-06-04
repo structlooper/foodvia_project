@@ -122,9 +122,9 @@
                                         <div class="location-picker">
                                             <input type="text" id="pac-input" class="form-control" placeholder="Add new address">
                                                 <div id="map" ></div>
-                                                <input type="hidden" name="lat" id="lat">
-                                                <input type="hidden" name="lng" id="lng">
-                                                <input type="hidden" name="location" id="location">
+                                                <input type="hidden" name="latitude" id="lat">
+                                                <input type="hidden" name="longitude" id="lng">
+                                                <input type="hidden" name="search_loc" id="location">
                                                 <button type="submit" value="submit" class="btn btn-warning">Find</button>
                                             </div>
                                     {{-- </form> --}}
