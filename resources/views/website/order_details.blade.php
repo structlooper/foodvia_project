@@ -1,6 +1,6 @@
 @extends('website.layouts.webapp')
 @section('title')
-Foodvia | Order Details
+Hunger Wings | Order Details
 @endsection
 
 @section('main_content')

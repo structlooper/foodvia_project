@@ -1055,11 +1055,13 @@ function FBLogin(id)
         $('#my_map_form_current').submit();
     })
 
-    /*$('.pac-input').on('blur',function(){
+    /*
+    $('.pac-input').on('blur',function(){
         if($('#latitude').val()!=''){
             $('#my_map_form').submit();
         }
-    })*/
+    })
+    */
 
 </script>
     

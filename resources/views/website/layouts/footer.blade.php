@@ -188,11 +188,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title fw-700">Change Address</h4>
+                <h4 class="modal-title fw-700">Find Food</h4>
             </div>
             <div class="modal-body">
                 <div class="location-picker">
-                    <input type="text" class="form-control" placeholder="Enter a new address">
+                    <input type="text" class="form-control" id="pac-input" placeholder="Enter a address">
+                    <div class="map"></div>
                 </div>
             </div>
         </div>

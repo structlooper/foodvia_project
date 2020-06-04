@@ -1,12 +1,14 @@
 @extends('website.layouts.webapp')
 
 @section('title')
-Foodvia | Food Delivery
+Hunger Wings | Food Delivery
 @endsection
 
 @section('main_content')
 
 <section class="about-us-slider swiper-container p-relative">
+    
+    @include('include.alerts')
     <div class="swiper-wrapper">
         <div class="swiper-slide slide-item">
             <img src={{ asset("website/assets/img/about/blog/1920x700/banner-4.jpg") }} class="img-fluid full-width" alt="Banner">

@@ -34,11 +34,64 @@
     <!-- Custom Responsive -->
     <link href={{ asset("website/assets/css/responsive.css") }} rel="stylesheet">
 	<!-- Color Change -->
-    <link rel="stylesheet" class="color-changing" href={{ asset("website/assets/css/color4.css") }}>
+    {{-- <link rel="stylesheet" class="color-changing" href={{ asset("website/assets/css/color4.css") }}> --}}
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&amp;display=swap" rel="stylesheet">
     <!-- place -->
     {{-- page specific css --}}
+    {{-- <style>
+       #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .controls {
+        margin-top: 10px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 300px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      .pac-container {
+        font-family: Roboto;
+      }
+
+      #type-selector {
+        color: #fff;
+        background-color: #4d90fe;
+        padding: 5px 11px 0px 11px;
+      }
+
+      #type-selector label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+
+    </style> --}}
     @yield('css')
 </head>
 
@@ -58,16 +111,25 @@
                         </div>
                         <!-- logo -->
                         <div class="main-search mainNavCol">
-                            <form class="main-search search-form full-width">
+                            <form action="{{url('restaurants')}}" class="main-search search-form full-width">
                                 <div class="row">
                                     <!-- location picker -->
                                     <div class="col-lg-6 col-md-5">
                                         <a href="#" class="delivery-add p-relative"> <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
-                                            <span class="address">Brooklyn, NY</span>
+                                            <span class="address">Find Food Near Me</span>
                                         </a>
+                                    {{-- <form a > --}}
                                         <div class="location-picker">
-                                            <input type="text" class="form-control" placeholder="Enter a new address">
-                                        </div>
+                                            <input type="text" id="pac-input" class="form-control" placeholder="Add new address">
+                                                <div id="map" ></div>
+                                                <input type="hidden" name="lat" id="lat">
+                                                <input type="hidden" name="lng" id="lng">
+                                                <input type="hidden" name="location" id="location">
+                                                <button type="submit" value="submit" class="btn btn-warning">Find</button>
+                                            </div>
+                                    {{-- </form> --}}
+                                </form>
+                                        
                                     </div>
                                     <!-- location picker -->
                                     <!-- search -->
@@ -78,7 +140,6 @@
                                     </div>
                                     <!-- search -->
                                 </div>
-                            </form>
                         </div>
                         <div class="right-side fw-700 mainNavCol">
                             <div class="gem-points">
@@ -136,7 +197,7 @@
                                                                 </div>
                                                                 <ul>
                                                                     <li><a href="{{ route('add_restaurant') }}" class="text-light-white fw-500">Restaurant</a>
-                                                                </ul>
+                                                                    </ul>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-3 col-sm-6">
@@ -296,10 +357,10 @@
                                                         </a>
                                                     </div>
                                                     <div class="price"> <a href="#" class="text-dark-white fw-500">
-                              $2.25
-                            </a>
-                                                    </div>
+                                                        $2.25
+                                                    </a>
                                                 </div>
+                                            </div>
                                             </div>
                                             <div class="cat-product-box">
                                                 <div class="cat-product">
@@ -313,9 +374,9 @@
                                                         </a>
                                                     </div>
                                                     <div class="price"> <a href="#" class="text-dark-white fw-500">
-                              $2.25
-                            </a>
-                                                    </div>
+                                                        $2.25
+                                                    </a>
+                                                </div>
                                                 </div>
                                             </div>
                                             <div class="item-total">
@@ -336,26 +397,38 @@
                     </div>
                     <div class="col-sm-12 mobile-search">
                         <div class="mobile-address">
-                            <a href="#" class="delivery-add" data-toggle="modal" data-target="#address-box"> <span class="address">Brooklyn, NY</span>
+                            <a href="#" class="delivery-add" data-toggle="modal" data-target="#address-box"> <span class="address">Food Near me</span>
                             </a>
                         </div>
-                        <div class="sorting-addressbox"> <span class="full-address text-light-green">Brooklyn, NY 10041</span>
+                        <div class="sorting-addressbox"> <span class="full-address text-light-green">location</span>
                             <div class="btns">
                                 <div class="filter-btn">
                                     <button type="button"><i class="fas fa-sliders-h text-light-green fs-18"></i>
-                  </button> <span class="text-light-green">Sort</span>
+                                    </button> <span class="text-light-green">Sort</span>
                                 </div>
                                 <div class="filter-btn">
                                     <button type="button"><i class="fas fa-filter text-light-green fs-18"></i>
-                  </button> <span class="text-light-green">Filter</span>
+                                    </button> <span class="text-light-green">Filter</span>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
         </header>
     </div>
     <div class="main-sec"></div>
+    
+   
+        
 
     @yield('main_content')
+    
+    
+@section('js')
+    <script src={{ asset('website/assets/js/pages/google_map.js') }}></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZJvjfei1Tbyo9xH4Supe_4enBrCEdhV0&libraries=places&callback=initMap"
+    async defer></script>
+    
+@endsection

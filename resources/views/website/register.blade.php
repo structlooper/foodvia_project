@@ -1,6 +1,6 @@
 @extends('website.layouts.webapp')
 @section('title')
-Foodvia | Register
+Hunger Wings | Register
 @endsection
 
 @section('main_content')
