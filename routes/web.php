@@ -22,6 +22,18 @@ Route::group(['namespace' => 'Front', 'prefix' => 'web'], function () {
     Route::get('register','WebController@register')->name('web_register');
     Route::get('checkout','WebController@checkout')->name('web_checkout');
     Route::get('order_details','WebController@order_details')->name('order_details');
+
+    Route::get('category/{id}','WebController@categories')->name('category');
+    Route::get('category/{id}/{it}','WebController@categories_product')->name('categories');
+});
+/**
+ * Api routes for new fornt
+ * @structlooper
+ * 
+ */
+Route::group(['prefix' => 'api', 'namespace' => 'Front'], function () {
+    Route::get('categories','WebApiCOntroller@categories');
+    Route::get('product_category/{id}','WebApiController@product_category');
 });
 
 

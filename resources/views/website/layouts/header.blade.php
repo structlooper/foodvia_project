@@ -39,59 +39,7 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&amp;display=swap" rel="stylesheet">
     <!-- place -->
     {{-- page specific css --}}
-    {{-- <style>
-       #map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      .controls {
-        margin-top: 10px;
-        border: 1px solid transparent;
-        border-radius: 2px 0 0 2px;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        height: 32px;
-        outline: none;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      }
-
-      #pac-input {
-        background-color: #fff;
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-        margin-left: 12px;
-        padding: 0 11px 0 13px;
-        text-overflow: ellipsis;
-        width: 300px;
-      }
-
-      #pac-input:focus {
-        border-color: #4d90fe;
-      }
-
-      .pac-container {
-        font-family: Roboto;
-      }
-
-      #type-selector {
-        color: #fff;
-        background-color: #4d90fe;
-        padding: 5px 11px 0px 11px;
-      }
-
-      #type-selector label {
-        font-family: Roboto;
-        font-size: 13px;
-        font-weight: 300;
-      }
-
-    </style> --}}
+    
     @yield('css')
 </head>
 
@@ -120,8 +68,8 @@
                                         </a>
                                     {{-- <form a > --}}
                                         <div class="location-picker">
-                                            <input type="text" id="pac-input" class="form-control" placeholder="Add new address">
-                                                <div id="map" ></div>
+                                            <input type="text" id="pac-input " class="form-control" placeholder="Add new address">
+                                                <div id="map"></div>
                                                 <input type="hidden" name="latitude" id="lat">
                                                 <input type="hidden" name="longitude" id="lng">
                                                 <input type="hidden" name="search_loc" id="location">
@@ -427,8 +375,6 @@
     
     
 @section('js')
-    <script src={{ asset('website/assets/js/pages/google_map.js') }}></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZJvjfei1Tbyo9xH4Supe_4enBrCEdhV0&libraries=places&callback=initMap"
-    async defer></script>
+    
     
 @endsection
