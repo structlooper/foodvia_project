@@ -76,9 +76,10 @@ Hunger Wings | Food Delivery
                     max-height:320px;
                     overflow-y:auto;
                 }
-                .my_div::-webkit-scrollbar {
+                /* .my_div::-webkit-scrollbar {
                     display: none;
-                }
+                    
+                } */
             
 
     </style>
