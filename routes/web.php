@@ -6,12 +6,13 @@
 |--------------------------------------------------------------------------
 */
 //abort(404, 'The resource you are looking for could not be found');
-Route::get('/', 'WelcomeController@home');
+Route::get('/', 'Front\WebController@index');
 
 
 /**
- * new fornt of web
+ * new front of web
  * @structlooper
+ *
  */
 
 Route::group(['namespace' => 'Front', 'prefix' => 'web'], function () {
@@ -27,14 +28,25 @@ Route::group(['namespace' => 'Front', 'prefix' => 'web'], function () {
     Route::get('category/{id}/{it}','WebController@categories_product')->name('categories');
 });
 /**
- * Api routes for new fornt
+ * Api routes for new front
  * @structlooper
  * 
  */
 Route::group(['prefix' => 'api', 'namespace' => 'Front'], function () {
     Route::get('categories','WebApiCOntroller@categories');
     Route::get('product_category/{id}','WebApiController@product_category');
+    Route::post('add_to_cart','CartApiController@add_to_cart');
+
+/*
+ * Auth routes for user login register
+ * @structlooper
+ * */
+    Route::post('user_login','UserController@login');
+    Route::post('user_register','UserController@register');
+
 });
+
+
 
 
 Route::get('privacy', function () {

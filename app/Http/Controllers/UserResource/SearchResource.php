@@ -47,10 +47,13 @@ class SearchResource extends Controller
             if($request->has('longitude')){
               Session::put('longitude',$request->longitude);
             }
+
+
             $Products = Product::listsearch($user_id,$request->name);
             $Shops = (new ShopResource)->filter($request);
             if($request->has('latitude') && $request->has('longitude'))
             {
+
                 $longitude = $request->longitude; 
                 $latitude = $request->latitude;
                 if(Setting::get('search_distance')>0){
@@ -67,6 +70,7 @@ class SearchResource extends Controller
                         $BannerImagee['shopstatus'] = (new ShopResource)->shoptime($BannerImagee->shop);;
                         $BannerImagee['shopopenstatus'] = (new ShopResource)->shoptiming($BannerImagee->shop);;
                         return $BannerImagee;
+
                          });
                 }else{
                     $BannerImage = ShopBanner::with('shop','product')->get();

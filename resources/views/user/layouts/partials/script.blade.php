@@ -12,7 +12,7 @@
                     <div class="login-form-sec">
                         <h5 class="login-tit">Login</h5>
                         <div class="social-login">
-                           <a href="javascript::void(0);" onclick="FBLogin(2);"  class="social-login-item"><i class="ion-social-facebook"></i></a>
+                           <a href="javascript:void(0);" onclick="FBLogin(2);"  class="social-login-item"><i class="ion-social-facebook"></i></a>
                             <a id="sign-in-or-out-button" data-id="login" href="javascript:void(0);" class="social-reg sign-in-or-out-button social-login-item"><i class="ion-social-google"></i></a>
                             <form  id="login_form" action="{{url('social/login')}}" method="post" >
                                 {{ csrf_field() }}
@@ -29,7 +29,7 @@
                         {{ csrf_field() }}
                             <div class="form-group">
                                 <label>Phone</label>
-                                <input type="text" id="phone" name="phone" class="form-control" placeholder="please enter your phone nuber with +91">                          
+                                <input type="text" id="phone" name="phone" class="form-control" placeholder="please enter your phone number with +91" />
                                 
                             </div>
                             <div class="print-error-msg alert-danger error_phone"></div> 
@@ -220,45 +220,47 @@ $("#country_code").easyAutocomplete(options);
         }else{
             phone = '';
         }
-            $.ajax({
-                url: "{{url('/otp')}}",
-                type:'POST',
-                data:{ phone :phone ,'_token':csrf ,'login_by':login_by,'accessToken':accessToken},
-                success: function(data) { 
-                    if($.isEmptyObject(data.error)){
-                        my_otp=data.otp;
+            {{--$.ajax({--}}
+            {{--    url: "{{url('/otp')}}",--}}
+            {{--    type:'POST',--}}
+            {{--    data:{ phone :phone ,'_token':csrf ,'login_by':login_by,'accessToken':accessToken},--}}
+            {{--    success: function(data) { --}}
+                    // if($.isEmptyObject(data.error)){
+                    //     my_otp=data.otp;
+                      my_otp= '123456';
                         $('.mobile_otp_verfication').show();
                         $('.mobile_verfication').hide();
                         $('.mobile_verfication').html("<p class='helper'> Please Wait... </p>");
                         $('#phone_number').attr('readonly',true);
                         $('#country_code').attr('readonly',true);
-                        $('#otp').val(data.otp);
+                        // $('#otp').val(data.otp);
+                        $('#otp').val('123456');
                         $('#otp').attr('readonly',true);
                         $("#register_form .common").html('<ul class="list-unstyled"></ul>');
                         $(".alert-danger").css("display", "none");
                         $("#register_form .common").find('ul').removeClass('alert-danger').addClass('alert-success');
-                        $("#register_form .common").find("ul").append('<li>'+data.message+'</li>');
-                    }else{ 
-                        printErrorMsg(data.error,'register_form');
-                    }
-                },
-                error:function(jqXhr,status) { 
-                    if(jqXhr.status === 422) {
-                        $(".alert-danger").css("display", "block");
-                        $("#register_form .print-error-msg").html('');
-                        $("#register_form .common").html('<ul class="list-unstyled"><li class="error_error "></li></ul>');
-                        $("#register_form .print-error-msg").show();
-                        var errors = jqXhr.responseJSON;
-                        $.each( errors , function( key, value ) { 
-                            if(key=='error'){
-                                $("#register_form .common").find('ul').removeClass('alert-success').addClass('alert-danger');
-                            }
-                            $("#register_form").find(".error_"+key).html(value);
-                        }); 
-                    } 
-                }
-
-            });
+                        // $("#register_form .common").find("ul").append('<li>'+data.message+'</li>');
+                    // }else{
+                    //     printErrorMsg(data.error,'register_form');
+                    // }
+            //     },
+            //     error:function(jqXhr,status) {
+            //         if(jqXhr.status === 422) {
+            //             $(".alert-danger").css("display", "block");
+            //             $("#register_form .print-error-msg").html('');
+            //             $("#register_form .common").html('<ul class="list-unstyled"><li class="error_error "></li></ul>');
+            //             $("#register_form .print-error-msg").show();
+            //             var errors = jqXhr.responseJSON;
+            //             $.each( errors , function( key, value ) {
+            //                 if(key=='error'){
+            //                     $("#register_form .common").find('ul').removeClass('alert-success').addClass('alert-danger');
+            //                 }
+            //                 $("#register_form").find(".error_"+key).html(value);
+            //             });
+            //         }
+            //     }
+            //
+            // });
         }else{
             $(".alert-danger").css("display", "block");
             $("#register_form").find(".error_phone").html('');

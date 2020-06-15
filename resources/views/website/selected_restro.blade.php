@@ -33,7 +33,8 @@ Hunger Wings | Food Delivery
             color: red;
             }
             .sublinks:hover {
-            color: rgb(255, 238, 0) !important;
+            color: rgb(17, 17, 10) !important;
+            background: #eeeeee;
             }
             .sublinks{
                 /* text-align: right !important; */
@@ -148,7 +149,7 @@ Hunger Wings | Food Delivery
             <div class="row">
                 <aside class="col-lg-3 mb-md-40  " >
                     
-                    <div class="mt-2 mb-2   positionType"  >
+                    <div class="mt-2 mb-2   positionType" id="urlfinder" url = {{ url('/') }}  >
                         <div class="sidenav border-right pr-4">
                             <h4 class="text-center ">{{ $shop_data->name }}</h4>
                             <a href="#about" class="working" > Most-popular  <i class="fa fa-caret-left" aria-hidden="true"></i></a>
@@ -156,7 +157,7 @@ Hunger Wings | Food Delivery
                             <a href="#clients" > More Popular varieties  <i class="fa fa-caret-left" aria-hidden="true"></i></a>
                             <div class="my_div">
                             @foreach ($categories as $item)
-                                   <a href="#clients" class="border-right sublinks "><i class="fa fa-arrow-right" aria-hidden="true"></i> {{ $item->name }}</a>
+                                   <a href="#clients" class="btn btn-sm  sublinks item_class_str" key={{ $item->id }} id="item_{{ $item->id }}"><i class="fa fa-arrow-right"  aria-hidden="true"></i> {{ $item->name }}</a>
                                    @endforeach
                                 </div> 
                             {{-- <a href="#contact" class="border-right">Contact</a> --}}
@@ -169,7 +170,7 @@ Hunger Wings | Food Delivery
                     
                 </aside>
                 <div class="col-lg-6 browse-cat ">
-                    <div class="row m-2 ">
+                    <div class="row m-2 " id="append_after_this">
                        
                             
                             @foreach ($product_details as $item)
@@ -231,7 +232,7 @@ Hunger Wings | Food Delivery
                                     </div>
                                     <div class="product-footer offset-auto" > 
                                         
-                                    <button type="button" dataname="{{ $item[0]->name }}" currency="{{ $data->currency }}" dataprice="{{ $data->price }}" dataid={{ $item[0]->id }} class="btn btn-sm btn-outline-primary addToCart"><i class="fas fa-plus"></i> Add Item</button>
+                                    <button type="button" id="dish{{ $item[0]->id }}" onclick="add_to_cart({{ $item[0]->id }});" dataname="{{ $item[0]->name }}" currency="{{ $data->currency }}" dataprice="{{ $data->price }}" dataid={{ $item[0]->id }} class="btn btn-sm btn-outline-primary"><i class="fas fa-plus"></i> Add Item</button>
                                         </div>
                                     </div>
                                 </div>
@@ -239,9 +240,9 @@ Hunger Wings | Food Delivery
                             
                             @endforeach
                           
-                    </div>
+                        </div>
                         
-                </div>
+                    </div>
 
                 {{-- Cart ................... --}}
                 <aside class="col-lg-3" >
@@ -258,11 +259,9 @@ Hunger Wings | Food Delivery
                             <div class="sidebar" id="cradboxShow" style="display: none;">
                                 <div class="cart-detail-box">
                                     <div class="card">
-                                        {{-- <div class="card-header padding-15 fw-700">Your order from
-                                            <p class="text-light-white no-margin fw-500">Jhon Deo</p>
-                                        </div> --}}
+                                       
                                         <div class="card-body no-padding" id="scrollstyle-4">
-                                            <div class="" id="addDataCart">
+                                            <div  id="addDataCart">
                                                
                                             </div>
                                         </div>

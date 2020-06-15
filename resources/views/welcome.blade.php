@@ -67,8 +67,8 @@
                                     <span class="input-group-addon locate-me-btn my_map_form_current"><i class="ion-pinpoint"></i>  Locate Me</span>
                                     <span class="input-group-addon log-search-btn"><button>Find Food</button></span>
                                 </div>
-                                <input type="hidden" id="latitude" name="latitude" value="{{ old('latitude') }}" readonly >
-                                <input type="hidden" id="longitude" name="longitude" value="{{ old('longitude') }}" readonly >
+                                <input type="text" id="latitude" name="latitude" value="{{ old('latitude') }}" readonly >
+                                <input type="text" id="longitude" name="longitude" value="{{ old('longitude') }}" readonly >
                                 <div id="my_map"   style="height:500px;width:500px;display: none" ></div>
                             </form>
                             <form  action="{{url('restaurants')}}" id="my_map_form_current" >

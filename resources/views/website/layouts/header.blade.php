@@ -39,6 +39,7 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&amp;display=swap" rel="stylesheet">
     <!-- place -->
     {{-- page specific css --}}
+    <link rel="stylesheet" href="{{ asset('jquery-toast-plugin-master/src/jquery.toast.css') }}">
     
     @yield('css')
 </head>
@@ -70,8 +71,8 @@
                                         <div class="location-picker">
                                             <input type="text" id="pac-input " class="form-control" placeholder="Add new address">
                                                 <div id="map"></div>
-                                                <input type="hidden" name="latitude" id="lat">
-                                                <input type="hidden" name="longitude" id="lng">
+                                                <input type="hidden" id="latitude_cur" name="latitude" id="lat">
+                                                <input type="hidden" id="longitude_cur" name="longitude" id="lng">
                                                 <input type="hidden" name="search_loc" id="location">
                                                 <button type="submit" value="submit" class="btn btn-warning">Find</button>
                                             </div>
@@ -275,8 +276,8 @@
                                 <div class="cart-detail-box">
                                     <div class="card">
                                         <div class="card-header padding-15">Your Order</div>
-                                        <div class="card-body no-padding">
-                                            <div class="cat-product-box">
+                                        <div class="card-body no-padding" id='addToHeaderCart'>
+                                            {{-- <div class="cat-product-box">
                                                 <div class="cat-product">
                                                     <div class="cat-name">
                                                         <a href="#">
@@ -292,41 +293,25 @@
                             </a>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="cat-product-box">
-                                                <div class="cat-product">
-                                                    <div class="cat-name">
-                                                        <a href="#">
-                                                            <p class="text-light-green"><span class="text-dark-white">1</span> loaded cheese</p> <span class="text-light-white">small, chilli chicken</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="delete-btn">
-                                                        <a href="#" class="text-dark-white"> <i class="far fa-trash-alt"></i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="price"> <a href="#" class="text-dark-white fw-500">
-                                                        $2.25
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            </div>
-                                            <div class="cat-product-box">
-                                                <div class="cat-product">
-                                                    <div class="cat-name">
-                                                        <a href="#">
-                                                            <p class="text-light-green"><span class="text-dark-white">1</span> Tortia Chicken</p> <span class="text-light-white">small, chilli chicken</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="delete-btn">
-                                                        <a href="#" class="text-dark-white"> <i class="far fa-trash-alt"></i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="price"> <a href="#" class="text-dark-white fw-500">
-                                                        $2.25
-                                                    </a>
-                                                </div>
-                                                </div>
-                                            </div>
+                                            </div> --}}
+                                           
+{{--                                            <div class="cat-product-box">--}}
+{{--                                                <div class="cat-product">--}}
+{{--                                                    <div class="cat-name">--}}
+{{--                                                        <a href="#">--}}
+{{--                                                            <p class="text-light-green"><span class="text-dark-white">1</span> Tortia Chicken</p> <span class="text-light-white">small, chilli chicken</span>--}}
+{{--                                                        </a>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="delete-btn">--}}
+{{--                                                        <a href="#" class="text-dark-white"> <i class="far fa-trash-alt"></i>--}}
+{{--                                                        </a>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="price"> <a href="#" class="text-dark-white fw-500">--}}
+{{--                                                        $2.25--}}
+{{--                                                    </a>--}}
+{{--                                                </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
                                             <div class="item-total">
                                                 <div class="total-price border-0"> <span class="text-dark-white fw-700">Items subtotal:</span>
                                                     <span class="text-dark-white fw-700">$9.99</span>
@@ -363,7 +348,7 @@
                         
                     </div>
                 </div>
-            </div>
+{{--            </div>--}}
         </header>
     </div>
     <div class="main-sec"></div>
