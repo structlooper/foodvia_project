@@ -55,7 +55,7 @@ Hunger Wings | Login
                         <button type="submit" class="btn-second btn-google full-width">
                           <img src={{ asset("website/assets/img/google-logo.png") }} alt="btn_logo">Continue with Google</button>
                       </div>
-                      <div class="form-group text-center mb-0"> <a href="register.html">Create your account</a>
+                      <div class="form-group text-center mb-0"> <a href="{{ route('web_register') }}">Create your account</a>
                       </div>
                     </div>
                   </div>

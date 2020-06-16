@@ -1,6 +1,4 @@
 $('.login_btn').on('click',function(){
-    // var password = document.getElementById("password").value();
-    // var phoneNumber = document.getElementById("phone").value();
     var phoneNumber = $('#phone-field').val();
     var password = $('#password-field').val();
     var csrf = $("input[name='_token']").val();
@@ -39,3 +37,4 @@ $('.login_btn').on('click',function(){
         }
     });
 });
+

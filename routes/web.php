@@ -6,8 +6,9 @@
 |--------------------------------------------------------------------------
 */
 //abort(404, 'The resource you are looking for could not be found');
-Route::get('/', 'Front\WebController@index');
 
+Route::get('/test', 'WelcomeController@home');
+Route::get('/', 'Front\WebController@index');
 
 /**
  * new front of web

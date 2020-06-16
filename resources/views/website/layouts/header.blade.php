@@ -155,14 +155,20 @@
                                                                     <h6 class="cat-name"><a href="#" class="text-light-black">Account</a></h6>
                                                                 </div>
                                                                 <ul>
-                                                                    <li><a href="{{route('web_login')}}" class="text-light-white fw-500">Login</a>
-                                                                    </li>
-                                                                    <li><a href="{{ route('web_register') }}" class="text-light-white fw-500">Sign-up</a>
-                                                                    </li>
+                                                                    @if(Auth::user())
+
                                                                     <li><a href="{{ route('web_checkout') }}" class="text-light-white fw-500">Checkout</a>
                                                                     </li>
                                                                     <li><a href="{{ route('order_details') }}" class="text-light-white fw-500">Order Details</a>
                                                                     </li>
+                                                                    @else
+
+                                                                    <li><a href="{{route('web_login')}}" class="text-light-white fw-500">Login</a>
+                                                                    </li>
+                                                                    <li><a href="{{ route('web_register') }}" class="text-light-white fw-500">Sign-up</a>
+                                                                    </li>
+                                                                    @endif
+
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -173,6 +179,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <!-- mobile search -->
                             <div class="mobile-search">
                                 <a href="#" data-toggle="modal" data-target="#search-box"> <i class="fas fa-search"></i>
@@ -180,6 +187,7 @@
                             </div>
                             <!-- mobile search -->
                             <!-- user account -->
+                            @if(Auth::user())
                             <div class="user-details p-relative">
                                 <a href="#" class="text-light-white fw-500">
                                     <img src={{ asset("website/assets/img/user-1.png") }} class="rounded-circle" alt="userimg"> <span>Hi, Kate</span>
@@ -235,10 +243,21 @@
                                             </a>
                                         </li>
                                     </ul>
-                                    <div class="user-footer"> <span class="text-light-black">Not Jhon?</span> <a href="#">Sign Out</a>
+                                    <div class="user-footer"> <span class="text-light-black">Not Jhon?&nbsp <a herf="#" class="btn btn-outline-danger" id="signOut"><span>Sign out</span></a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
                                     </div>
                                 </div>
                             </div>
+                            @else
+                                &nbsp<a href="{{route('web_login')}}"> <i class="fas fa-user-plus"></i>
+                                    <span>Login</span>
+                                </a>
+                            @endif
+
+
+
                             <!-- mobile search -->
                             <!-- user notification -->
                             <div class="cart-btn notification-btn">
@@ -347,7 +366,7 @@
                         </div>
                         
                     </div>
-                </div>
+{{--                </div>--}}
 {{--            </div>--}}
         </header>
     </div>
@@ -359,7 +378,3 @@
     @yield('main_content')
     
     
-@section('js')
-    
-    
-@endsection
