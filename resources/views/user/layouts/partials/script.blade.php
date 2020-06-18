@@ -369,7 +369,7 @@ $("#country_code").easyAutocomplete(options);
     $('.login_btn').on('click',function(){ 
         var password = document.getElementById("password").value;
         var phoneNumber = document.getElementById("phone").value;
-        var csrf = $("input[name='_token']").val();;
+        var csrf = $("input[name='_token']").val();
         $.ajax({
             url: "{{url('/login')}}",
             type:'POST',

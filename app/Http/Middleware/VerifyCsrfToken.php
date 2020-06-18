@@ -11,7 +11,10 @@ class VerifyCsrfToken extends BaseVerifier
      *
      * @var array
      */
+    protected $addHttpCookie = true;
     protected $except = [
         //
+        'api/add_to_cart',
+        'api/empty_cart',
     ];
 }

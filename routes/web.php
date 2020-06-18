@@ -7,6 +7,7 @@
 */
 //abort(404, 'The resource you are looking for could not be found');
 
+
 Route::get('/test', 'WelcomeController@home');
 Route::get('/', 'Front\WebController@index');
 
@@ -37,6 +38,10 @@ Route::group(['prefix' => 'api', 'namespace' => 'Front'], function () {
     Route::get('categories','WebApiCOntroller@categories');
     Route::get('product_category/{id}','WebApiController@product_category');
     Route::post('add_to_cart','CartApiController@add_to_cart');
+    Route::get('get_cart_data','CartApiController@get_cart_data');
+    Route::get('increment/{id}','CartApiController@increment_product');
+    Route::get('decrement/{id}','CartApiController@decrement_product');
+    Route::post('empty_cart','CartApiController@empty_cart');
 
 /*
  * Auth routes for user login register
@@ -215,6 +220,7 @@ Route::group(['prefix' => 'transporter'], function () {
         return redirect('/');
     });
     Route::post('login', 'Auth\LoginController@login')->name('login');
+
     Route::get('register',function(){
         return redirect('/');
     });

@@ -217,7 +217,7 @@ Hunger Wings | Food Delivery
                             </div>
                             <div class="product-caption">
                                 <div class="title-box">
-                                    <h6 class="product-title" style="width: 50%; text-overflow: hidden;" ><a href="restaurant.html" class="text-light-black " > {{ $item[0]->name }}</a></h6>
+                                    <h6 class="product-title" style="width: 50%;" ><a href="restaurant.html" class="text-light-black " > {{ $item[0]->name }}</a></h6>
                                         <div class="tags"> <span class="text-custom-white rectangle-tag bg-yellow">
                                             {{ $data->price }} {{ $data->currency }}
                                         </span>
@@ -230,9 +230,10 @@ Hunger Wings | Food Delivery
                                         </div>
                                        
                                     </div>
-                                    <div class="product-footer offset-auto" > 
+                                    <div class="product-footer offset-auto" id = "dishButton{{ $item[0]->id }}">
                                         
-                                    <button type="button" id="dish{{ $item[0]->id }}" onclick="add_to_cart({{ $item[0]->id }});" dataname="{{ $item[0]->name }}" currency="{{ $data->currency }}" dataprice="{{ $data->price }}" dataid={{ $item[0]->id }} class="btn btn-sm btn-outline-primary"><i class="fas fa-plus"></i> Add Item</button>
+                                    <button type="button" id="dish{{ $item[0]->id }}" onclick="add_to_cart({{ $item[0]->id }});" dataname="{{ $item[0]->name }}" currency="{{ $data->currency }}" dataprice="{{ $data->price }}"  class="btn btn-sm btn-outline-primary"><i class="fas fa-plus"></i> Add Item
+                                        </button>
                                         </div>
                                     </div>
                                 </div>
@@ -246,38 +247,52 @@ Hunger Wings | Food Delivery
 
                 {{-- Cart ................... --}}
                 <aside class="col-lg-3" >
-                        
                     <div class=" mt-2 mb-2 card positionType" >
-                        <h4 class="text-light-black fw-600 title-2 pl-2 pt-3">Cart</h4>
-                        
+                        <div class="row">
+                            <div class="col-sm-6 " >
+                                <h4 class="text-light-black fw-600 title-2 pl-3 pt-3">Cart</h4>
+
+                            </div>
+                            <div class="col-sm-6 " style="text-align: center;margin-top: 20px;">
+
+                                 <button type="button" onclick="empty_cart();" class="btn btn-sm btn-outline-danger text-light-black border-0"><i class="far fa-trash-alt"></i> Clear cart</button >
+                            </div>
+                        </div>
                         <div class="item border"  >
                         <form action="#">
+{{--                            @if (is_null($cart_data))--}}
+
                             <div class="m-2 blankDiv">
 
                                 Cart is empty Please add something delicious!!
                             </div>
-                            <div class="sidebar" id="cradboxShow" style="display: none;">
-                                <div class="cart-detail-box">
-                                    <div class="card">
-                                       
-                                        <div class="card-body no-padding" id="scrollstyle-4">
-                                            <div  id="addDataCart">
-                                               
+{{--                            @else--}}
+                                <div class="sidebar" id="cradboxShow" >
+                                    <div class="cart-detail-box">
+                                        <div class="card">
+
+                                            <div class="card-body no-padding" id="scrollstyle-4">
+                                                <div  id="addDataCart">
+
+
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="card-footer p-0 modify-order">
-                                            
-                                            <a href="#" class="total-amount"> <span class="text-custom-white fw-700">TOTAL</span>
-                                                <span class="text-custom-white fw-700">$18.50</span>
-                                            </a>
+                                            <div class="card-footer p-0 modify-order">
+
+                                                <a href="#" class="total-amount"> <span class="text-custom-white fw-700">TOTAL</span>
+                                                    <span class="text-custom-white fw-700 final_price pr-4" ></span>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            
-                            <div class="checkoutButton text-right m-2"  style="display: none;" >
-                            <button type="submit" class="btn btn-primary btn-sm">Checkout <i class="fas fa-arrow-right"></i></button>
-                            </div>
+
+
+                                <div class="checkoutButton text-right m-2"  >
+                                    <button type="submit" class="btn btn-primary btn-sm">Checkout <i class="fas fa-arrow-right"></i></button>
+                                </div>
+{{--                            @endif--}}
+
                         </form>
                         </div>                    
                         
@@ -287,9 +302,33 @@ Hunger Wings | Food Delivery
             </div>
         </div>
     </div>
-    
 
-@endsection
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="addToCartForm" url="{{ url('api/add_to_cart') }}" method="post">
+                    {{ csrf_field() }}
+                <div class="modal-body">
+                    ...
+                </div>
+                    <input type="hidden" id="product_id" name="product_id"/>
+
+                    <div class="modal-footer">
+                    <button type="button" onclick="saveData()"   class="btn btn-block btn-success finalAddCart" id="addData"> Add item</button>
+                </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+
+
+    @endsection
 
 @section('js')
     <script src="{{ asset('website/assets/js/pages/selected_restro.js') }}"></script>
@@ -297,9 +336,9 @@ Hunger Wings | Food Delivery
         // function to fix and static position of card and side category bar..
         $(function() {
     //caches a jQuery object containing the header element
-        var header = $(".positionType");
+        let header = $(".positionType");
         $(window).scroll(function() {
-            var scroll = $(window).scrollTop();
+            let scroll = $(window).scrollTop();
 
             if (scroll >= 300) {
                 header.removeClass('positionType').addClass("fixed_by_me");
@@ -307,12 +346,12 @@ Hunger Wings | Food Delivery
             else {
                 header.removeClass("fixed_by_me").addClass('positionType');
             }
-            
-            topOfFooter = $('#footer').position().top;
+
+            let topOfFooter = $('#footer').position().top;
             // Distance user has scrolled from top, adjusted to take in height of sidebar (570 pixels inc. padding).
-            scrollDistanceFromTopOfDoc = $(document).scrollTop() + 670;
+            let scrollDistanceFromTopOfDoc = $(document).scrollTop() + 670;
             // Difference between the two.
-            scrollDistanceFromTopOfFooter = scrollDistanceFromTopOfDoc - topOfFooter;
+            let scrollDistanceFromTopOfFooter = scrollDistanceFromTopOfDoc - topOfFooter;
             // If user has scrolled further than footer,
             if (scrollDistanceFromTopOfDoc > topOfFooter) {
                 header.removeClass("fixed_by_me").addClass('positionType');

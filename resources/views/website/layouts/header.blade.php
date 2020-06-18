@@ -260,6 +260,8 @@
 
                             <!-- mobile search -->
                             <!-- user notification -->
+                            @if (Auth::user())
+
                             <div class="cart-btn notification-btn">
                                 <a href="#" class="text-light-green fw-700"> <i class="fas fa-bell"></i>
                                     <span class="user-alert-notification"></span>
@@ -290,29 +292,32 @@
                             <!-- user cart -->
                             <div class="cart-btn cart-dropdown">
                                 <a href="#" class="text-light-green fw-700"> <i class="fas fa-shopping-bag"></i>
-                                    <span class="user-alert-cart">3</span>
+                                    <span class="user-alert-cart">0</span>
                                 </a>
                                 <div class="cart-detail-box">
                                     <div class="card">
                                         <div class="card-header padding-15">Your Order</div>
-                                        <div class="card-body no-padding" id='addToHeaderCart'>
-                                            {{-- <div class="cat-product-box">
-                                                <div class="cat-product">
-                                                    <div class="cat-name">
-                                                        <a href="#">
-                                                            <p class="text-light-green"><span class="text-dark-white">1</span> Chilli Chicken</p> <span class="text-light-white">small, chilli chicken</span>
-                                                        </a>
-                                                    </div>
-                                                    <div class="delete-btn">
-                                                        <a href="#" class="text-dark-white"> <i class="far fa-trash-alt"></i>
-                                                        </a>
-                                                    </div>
-                                                    <div class="price"> <a href="#" class="text-dark-white fw-500">
-                              $2.25
-                            </a>
-                                                    </div>
-                                                </div>
-                                            </div> --}}
+                                        <div class="card-body no-padding" >
+                                            <div id='addToHeaderCart'>
+
+                                            </div>
+{{--                                             <div class="cat-product-box">--}}
+{{--                                                <div class="cat-product">--}}
+{{--                                                    <div class="cat-name">--}}
+{{--                                                        <a href="#">--}}
+{{--                                                            <p class="text-light-green"><span class="text-dark-white">1</span> Chilli Chicken</p> <span class="text-light-white">small, chilli chicken</span>--}}
+{{--                                                        </a>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="delete-btn">--}}
+{{--                                                        <a href="#" class="text-dark-white"> <i class="far fa-trash-alt"></i>--}}
+{{--                                                        </a>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="price"> <a href="#" class="text-dark-white fw-500">--}}
+{{--                              $2.25--}}
+{{--                            </a>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
                                            
 {{--                                            <div class="cat-product-box">--}}
 {{--                                                <div class="cat-product">--}}
@@ -333,7 +338,7 @@
 {{--                                            </div>--}}
                                             <div class="item-total">
                                                 <div class="total-price border-0"> <span class="text-dark-white fw-700">Items subtotal:</span>
-                                                    <span class="text-dark-white fw-700">$9.99</span>
+                                                    <span class="text-dark-white fw-700 final_price">0</span>
                                                 </div>
                                                 <div class="empty-bag padding-15"> <a href="#">Empty bag</a>
                                                 </div>
@@ -344,7 +349,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- user cart -->
+                        @endif
+
+                        <!-- user cart -->
                         </div>
                     </div>
                     <div class="col-sm-12 mobile-search">

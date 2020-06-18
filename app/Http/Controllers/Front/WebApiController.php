@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
+use Illuminate\Support\Facades\Auth;
 
 class WebApiController extends Controller
 {
@@ -40,6 +41,9 @@ class WebApiController extends Controller
 
             array_push($product_detalis, $product_data);
         }
+
+
+
         
 
         if (is_null($product_detalis)) {

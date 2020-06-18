@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use DB;
+use Illuminate\Support\Facades\Auth;
 use stdClass;
 use Illuminate\Http\Request;
 use App\Helper\ProductHelper;
@@ -112,8 +113,7 @@ class WebController extends Controller
                     'shop_data' =>$shop_data,
                     'categories' => $categories,
                     'product_details' => $product_details,
-                    
-                    
+
                 ];
                 return view('website.selected_restro')->with($data);
             }
