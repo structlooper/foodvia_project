@@ -115,7 +115,7 @@ function cart_data_database(){
             // console.log(error)
             $.toast({
                 heading: 'error',
-                text : "Can't connect with server right now" ,
+                text : "You are not logged please login first to continue " ,
                 icon : 'error',
                 position: 'top-right',
 
@@ -147,42 +147,43 @@ $(document).ready(function(){
                     processData: false,
                     contentType: false,
                     success: function(result) {
-                            // console.log(result.status);
+                            // console.log(result);
+
                             if (result.status == 1) {
                                 // console.log(result.data[0]);
                                 result.data.forEach(element => {
-                                    // console.log(element);
-                                    element.forEach(data => {
+                                    // console.log(element[0]);
+                                    let data = element[0];
                                         // console.log(data.name)
                                         $('.currentCards').hide()
-                                        
+
                                         let food_type = ''
-                                        if (data.food_type === 'veg') {
+                                        if (element[0].food_type === 'veg') {
                                             food_type = '<span class="type-tag bg-gradient-green text-custom-white">pure Veg</span>'
                                         }
                                         else{
                                             food_type = ''
                                         }
-                                       
+
                                         $('#append_after_this').append(`
                                         <div class="col-lg-4 col-md-6 col-sm-6 currentCards ${key}">
                                 <div class="product-box mb-xl-20">
                                     <div class="product-img">
                                         <a href="#">
-                                                                                                                                
-                                            
-                                            <img src="${base_url}/public/website/assets/img/restaurants/255x150/shop-7.jpg" class="img-fluid full-width" style="height:100px;" alt="product-img">
+
+
+                                            <img src="${data.url}" class="img-fluid full-width" style="height:100px;" alt="product-img">
                                         </a>
                                         <div class="overlay">
                                             <div class="product-tags padding-10"> <span class="circle-tag">
                                                 <img src="${base_url}/public/website/assets/img/svg/013-heart-1.svg" alt="tag">
                                             </span>
-                                                                                                                                        
+
                                             <div class="custom-tag"> <span class="text-custom-white rectangle-tag bg-gradient-red">
-                                                hurry!!
+                                               ${data.discount}% off hurry!!
                                             </span>
                                             ${food_type}
-                                                                                        
+
                                         </div>
                                     </div>
                                 </div>
@@ -191,7 +192,7 @@ $(document).ready(function(){
                                 <div class="title-box">
                                     <h6 class="product-title" style="width: 50%; "><a href="restaurant.html" class="text-light-black "> ${data.name}</a></h6>
                                         <div class="tags"> <span class="text-custom-white rectangle-tag bg-yellow">
-                                            20 ₹
+                                            ${data.price} ${data.currency}
                                         </span>
                                 </div>
                                     </div>
@@ -200,29 +201,28 @@ $(document).ready(function(){
                                         <div class="price-time"> <span class="text-light-black time">45 mins</span>
                                             <span class="text-light-white price"> </span>
                                         </div>
-                                       
+
                                     </div>
-                                    <div class="product-footer offset-auto"> 
-                                        
-                                    <button type="button" id="dish${data.id}" onclick="add_to_cart(${data.id})" dataname="${data.name}" currency="₹" dataprice="20" dataid="${data.id}" class="btn btn-sm btn-outline-primary "><i class="fas fa-plus"></i> Add Item</button>
+                                    <div class="product-footer offset-auto">
+
+                                    <button type="button" id="dish${data.id}" onclick="add_to_cart(${data.id})" dataname="${data.name}" currency="${data.currency}" dataprice="${data.price}" dataid="${data.id}" class="btn btn-sm btn-outline-primary "><i class="fas fa-plus"></i> Add Item</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                                        
-                                        
-                                        
+
+
+
                                         `);
                                         $('.'+key).show()
                                         $('#item_'+key).addClass('working')
 
-                                    });
                                 });
-        
+
                             }
-                         
+
                             else{
-                                
+
                                 console.log(result.message);
                                 $.toast({
                                     heading: 'Warning',

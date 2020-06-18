@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Helper\ProductHelper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
@@ -21,32 +22,33 @@ class WebApiController extends Controller
         ->get();
         if ($data) {
             # code...
-            $response = ['status' => 1,'message' => 'Data found succesfully', 'data' => $data ];
-            return $response;
+            return ['status' => 1,'message' => 'Data found successfully', 'data' => $data ];
         }
     }
-    public function product_category(request $request,$id)
+    public function product_category(request $request,$category_id)
     {
-        $category_id = $id;
-        $category_prduct = DB::table('category_product')
+
+        $category_product = DB::table('category_product')
         ->where('category_id',$category_id)
         ->get();
-        // return $category_prduct;
-        $product_detalis = [];
-        foreach ($category_prduct as $value) {
-            # code...
+        // return $category_product;
+        $product_details = [];
+        foreach ($category_product as $value) {
             $product_data = DB::table('products')
-            ->where('id', $value->product_id)
-            ->get();
+                ->join('product_images', 'product_images.product_id' , '=' , 'products.id')
+                ->join('product_prices', 'product_prices.product_id' , '=' , 'products.id')
+                ->where('products.id', $value->product_id)
+                ->get();
+            array_push($product_details, $product_data);
 
-            array_push($product_detalis, $product_data);
+
         }
 
 
 
         
 
-        if (is_null($product_detalis)) {
+        if (is_null($product_details)) {
             
             
             $response = [
@@ -60,7 +62,7 @@ class WebApiController extends Controller
                 'status' => 1,
                 'message' => 'Data found',
                 'category' => $category_id,
-                'data' => $product_detalis,
+                'data' => $product_details,
             ];
             
         }

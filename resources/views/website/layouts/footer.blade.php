@@ -168,8 +168,8 @@
                         </li>
                         <li> <a href="#"><i class="fab fa-instagram"></i></a>
                         </li>
-                        <li> <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                        </li>
+{{--                        <li> <a href="#"><i class="fab fa-pinterest-p"></i></a>--}}
+{{--                        </li>--}}
                         <li> <a href="#"><i class="fab fa-youtube"></i></a>
                         </li>
                     </ul>
