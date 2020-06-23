@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'passport-provider' => \App\Http\Middleware\PassportCustomProvider::class,
+        'CheckIfAuth' => \App\Http\Middleware\CheckIfAuthUser::class,
     ];
 }

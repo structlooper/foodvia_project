@@ -15,14 +15,29 @@ Hunger Wings | Checkout
                                 <h3 class="text-light-black header-title fw-700">Review and place order</h3>
                             </div>
                             <h6 class="text-light-black fw-700 fs-14">Review address, payments, and tip to complete your purchase</h6>
-                            <h6 class="text-light-black fw-700 mb-2">Your order setting</h6>
-                            <p class="text-light-green fw-600">Delivery, ASAP (60-70m)</p>
-                            <p class="text-light-white title2 mb-1">Jhon Deo <span><a href="#">Change Details</a></span>
+                            <h6 class="text-light-black fw-700 mb-2">Your order Delivery Address</h6>
+{{--                            <p class="text-light-green fw-600">Delivery, ASAP (60-70m)</p>--}}
+                            <p class="text-light-white title2 mb-1">{{ ucfirst(Auth::user()->name) }}
+{{--                                <span><a href="#">Change Details</a></span>--}}
                             </p>
-                            <p class="text-light-black fw-600 mb-1">Home</p>
-                            <p class="text-light-white mb-1">314 79th st 70 Brooklyn, NY 11209
-                                <br>Cross Street, Rite Aid</p>
-                            <p class="text-light-white">(347) 1234567890</p>
+                            <p class="text-light-white">{{ Auth::user()->phone }}</p>
+
+                        @foreach($user_address as $key => $item)
+                                @if (!is_null($item))
+                                    <div class="form-group border p-2">
+                                        <label class="custom-checkbox">
+                                            <p class="text-light-black fw-600 mb-1">{{ $item->type }}</p>
+                                            <input type="radio"  name="address_id" value="{{ $item->id }}"> <span class="checkmark"></span>
+                                            <p class="text-light-white mb-1">{{ $item->building }} {{ $item->street }},
+                                               <br> {{ $item->state }} , {{ $item->city }}
+                                            </p>
+                                        </label>
+                                    </div>
+
+                                @else
+                                    Please add delivery address..
+                                @endif
+                            @endforeach
                         </div>
                         <div class="col-md-6">
                             <div class="advertisement-img">
@@ -33,53 +48,53 @@ Hunger Wings | Checkout
                     <div class="row">
                         <div class="col-12">
                             <div class="payment-sec">
-                                <div class="section-header-left">
-                                    <h3 class="text-light-black header-title">Delivery Instructions</h3>
-                                </div>
-                                <div class="form-group">
-                                    <textarea class="form-control form-control-submit" rows="4" placeholder="Delivery Details"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label class="custom-checkbox">
-                  <input type="checkbox" name="#"> <span class="checkmark"></span> Spare me the napkins and plasticware. I'm trying to save the earth.</label>
-                                </div>
+{{--                                <div class="section-header-left">--}}
+{{--                                    <h3 class="text-light-black header-title">Delivery Instructions</h3>--}}
+{{--                                </div>--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <textarea class="form-control form-control-submit" rows="4" placeholder="Delivery Details"></textarea>--}}
+{{--                                </div>--}}
+{{--                                <div class="form-group">--}}
+{{--                                    <label class="custom-checkbox">--}}
+{{--                  <input type="checkbox" name="#"> <span class="checkmark"></span> Spare me the napkins and plasticware. I'm trying to save the earth.</label>--}}
+{{--                                </div>--}}
                                 <div class="section-header-left">
                                     <h3 class="text-light-black header-title">Payment information</h3>
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
                                         <div id="accordion">
-                                            <div class="card">
-                                                <div class="card-header"> <a class="collapsed card-link fw-500 fs-14" data-toggle="collapse" href="#collapseOne">
-                          Pay with a Gift Card
-                        </a>
-                                                </div>
-                                                <div id="collapseOne" class="collapse" data-parent="#accordion">
-                                                    <div class="card-body no-padding payment-option-tab">
-                                                        <div class="form-group">
-                                                            <div class="credit-card gift-card p-relative">
-                                                                <input type="text" name="#" class="form-control-submit fs-16" value="AC2B76">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card">
-                                                <div class="card-header"> <a class="collapsed card-link fw-500 fs-14" data-toggle="collapse" href="#collapseTwo">
-                          Add a promo code
-                        </a>
-                                                </div>
-                                                <div id="collapseTwo" class="collapse" data-parent="#accordion">
-                                                    <div class="card-body no-padding payment-option-tab">
-                                                        <div class="form-group">
-                                                            <div class="credit-card promocode p-relative input-group">
-                                                                <input type="text" name="#" class="form-control-submit fs-16" placeholder="AC2B76">
-                                                                <button type="submit" class="btn-second btn-submit ml-1">Apply</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+{{--                                            <div class="card">--}}
+{{--                                                <div class="card-header"> <a class="collapsed card-link fw-500 fs-14" data-toggle="collapse" href="#collapseOne">--}}
+{{--                          Pay with a Gift Card--}}
+{{--                        </a>--}}
+{{--                                                </div>--}}
+{{--                                                <div id="collapseOne" class="collapse" data-parent="#accordion">--}}
+{{--                                                    <div class="card-body no-padding payment-option-tab">--}}
+{{--                                                        <div class="form-group">--}}
+{{--                                                            <div class="credit-card gift-card p-relative">--}}
+{{--                                                                <input type="text" name="#" class="form-control-submit fs-16" value="AC2B76">--}}
+{{--                                                            </div>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="card">--}}
+{{--                                                <div class="card-header"> <a class="collapsed card-link fw-500 fs-14" data-toggle="collapse" href="#collapseTwo">--}}
+{{--                          Add a promo code--}}
+{{--                        </a>--}}
+{{--                                                </div>--}}
+{{--                                                <div id="collapseTwo" class="collapse" data-parent="#accordion">--}}
+{{--                                                    <div class="card-body no-padding payment-option-tab">--}}
+{{--                                                        <div class="form-group">--}}
+{{--                                                            <div class="credit-card promocode p-relative input-group">--}}
+{{--                                                                <input type="text" name="#" class="form-control-submit fs-16" placeholder="AC2B76">--}}
+{{--                                                                <button type="submit" class="btn-second btn-submit ml-1">Apply</button>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
                                             <div class="payment-option-tab">
                                                 <ul class="nav nav-tabs">
                                                     <li class="nav-item"> <a class="nav-link fw-600 active" data-toggle="tab" href="#savecreditcard">Saved credit card</a>
@@ -258,16 +273,17 @@ Hunger Wings | Checkout
                                                     </div>
                                                     <div class="tab-pane fade" id="cash">
                                                         <p class="text-light-black">Have the cash ready when you receive your order.</p>
-                                                        <div class="section-header-left">
-                                                            <h3 class="text-light-black header-title">Donate the change</h3>
-                                                        </div>
+{{--                                                        <div class="section-header-left">--}}
+{{--                                                            <h3 class="text-light-black header-title">Donate the change</h3>--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="form-group">--}}
+{{--                                                            <label class="custom-checkbox">--}}
+{{--                              <input type="checkbox" name="#"> <span class="checkmark"></span>--}}
+{{--                              Apologies, but you can't donate with the selected payment type</label>--}}
+{{--                                                        </div>--}}
                                                         <div class="form-group">
-                                                            <label class="custom-checkbox">
-                              <input type="checkbox" name="#"> <span class="checkmark"></span>
-                              Apologies, but you can't donate with the selected payment type</label>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <button type="submit" class="btn-first green-btn text-custom-white full-width fw-500">Place Your Order</button>
+                                                            <input type="hidden" id="promoce_id_01">
+                                                            <button type="button" onclick="place_order();"   class="btn-first green-btn text-custom-white full-width fw-500">Place Your Order</button>
                                                         </div>
                                                         <p class="text-center text-light-black no-margin">By placing your order, you agree to Foodvia's <a href="#">terms of use</a> and <a href="#">privacy agreement</a>
                                                         </p>
@@ -472,65 +488,80 @@ Hunger Wings | Checkout
                     <div class="cart-detail-box">
                         <div class="card">
                             <div class="card-header padding-15 fw-700">Your order from
-                                <p class="text-light-white no-margin fw-500">Jhon Deo</p>
+                                <p class="text-light-white no-margin fw-500">{{ ucfirst(Auth::user()->name) }}</p>
                             </div>
                             <div class="card-body no-padding" id="scrollstyle-4">
-                                <div class="cat-product-box">
-                                    <div class="cat-product">
-                                        <div class="cat-name">
-                                            <a href="#">
-                                                <p class="text-light-green fw-700"><span class="text-dark-white">1</span> Chilli Chicken Pizza</p> <span class="text-light-white fw-700">small, chilli chicken</span>
-                                            </a>
-                                        </div>
-                                        <div class="delete-btn">
-                                            <a href="#" class="text-dark-white"> <i class="far fa-trash-alt"></i>
-                                            </a>
-                                        </div>
-                                        <div class="price"> <a href="#" class="text-dark-white fw-500">
-                      $2.25
-                    </a>
-                                        </div>
-                                    </div>
+                                <div class="addToHeaderCart">
+
                                 </div>
-                                <div class="cat-product-box">
-                                    <div class="cat-product">
-                                        <div class="cat-name">
-                                            <a href="#">
-                                                <p class="text-light-green fw-700"><span class="text-dark-white">1</span> Chilli Chicken Pizza</p> <span class="text-light-white fw-700">small, chilli chicken</span>
-                                            </a>
-                                        </div>
-                                        <div class="delete-btn">
-                                            <a href="#" class="text-dark-white"> <i class="far fa-trash-alt"></i>
-                                            </a>
-                                        </div>
-                                        <div class="price"> <a href="#" class="text-dark-white fw-500">
-                      $2.25
-                    </a>
-                                        </div>
-                                    </div>
-                                </div>
+{{--                                <div class="cat-product-box">--}}
+{{--                                    <div class="cat-product">--}}
+{{--                                        <div class="cat-name">--}}
+{{--                                            <a href="#">--}}
+{{--                                                <p class="text-light-green fw-700"><span class="text-dark-white">1</span> Chilli Chicken Pizza</p> <span class="text-light-white fw-700">small, chilli chicken</span>--}}
+{{--                                            </a>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="delete-btn">--}}
+{{--                                            <a href="#" class="text-dark-white"> <i class="far fa-trash-alt"></i>--}}
+{{--                                            </a>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="price"> <a href="#" class="text-dark-white fw-500">--}}
+{{--                      $2.25--}}
+{{--                    </a>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <div class="cat-product-box">--}}
+{{--                                    <div class="cat-product">--}}
+{{--                                        <div class="cat-name">--}}
+{{--                                            <a href="#">--}}
+{{--                                                <p class="text-light-green fw-700"><span class="text-dark-white">1</span> Chilli Chicken Pizza</p> <span class="text-light-white fw-700">small, chilli chicken</span>--}}
+{{--                                            </a>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="delete-btn">--}}
+{{--                                            <a href="#" class="text-dark-white"> <i class="far fa-trash-alt"></i>--}}
+{{--                                            </a>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="price"> <a href="#" class="text-dark-white fw-500">--}}
+{{--                      $2.25--}}
+{{--                    </a>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
                                 <div class="item-total">
-                                    <div class="total-price border-0 pb-0"> <span class="text-dark-white fw-600">Items subtotal:</span>
-                                        <span class="text-dark-white fw-600">$8.50</span>
-                                    </div>
-                                    <div class="total-price border-0 pt-0 pb-0"> <span class="text-light-green fw-600">Delivery fee:</span>
-                                        <span class="text-light-green fw-600">Free</span>
-                                    </div>
-                                    <div class="total-price border-0 pt-0 pb-0"> <span class="text-dark-white fw-600">Sales tax:</span>
-                                        <span class="text-dark-white fw-600">$1.50</span>
-                                    </div>
-                                    <div class="total-price border-0 pt-0 pb-0"> <span class="text-dark-white fw-600">Tip:</span>
-                                        <span class="text-dark-white fw-600">$1.50</span>
-                                    </div>
-                                    <div class="total-price border-0 "> <span class="text-light-black fw-700">Total:</span>
-                                        <span class="text-light-black fw-700">$18.50</span>
-                                    </div>
+
+{{--                                    <div class="total-price border-0 pt-0 pb-0"> <span class="text-dark-white fw-600">Sales tax:</span>--}}
+{{--                                        <span class="text-dark-white fw-600">$1.50</span>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="total-price border-0 pt-0 pb-0"> <span class="text-dark-white fw-600">Tip:</span>--}}
+{{--                                        <span class="text-dark-white fw-600">$1.50</span>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="total-price border-0 "> <span class="text-light-black fw-700">Total:</span>--}}
+{{--                                        <span class="text-light-black fw-700">$18.50</span>--}}
+{{--                                    </div>--}}
                                 </div>
                             </div>
+                            <button class="text-custom-white full-width fw-500 bg-light-green"><i class="fas fa-chevron-left mr-2"></i> Modify Your Order</button>
+
                             <div class="card-footer p-0 modify-order">
-                                <button class="text-custom-white full-width fw-500 bg-light-green"><i class="fas fa-chevron-left mr-2"></i> Modify Your Order</button>
-                                <a href="#" class="total-amount"> <span class="text-custom-white fw-700">TOTAL</span>
-                                    <span class="text-custom-white fw-700">$18.50</span>
+                                <div class=" p-3 text-right">
+
+                                <div class="total-price border-0 pb-0"> <span class="text-dark-white fw-600">Items subtotal:</span>
+                                    <span class="text-dark-white fw-600 final_price" id="final_price_this"></span>
+                                </div>
+                                <div class="total-price border-0 pt-0 pb-0"> <span class="text-light-green fw-600">Delivery fee:</span>
+                                    <span class="text-light-green fw-600">Free</span>
+                                </div>
+
+                                <div class=" border-0 pt-0 pb-0 promo_code_info_area" > <span class="text-success "><B>Have Promo code:</B></span>
+                                    <span class="text-light-green fw-600"><a href="#" data-toggle="modal" data-target="#promoCodeModal">Click</a></span>
+                                </div>
+                                </div>
+
+
+
+                                <a href="#" class="total-amount"> <span class="text-custom-white fw-700">GRAND TOTAL</span>
+                                    <span class="text-custom-white fw-700 grand_total final_price">0</span>
                                 </a>
                             </div>
                         </div>
@@ -541,40 +572,38 @@ Hunger Wings | Checkout
     </div>
 </section>
    <!-- footer -->
-<div class="footer-top section-padding">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-2 col-sm-4 col-6 mb-sm-20">
-                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-credit-card-1"></i></span>
-                    <span class="text-light-black">100% Payment<br>Secured</span>
-                </div>
+
+<div class="modal fade" id="promoCodeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Apply Promo code</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="col-md-2 col-sm-4 col-6 mb-sm-20">
-                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-wallet-1"></i></span>
-                    <span class="text-light-black">Support lots<br> of Payments</span>
+            <div class="modal-body">
+                    <form action="#" method="post" >
+                <div class="row">
+                        {{ csrf_field() }}
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="promocode_input" placeholder="Enter Code here" style="width: 15rem;">
+                    </div>
+                    <div class="col-sm-6 text-center">
+                        <button type="button"  class="btn btn-success apply_promo" style="width: 10rem; ">Apply</button>
+                    </div>
                 </div>
+                    </form>
             </div>
-            <div class="col-md-2 col-sm-4 col-6 mb-sm-20">
-                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-help"></i></span>
-                    <span class="text-light-black">24 hours / 7 days<br>Support</span>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-6">
-                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-truck"></i></span>
-                    <span class="text-light-black">Free Delivery<br>with $50</span>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-6">
-                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-guarantee"></i></span>
-                    <span class="text-light-black">Best Price<br>Guaranteed</span>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-6">
-                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-app-file-symbol"></i></span>
-                    <span class="text-light-black">Mobile Apps<br>Ready</span>
-                </div>
+            <div class="modal-footer">
             </div>
         </div>
     </div>
 </div>
+
+
 @endsection
+
+@section('js')
+  <script src="{{ asset('website/assets/js/pages/checkout.js') }}"></script>
+@stop

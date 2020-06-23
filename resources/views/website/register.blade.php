@@ -4,7 +4,7 @@ Hunger Wings | Register
 @endsection
 
 @section('main_content')
-<div class="inner-wrapper " style="margin-top: 50px;">
+<div class="inner-wrapper " >
     <div class="container-fluid no-padding">
       <div class="row no-gutters overflow-auto">
         <div class="col-md-6">
@@ -25,19 +25,12 @@ Hunger Wings | Register
                   {{ csrf_field() }}
                   <h4 class="text-light-black fw-600">Create your account</h4>
                   <div class="row">
-                    <div class="col-lg-6 col-md-12 col-sm-6">
-                      <div class="form-group">
-                        <label class="text-light-white fs-14">First name</label>
-                        <input type="text" name="name" class="form-control form-control-submit" placeholder="First Name" required>
-                      </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12 col-sm-6">
-                      <div class="form-group">
-                        <label class="text-light-white fs-14">Last name</label>
-                        <input type="text" name="#" class="form-control form-control-submit" placeholder="Last Name" >
-                      </div>
-                    </div>
+
                     <div class="col-12">
+                      <div class="form-group">
+                        <label class="text-light-white fs-14">Name</label>
+                        <input type="text" name="name" class="form-control form-control-submit" placeholder="Name" required>
+                      </div>
                       <div class="form-group">
                         <label class="text-light-white fs-14">phone</label>
                         <input type="text" name="phone" class="form-control form-control-submit" placeholder="phone number" >

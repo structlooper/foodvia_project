@@ -8,6 +8,7 @@ use stdClass;
 use Illuminate\Http\Request;
 use App\Helper\ProductHelper;
 use App\Http\Controllers\Controller;
+use Session;
 
 class WebController extends Controller
 {
@@ -79,6 +80,7 @@ class WebController extends Controller
         // shop details
         $shop_data = DB::table('shops')
         ->where('id',$shop_id)->first();
+        Session::put('shop_id',$shop_id);
 
         
         
@@ -144,12 +146,25 @@ class WebController extends Controller
     {
         return view('website.register');
     }
-    public function checkout()
+    public function checkout(request $request)
     {
-        return view('website.checkout');
+
+        $user_address = DB::table('user_addresses')
+            ->where('user_id',Auth::user()->id)
+            ->get();
+        return view('website.checkout')->with('user_address',$user_address);
     }
     public function order_details()
     {
         return view('website.order_details');
+    }
+    public function user_profile()
+    {
+        $user_address = DB::table('user_addresses')
+            ->where('user_id',Auth::user()->id)
+            ->get();
+//        print_r($user_address);
+        return view('website.user_profile')->with('user_address',$user_address);
+
     }
 }

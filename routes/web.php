@@ -23,8 +23,15 @@ Route::group(['namespace' => 'Front', 'prefix' => 'web'], function () {
     Route::get('add_restaurant','WebController@add_restaurant')->name('add_restaurant');
     Route::get('login','WebController@login')->name('web_login');
     Route::get('register','WebController@register')->name('web_register');
-    Route::get('checkout','WebController@checkout')->name('web_checkout');
-    Route::get('order_details','WebController@order_details')->name('order_details');
+
+    Route::group(['middleware' => 'CheckIfAuth'], function () {
+
+        Route::get('checkout','WebController@checkout')->name('web_checkout');
+        Route::get('order_details','WebController@order_details')->name('order_details');
+        Route::get('user_profile','WebController@user_profile')->name('user_profile');
+
+
+    });
 
     Route::get('category/{id}','WebController@categories')->name('category');
     Route::get('category/{id}/{it}','WebController@categories_product')->name('categories');
@@ -35,8 +42,14 @@ Route::group(['namespace' => 'Front', 'prefix' => 'web'], function () {
  * 
  */
 Route::group(['prefix' => 'api', 'namespace' => 'Front'], function () {
+
     Route::get('categories','WebApiCOntroller@categories');
     Route::get('product_category/{id}','WebApiController@product_category');
+
+    /*
+     * cart APIs routes
+     * @structlooper
+     * */
     Route::post('add_to_cart','CartApiController@add_to_cart');
     Route::get('get_cart_data','CartApiController@get_cart_data');
     Route::get('increment/{id}','CartApiController@increment_product');
@@ -44,11 +57,16 @@ Route::group(['prefix' => 'api', 'namespace' => 'Front'], function () {
     Route::post('empty_cart','CartApiController@empty_cart');
 
 /*
- * Auth routes for user login register
+ * Auth routes for user login register pages
  * @structlooper
  * */
     Route::post('user_login','UserController@login');
     Route::post('user_register','UserController@register');
+
+    Route::post('apply_promo','CheckOutController@apply_promo');
+    Route::get('get_promo','CheckOutController@get_promo');
+    Route::post('place_order','CheckOutController@place_order');
+
 
 });
 

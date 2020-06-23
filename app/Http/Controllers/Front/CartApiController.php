@@ -20,6 +20,7 @@ class CartApiController extends Controller
 //            exit;
             $product_id = $request->product_id;
             $note = $request->note;
+            $shop_id = $request->shop_id;
             if (user_cart::where('product_id', '=', $product_id)->count() > 0)
             {
                 $get_count = user_cart::where('product_id', '=' , $product_id)
@@ -33,7 +34,7 @@ class CartApiController extends Controller
                     ->update(['quantity'=> $final_quantity]);
                 if ($update_count === 1)
                 {
-                    $response = [
+                    return [
                         'status' => 4,
                         'message' => 'Dish already present in cart Count added',
                         'debug'=> $update_count,
@@ -43,7 +44,7 @@ class CartApiController extends Controller
             else{
                 if (is_null($user_id))
                 {
-                    $response = [
+                    return [
                         'status' => 2,
                         'message' => 'Please login first',
                     ];
@@ -55,6 +56,7 @@ class CartApiController extends Controller
                         'note' => $note,
                         'quantity' => 1,
                         'created_at'=> Carbon::now(),
+                        'shop_id' => $shop_id,
                         'updated_at'=>null,
                         'deleted_at' =>null,
                     ];
@@ -62,7 +64,7 @@ class CartApiController extends Controller
                         ->insert($data);
                     if ($insert_to_cart)
                     {
-                        $response = [
+                        return [
                             'status' => 1,
                             'message' => 'added to cart',
                             'data' => $data,
@@ -70,57 +72,62 @@ class CartApiController extends Controller
                         ];
                     }
                     else{
-                        $response = [
+                        return [
                             'status' => 0,
                             'message' => 'something went wrong please try to refresh page',
                         ];
                     }
                 }
             }
-            return $response;
+
 
         }
 
         public function get_cart_data()
         {
-            $user_id = Auth::user()->id;
-            try {
+            if (Auth::user()) {
+                $user_id = Auth::user()->id;
+                try {
 
-                if (!is_null($user_id)) {
-                    $cart_data = DB::table('user_carts')
-                        ->join('products','products.id','=','user_carts.product_id')
-                        ->join('product_prices','product_prices.product_id','=','user_carts.product_id')
-                        ->where('user_id',$user_id)
-                        ->get();
+                    if (!is_null($user_id)) {
+                        $cart_data = DB::table('user_carts')
+                            ->join('products', 'products.id', '=', 'user_carts.product_id')
+                            ->join('product_prices', 'product_prices.product_id', '=', 'user_carts.product_id')
+                            ->where('user_id', $user_id)
+                            ->where('order_id',null)
+                            ->get();
 //                    print_r($cart_data);
 
-                    if (!is_null($cart_data)) {
-                        $response = [
-                            'status' => 1,
-                            'message' => 'Data founded',
-                            'data' => $cart_data,
-                        ];
+                        if (!is_null($cart_data)) {
+                            $response = [
+                                'status' => 1,
+                                'message' => 'Data founded',
+                                'data' => $cart_data,
+                            ];
+                        } else {
+                            $response = [
+                                'status' => 3,
+                                'message' => 'Cart is empty',
+                            ];
+                        }
                     } else {
                         $response = [
-                            'status' => 3,
-                            'message' => 'Cart is empty',
+                            'status' => 2,
+                            'message' => 'please login to get saved cart',
                         ];
                     }
-                } else {
-                    $response = [
-                        'status' => 2,
-                        'message' => 'please login to get saved cart',
+                    return $response;
+
+                } catch (Exception $e) {
+                    return [
+                        'status' => 0,
+                        'message' => 'Something is went wrong',
+                        'error' => trans('form.whoops')
                     ];
                 }
-                return $response;
-
             }
-            catch (Exception $e){
-                return [
-                    'status' => 0,
-                    'message' => 'Something is went wrong',
-                    'error' => trans('form.whoops')
-                ];
+            else{
+                return ['status' => 0, 'error' => 'please login'];
             }
         }
 
@@ -173,6 +180,7 @@ class CartApiController extends Controller
                 ];
             }
         }
+
 
 
 
@@ -248,6 +256,8 @@ class CartApiController extends Controller
                 if (!is_null($user_id)) {
                     $delete_all = DB::table('user_carts')
                         ->where('user_id', $user_id)
+                        ->where('order_id',null)
+                        ->where('promocode_id',null)
                         ->delete();
                     if ($delete_all == 0 ) {
                         $response = [
@@ -255,6 +265,7 @@ class CartApiController extends Controller
                             'message' => 'Cart is already empty please add item',
                         ];
                     } else {
+
                         $response = [
                             'status' => 1,
                             'message' => 'Cart Cleared'

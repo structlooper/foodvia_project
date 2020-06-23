@@ -16,5 +16,7 @@ class VerifyCsrfToken extends BaseVerifier
         //
         'api/add_to_cart',
         'api/empty_cart',
+        'api/apply_promo',
+        'api/place_order',
     ];
 }

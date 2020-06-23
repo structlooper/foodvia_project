@@ -149,7 +149,7 @@ Hunger Wings | Food Delivery
             <div class="row">
                 <aside class="col-lg-3 mb-md-40  " >
                     
-                    <div class="mt-2 mb-2   positionType" id="urlfinder" url = {{ url('/') }}  >
+                    <div class="mt-2 mb-2   positionType"   >
                         <div class="sidenav border-right pr-4">
                             <h4 class="text-center ">{{ $shop_data->name }}</h4>
                             <a href="#about" class="working" > Most-popular  <i class="fa fa-caret-left" aria-hidden="true"></i></a>
@@ -289,12 +289,12 @@ Hunger Wings | Food Delivery
 
 
                                 <div class="checkoutButton text-right m-2"  >
-                                    <button type="submit" class="btn btn-primary btn-sm">Checkout <i class="fas fa-arrow-right"></i></button>
+                                    <a href="{{ route('web_checkout') }}" class="btn btn-primary btn-sm">Checkout <i class="fas fa-arrow-right"></i></a>
                                 </div>
 {{--                            @endif--}}
 
                         </form>
-                        </div>                    
+                        </div>
                         
                         </div>
                     
@@ -320,7 +320,7 @@ Hunger Wings | Food Delivery
                     <input type="hidden" id="product_id" name="product_id"/>
 
                     <div class="modal-footer">
-                    <button type="button" onclick="saveData()"   class="btn btn-block btn-success finalAddCart" id="addData"> Add item</button>
+                    <button type="button" onclick="saveData({{ $shop_data->id }})"  class="btn btn-block btn-success finalAddCart" id="addData"> Add item</button>
                 </div>
                     </form>
             </div>

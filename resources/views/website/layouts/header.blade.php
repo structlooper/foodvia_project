@@ -55,7 +55,7 @@
                         <!-- logo -->
                         <div class="logo mainNavCol">
                             <a href="{{ route('home') }}">
-                                <img src={{ asset("website/assets/img/hunger_wings.png") }} class="img-fluid" alt="Logo">
+                                <img src={{ asset("website/assets/img/hunger_wings1.png") }} class="img-fluid" alt="Logo">
                             </a>
                         </div>
                         <!-- logo -->
@@ -190,7 +190,7 @@
                             @if(Auth::user())
                             <div class="user-details p-relative">
                                 <a href="#" class="text-light-white fw-500">
-                                    <img src={{ asset("website/assets/img/user-1.png") }} class="rounded-circle" alt="userimg"> <span>Hi, Kate</span>
+                                    <img src={{ asset("website/assets/img/user-1.png") }} class="rounded-circle" alt="userimg"> <span>Hi, {{ Auth::user()->name }}</span>
                                 </a>
                                 <div class="user-dropdown">
                                     <ul>
@@ -231,7 +231,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a href="{{ route('user_profile') }}">
                                                 <div class="icon"><i class="flaticon-user"></i>
                                                 </div> <span class="details">Account</span>
                                             </a>
@@ -243,7 +243,7 @@
                                             </a>
                                         </li>
                                     </ul>
-                                    <div class="user-footer"> <span class="text-light-black">Not Jhon?&nbsp <a herf="#" class="btn btn-outline-danger" id="signOut"><span>Sign out</span></a>
+                                    <div class="user-footer"> <span class="text-light-black">Not {{ Auth::user()->name }}?&nbsp <a herf="#" class="btn btn-outline-danger" id="signOut"><span>Sign out</span></a>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
@@ -262,7 +262,7 @@
                             <!-- user notification -->
                             @if (Auth::user())
 
-                            <div class="cart-btn notification-btn">
+                            <div class="cart-btn notification-btn" id="urlfinder" url = {{ url('/') }}>
                                 <a href="#" class="text-light-green fw-700"> <i class="fas fa-bell"></i>
                                     <span class="user-alert-notification"></span>
                                 </a>
@@ -298,7 +298,7 @@
                                     <div class="card">
                                         <div class="card-header padding-15">Your Order</div>
                                         <div class="card-body no-padding" >
-                                            <div id='addToHeaderCart'>
+                                            <div class='addToHeaderCart' style="height: 300px; overflow: auto;">
 
                                             </div>
 {{--                                             <div class="cat-product-box">--}}
@@ -340,11 +340,11 @@
                                                 <div class="total-price border-0"> <span class="text-dark-white fw-700">Items subtotal:</span>
                                                     <span class="text-dark-white fw-700 final_price">0</span>
                                                 </div>
-                                                <div class="empty-bag padding-15"> <a href="#">Empty bag</a>
+                                                <div class="empty-bag padding-15"> <a href="#" onclick="empty_cart();">Empty bag</a>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card-footer padding-15"> <a href="checkout.html" class="btn-first green-btn text-custom-white full-width fw-500">Proceed to Checkout</a>
+                                        <div class="card-footer padding-15"> <a href="{{ route('web_checkout') }}" class="btn-first green-btn text-custom-white full-width fw-500">Proceed to Checkout</a>
                                         </div>
                                     </div>
                                 </div>

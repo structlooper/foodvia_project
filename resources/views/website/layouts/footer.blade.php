@@ -240,14 +240,10 @@ async defer></script>
 <script src={{ asset("website/assets/js/munchbox.js") }}></script>
 
 <script src="{{ asset('jquery-toast-plugin-master/dist/jquery.toast.min.js') }}"></script>
+
+<script src="{{ asset('website/assets/js/pages/header.js') }}"></script>
 <!-- /Place all Scripts Here -->
 {{-- page specific js --}}
-    <script>
-        $('#signOut').click(function(){
-            $('#logout-form').submit();
-        })
-    </script>
-
 @yield('js')
 </body>
 </html>

@@ -1,128 +1,3 @@
-/*
-   * method to get get values if present in database
-   * @structlooper
-   * */
-function cart_data_database(){
-    let base_url = $('#urlfinder').attr('url');
-    $.ajax({
-        type: "Get",
-        url: base_url + '/api/get_cart_data',
-        processData: false,
-        contentType: false,
-        success: function(result) {
-            if(result.status === 1){
-                    $('#addDataCart').html('');
-                    $('#addToHeaderCart').html(' ');
-
-                let total_price = 0
-                let total_item = 0
-                result.data.forEach(element => {
-                    let dish_count = element.quantity
-                    let dish_price = element.price
-                    if (dish_count > 1) { dish_price = dish_price * dish_count }
-                    total_price += dish_price;
-                    total_item += 1
-                // console.log(element);
-                    $('#addDataCart').append(`<div class="cat-product-box product_struct" key="${element.product_id}" id="currentItem${element.id}">
-                      <div class="cat-product" >
-                      <div class="cat-name row" style="width:180px;">
-                      <div class="col-sm-12">
-                      <a href="#">
-                      <p>${element.name}</p>
-                      <span class="text-light-white fw-700">${element.description}</span>
-                      </a>
-                      </div>
-                      </div>
-                      <div class="row text-center border" style="width:55px;">
-                      <div style="width:15px; margin-left:2px;">
-                      <button type="button" class="text-dark-white" onclick="product_decrement(${element.product_id})"  >
-                       <i class="fa fa-minus" aria-hidden="true"></i>
-                       </button>
-                       </div>
-                       <div class="text-center" id="count_menu${element.id}" product_count${element.product_id}="${dish_count}"         style="width:15px;">${element.quantity}
-                       </div>
-                       <div style="width:15px;">
-                       <button type="button" class="text-center"  onclick="product_increment(${element.product_id});">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                      </button>
-                       </div>
-                       </div>
-                       <div class="price" style="width:40px;"> <span id="price_menu${element.product_id}" >${dish_price}</span>${element.currency}
-                       </div>
-                       </div>
-                       </div> `);
-
-                    $('#addToHeaderCart').append(`<div class="cat-product-box">
-                                                <div class="cat-product">
-                                                    <div class="cat-name" style="width: 170px;">
-                                                        <a href="#">
-                                                            <p class="text-light-green" ><span class="text-light-white">${element.quantity}</span>${element.name}</p> <span class="text-light-white">${element.description}</span>
-                                                        </a>
-                                                    </div>
-<!--                                                    <div class="delete-btn">-->
-<!--                                                        <a href="#" class="text-dark-white"> <i class="far fa-trash-alt"></i>-->
-<!--                                                        </a>-->
-<!--                                                    </div>-->
-                                                    <div class="price"> <a href="#" class="text-dark-white fw-500">
-                                                                ${element.price} ${element.currency}
-                                                         </a>
-                                                    </div>
-                                                </div>
-                                            </div> `)
-
-                });
-                $('.blankDiv').hide()
-
-                $('.user-alert-cart').html(total_item)
-                    $('.final_price').html(`${total_price} ₹`)
-            }
-            if (result.status === 2)
-            {
-                console.log(result.message)
-                $.toast({
-                    heading: 'info',
-                    text : result.message ,
-                    icon : 'info',
-                    position: 'top-right',
-
-                })
-            }
-
-            if (result.status === 3)
-            {
-                console.log(result.message)
-                $.toast({
-                    heading: 'info',
-                    text : result.message ,
-                    icon : 'info',
-                    position: 'top-right',
-
-                })
-            }
-            if (result.status === 0){
-                console.log(result.message)
-                $.toast({
-                    heading: 'error',
-                    text : result.message ,
-                    icon : 'error',
-                    position: 'top-right',
-
-                })
-            }
-
-        },
-        error: function(error){
-            // console.log(error)
-            $.toast({
-                heading: 'error',
-                text : "You are not logged please login first to continue " ,
-                icon : 'error',
-                position: 'top-right',
-
-            })
-        }
-    })
-    }
 
 $(document).ready(function(){
 
@@ -275,23 +150,23 @@ function add_to_cart(id){
 * method to add data in cart
 * @structlooper
 * */
-function saveData(){
+function saveData(shop_id){
     let url = $('#addToCartForm').attr('url');
     // let url = '/login'
     const csrf = $("input[name='_token']").val();
     const id = $("input[name='product_id']").val();
     const note = $('.note').val()
-    console.log(note)
+    // console.log(shop_id)
     $.ajax({
         type:'post',
         url: url,
-        data: { 'product_id':id ,'note':note ,'_token':csrf },
+        data: { 'product_id':id ,'note':note ,'shop_id':shop_id,'_token':csrf },
 
         
         success:function(result){
-            console.log(result)
+            // console.log(result)
             if (result.status === 1) {
-                console.log(result.message);
+                // console.log(result.message);
                 $.toast({
                     heading: 'success',
                     text: result.message,
@@ -464,57 +339,3 @@ function product_decrement(product_id)
     })
 }
 
-function empty_cart(){
-    let base_url = $('#urlfinder').attr('url');
-    $.ajax({
-        type:'POST',
-        url: base_url + '/api/empty_cart',
-
-        success:function(result){
-            console.log(result)
-            if (result.status === 1) {
-                console.log(result.message);
-                $.toast({
-                    heading: 'info',
-                    text: result.message,
-                    icon: 'info',
-                    position : 'top-right',
-                })
-                cart_data_database();
-            }
-
-            if (result.status === 0){
-                console.log(result.message);
-                $.toast({
-                    heading: 'warning',
-                    text: result.message,
-                    icon: 'warning',
-                    position : 'top-right',
-                })
-
-            }
-            if (result.status === 2){
-                $.toast({
-                    heading: 'info',
-                    text: result.message,
-                    icon: 'info',
-                    position : 'top-right',
-                })
-
-            }
-
-        },
-        error:function(jqXHR)
-        {
-            console.log(jqXHR)
-            $.toast({
-                heading: 'error',
-                text : "Can't connect with server right now" ,
-                icon : 'error',
-                position: 'top-right',
-
-            })
-        }
-
-    })
-}
