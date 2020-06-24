@@ -6,7 +6,7 @@
 
 $('.apply_promo').click(function () {
     let base_url = $('#urlfinder').attr('url');
-    let promo_code = $('#promocode_input').val();
+    let promo_code = $('#promocode_input').val()
     const csrf = $("input[name='_token']").val();
     // alert(promo_code);
     $.ajax({
@@ -44,7 +44,8 @@ $('.apply_promo').click(function () {
                 `)
                 $('#promoce_id_01').val(result.data.id);
                 $('.grand_total').removeClass('final_price')
-                $('.grand_total').html(grand_amount.toFixed(2) +' ₹')
+                const amt = Math.round(grand_amount)
+                $('.grand_total').html(amt +' ₹')
                 $('#promoCodeModal').modal('hide');
             }
             if (result.status === 2){
@@ -142,3 +143,35 @@ function place_order(){
 
     })
 }
+
+/*
+* PLACE ORDER ONLINE FUNCTION
+* :.@STRUCTLOOPER
+* */
+$('#place_order_online').click(function(){
+        let url = $(this).attr('url')
+        let address_id = $('input[name="address_id"]:checked').val();
+        const csrf = $("input[name='_token']").val();
+        if (address_id === undefined)
+        {
+            $.toast({
+                heading: 'warning',
+                text : "Please Select a delivery address" ,
+                icon : 'info',
+                position: 'top-right',
+
+            })
+        }else{
+
+         $(this).html(`    
+          <form action="${url}" method="post" style="display: none;" id="myform">
+               <input type="hidden" name="address_id" value="${address_id}" >
+               <input type="hidden" name="_token" value="${csrf}" >
+               <button type="submit" ></button>
+                                                                
+           </form>
+         
+         `)
+            $('#myform').submit();
+        }
+})

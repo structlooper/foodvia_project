@@ -18,5 +18,6 @@ class VerifyCsrfToken extends BaseVerifier
         'api/empty_cart',
         'api/apply_promo',
         'api/place_order',
+        'pay_online',
     ];
 }

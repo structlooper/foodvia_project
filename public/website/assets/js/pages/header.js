@@ -28,7 +28,7 @@ function cart_data_database(){
         success: function(result) {
             if(result.status === 1){
                 $('#addDataCart').html('');
-                $('.addToHeaderCart').html(' ');
+                $('.addToHeaderCart').html('');
 
                 let total_price = 0
                 let total_item = 0
@@ -91,7 +91,7 @@ function cart_data_database(){
 
                 $('.user-alert-cart').html(total_item)
                 $('.final_price').html(`${total_price} ₹`)
-                // get_procode_details(total_price);
+
             }
             if (result.status === 2)
             {
@@ -125,6 +125,7 @@ function cart_data_database(){
                     position: 'top-right',
 
                 })
+
             }
 
         },

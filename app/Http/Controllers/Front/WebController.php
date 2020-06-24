@@ -152,6 +152,7 @@ class WebController extends Controller
         $user_address = DB::table('user_addresses')
             ->where('user_id',Auth::user()->id)
             ->get();
+
         return view('website.checkout')->with('user_address',$user_address);
     }
     public function order_details()

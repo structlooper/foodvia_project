@@ -35,6 +35,8 @@ Route::group(['namespace' => 'Front', 'prefix' => 'web'], function () {
 
     Route::get('category/{id}','WebController@categories')->name('category');
     Route::get('category/{id}/{it}','WebController@categories_product')->name('categories');
+
+    Route::post('pay_online','CheckOutController@confirmation')->name('pay_online');
 });
 /**
  * Api routes for new front
@@ -69,6 +71,14 @@ Route::group(['prefix' => 'api', 'namespace' => 'Front'], function () {
 
 
 });
+/*
+ * razorpay payment routes
+ * @structlooper
+ * */
+// Get Route For Show Payment Form
+Route::get('paywithrazorpay', 'RazorpayController@payWithRazorpay')->name('paywithrazorpay');
+// Post Route For Makw Payment Request
+Route::post('payment', 'RazorpayController@payment')->name('payment');
 
 
 
