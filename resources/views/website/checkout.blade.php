@@ -4,8 +4,26 @@ Hunger Wings | Checkout
 @endsection
 
 @section('main_content')
-<section class="final-order section-padding bg-light-theme">
-    <div class="container-fluid">
+<section class="final-order p-2 bg-light-theme">
+    @if($message = Session::get('error'))
+        <div class="alert alert-danger alert-dismissible fade in" style="opacity: 1!important;" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            <strong>Error!</strong> {{ $message }}
+        </div>
+    @endif
+    {!! Session::forget('error') !!}
+    @if($message = Session::get('success'))
+        <div class="alert alert-info alert-dismissible " style="opacity: 1!important;" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            <strong>Success!</strong> {{ $message }}
+        </div>
+    @endif
+    {!! Session::forget('success') !!}
+    <div class="container-fluid pt-2">
         <div class="row">
             <div class="col-lg-9">
                 <div class="main-box padding-20">
@@ -137,7 +155,7 @@ Hunger Wings | Checkout
 {{--                                                        </label>--}}
                                                         <div class="form-group">
 
-                                                            <a href="#" url="{{ route('pay_online') }}" id="place_order_online" class="btn-first green-btn text-custom-white full-width fw-500" style="height: 4rem;"><span > Place Your Order</span></a>
+                                                            <button type="button" url="{{ route('pay_online') }}" id="place_order_online" class="btn-first green-btn text-custom-white full-width fw-500" style="height: 4rem;"><span > Place Your Order</span></button>
                                                         </div>
 
                                                     </div>

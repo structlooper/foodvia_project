@@ -17,7 +17,7 @@ class CheckOutController extends Controller
     //
     public function apply_promo(request $request)
     {
-//        if (Auth::user()) {
+        if (Auth::user()) {
 //            try {
                 $promo_code = $request->promo_code;
 
@@ -98,10 +98,10 @@ class CheckOutController extends Controller
 //                    {
 //                        return ['status' => 0 , 'error' => 'some thing went wrong'];
 //                    }
-//        }
-//        else{
-//            return [ 'status'=>2,'error'=> 'Please login first'];
-//        }
+        }
+        else{
+            return [ 'status'=>2,'error'=> 'Please login first'];
+        }
     }
 
 
@@ -141,164 +141,164 @@ class CheckOutController extends Controller
 
     public function place_order(request $request)
     {
-        if (!is_null(Auth::user())) {
-//
-        $user_id = Auth::user()->id;
-//        try {
+        if (Auth::user()) {
+            try {
+                $user_id = Auth::user()->id;
+                $getPromoCode = DB::table('promocode_usages')
+                    ->where('user_id', $user_id)
+                    ->first();
+                if (is_null($getPromoCode)) {
+                    $promoCodeDetails = 0;
+                    $promocode_id = null;
+                } elseif ($getPromoCode->status == 'SELECTED') {
+                    $promocode_id = $getPromoCode->promocode_id;
+                    $promoCodeDetails = DB::table('promocodes')
+                        ->where('id', $promocode_id)
+                        ->first();
 
-
-            $cart_product = DB::table('user_carts')
-                ->where('order_id',null)
-                ->where('user_id', $user_id)
-                ->get();
-
-            if ($cart_product->count() > 0) {
-
-                $shop_id = [];
-                foreach ($cart_product as $key => $value) {
-                    array_push($shop_id,$value->shop_id);
-                }
-
-                $address_id = $request->address_id;
-                $promo_code_id = $request->promo_code_id ?: 0;
-//                print_r($promo_code_id);
-//                exit;
-
-                $status = 'ORDERED';
-                $newotp = rand(100000, 999999);
-                $invoice_id = Uuid::uuid4()->toString();
-                if ($request->has('delivery_date')) {
-
-                    $delivery_date = $request->delivery_date;
-                    if (Carbon::parse($delivery_date)->format('Y-m-d') . ' 00:00:00' == Carbon::today()) {
-                        $schedule_status = 0;
-                    } else {
-                        $schedule_status = 1;
-                    }
 
                 } else {
-
-                    $delivery_date = date('Y-m-d H:i');
-                    $schedule_status = 0;
+                    $promoCodeDetails = 0;
+                    $promocode_id = null;
                 }
 
-                $data = [
-                    'invoice_id' => $invoice_id,
-                    'user_id' => $user_id,
-                    'user_address_id' => $address_id,
-                    'shop_id' => $shop_id[0],
-                    'delivery_date' => $delivery_date,
-                    'order_otp' => $newotp,
-                    'status' => $status,
-                    'schedule_status' => $schedule_status,
-                    'route_key' => 1,
+                $getProductItems = DB::table('user_carts')
+                    ->where('user_id', $user_id)
+                    ->where('order_id', null)
+                    ->get();
+                if ($getProductItems->count() > 0) {
+                    $shop_id = [];
+                    foreach ($getProductItems as $key => $value) {
+                        array_push($shop_id, $value->shop_id);
+                    }
+                    $address_id = $request->address_id;
+                    if (!is_null($address_id)) {
 
-                ];
-                if (!is_null($address_id)) {
-                    $order_id = DB::table('orders')
-                        ->insertGetId($data);
-                    if (!is_null($order_id)) {
-                        $products = DB::table('user_carts')
-                            ->where('user_id', $user_id)
-                            ->where('order_id',null)
-                            ->get();
-                        if (!is_null($promo_code_id)) {
-//
-
-                            $promocode_uses = DB::table('promocode_usages')
-                                ->where('user_id', $user_id)
-                                ->where('promocode_id', $promo_code_id)
+                        $productItemDetails = [];
+                        foreach ($getProductItems as $key => $value) {
+                            $product = DB::table('products')
+                                ->join('product_prices', 'product_prices.product_id', '=', 'products.id')
+                                ->where('product_id', $value->product_id)
                                 ->first();
-//                            print_r($promocode_uses->status);
-//                            exit;
-                            $discount = 0;
-                            if (!is_null($promocode_uses)) {
-//
-                                if($promocode_uses->status === 'SELECTED'){
-                                    $prmocode_details = DB::table('promocodes')
-                                        ->where('id', $promocode_uses->promocode_id)
-                                        ->first();
-
-                                    $discount += $prmocode_details->discount;
-
-                                }
-
-                                elseif ($promocode_uses->status === 'USED') {
-                                    return ['status' => 0, 'message' => 'promo code already used!'];
-                                } else {
-                                    $prmocode_details = DB::tables('promocodes')
-                                        ->where('id', $promo_code_id)
-                                        ->first();
-
-                                    $discount += $prmocode_details->discount;
-
-                                }
-                            }else{
-                                $discount += 0;
-
-                            }
-
-
+                            array_push($productItemDetails, $product);
                         }
                         $quantity = 0;
-                        $total_pay = 0;
-                        foreach ($products as $key => $value) {
+                        $totalPrice = 0;
+                        foreach ($getProductItems as $value) {
                             $quantity += $value->quantity;
                             $price_details = ProductHelper::getProductPrice($value->product_id);
-                            $total_pay += $price_details->price * $value->quantity;
+                            $totalPrice += $price_details->price * $value->quantity;
 
                         }
 
-                        $status = 'pending';
-                        $payment_mode = $request->payment_mode;
+                        $discount = 0;
+                        $grandPrice = 0;
+                        if ($promoCodeDetails !== 0) {
+                            if ($promoCodeDetails->promocode_type === 'percent') {
+                                $typeOf = '%';
+                                $grandPrice += ($promoCodeDetails->discount / 100) * $totalPrice;
+                                $discount += $totalPrice - $grandPrice;
+                            } else {
+                                $typeOf = '₹';
+                                $grandPrice += $totalPrice - $promoCodeDetails->discount;
+                                $discount += $promoCodeDetails->discount;
+                            }
+                        } else {
+                            $typeOf = '₹';
+                            $grandPrice += $totalPrice;
+                        }
 
-                        $data = [
-                            'order_id' => $order_id,
-                            'quantity' => $quantity,
-                            'discount' => $discount,
-                            'total_pay' => $total_pay,
-                            'payment_mode' => $payment_mode,
+
+                        $status = 'ORDERED';
+                        $newotp = rand(100000, 999999);
+                        $invoice_id = Uuid::uuid4()->toString();
+                        if ($request->has('delivery_date')) {
+
+                            $delivery_date = $request->delivery_date;
+                            if (Carbon::parse($delivery_date)->format('Y-m-d') . ' 00:00:00' == Carbon::today()) {
+                                $schedule_status = 0;
+                            } else {
+                                $schedule_status = 1;
+                            }
+
+                        } else {
+
+                            $delivery_date = date('Y-m-d H:i');
+                            $schedule_status = 0;
+                        }
+                        $dataOrder = [
+                            'invoice_id' => $invoice_id,
+                            'user_id' => $user_id,
+                            'user_address_id' => $address_id,
+                            'shop_id' => $shop_id[0],
+                            'delivery_date' => $delivery_date,
+                            'order_otp' => $newotp,
                             'status' => $status,
-                            'created_at' => Carbon::now(),
+                            'schedule_status' => $schedule_status,
+                            'route_key' => 1,
 
                         ];
-                        $invoice_details = DB::table('order_invoices')
-                            ->insert($data);
+                        $order_id = DB::table('orders')
+                            ->insertGetId($dataOrder);
+                        if (!is_null($order_id)) {
+                            $status = 'pending';
+                            $payment_mode = 'Cash';
 
-                        $order_product = DB::table('user_carts')
-                            ->where('user_id',$user_id)
-                            ->where('order_id',null)
-                            ->update(['order_id' => $order_id , 'promocode_id' => $promo_code_id]);
-
-                        if ($invoice_details) {
-                            return [
-                                'status' => 1,
-                                'message' => 'Order placed successfully',
-                                'data' => $data,
+                            $data = [
+                                'order_id' => $order_id,
+                                'quantity' => $quantity,
+                                'discount' => $discount,
+                                'total_pay' => $totalPrice,
+                                'payable' => $grandPrice,
+                                'payment_mode' => $payment_mode,
+                                'status' => $status,
+                                'created_at' => Carbon::now(),
 
                             ];
-                        } else {
-                            return ['status' => 0, 'message' => 'something went wrong'];
-                        }
+                            $invoice_details = DB::table('order_invoices')
+                                ->insert($data);
 
+                            DB::table('user_carts')
+                                ->where('user_id', $user_id)
+                                ->where('order_id', null)
+                                ->update(['order_id' => $order_id, 'promocode_id' => $promocode_id ?: null]);
+
+                            if ($invoice_details) {
+                                DB::table('promocode_usages')
+                                    ->where('user_id', $user_id)
+                                    ->where('promocode_id', $promocode_id ?: null)
+                                    ->update(['status' => 'USED']);
+
+
+                                $data = [
+
+                                    'product_details' => $productItemDetails,
+                                    'promode_details' => $promoCodeDetails,
+                                    'total_price' => $totalPrice,
+                                    'grand_price' => $grandPrice,
+                                    'type_of' => $typeOf ?: null,
+                                    'order_id' => $order_id,
+                                    'invoice_id' => $invoice_id,
+                                ];
+                                return array('status'=>1,'message'=>'Order placed successfully' , 'data' => $data);
+                            } else {
+                                return [ 'status'=> 0, 'message'=> 'something went wrong' ];
+                            }
+                        } else {
+                            return [ 'status'=> 0, 'message'=> 'order not taken internal error' ];
+                        }
                     } else {
-                        return ['status' => 0, 'message' => 'Order not Taken'];
+                        return [ 'status'=> 0, 'message'=> 'please select address' ];
                     }
                 } else {
-                    return ['status' => 0, 'message' => 'Please select an address'];
+                    return [ 'status'=> 0, 'message'=> 'Cart is empty!!' ];
                 }
-
-            } else {
-                return [
-                    'status' => 0,
-                    'message' => 'Order cart is empty'
-                ];
+            }catch (Exception $e){
+                return [ 'status'=> 0, 'message'=> 'Some thing went wrong internal error' ];
             }
-//        }
-//        catch(Exception $e){
-//            return ['status' => 0];
-//        }
-        }else{ return ['status' => 0, 'message' => 'please login first!'];}
+        } else {
+            return [ 'status'=> 0, 'message'=> 'Please login first!' ];
+        }
     }
 
 
@@ -308,120 +308,106 @@ class CheckOutController extends Controller
      * */
     public function confirmation(request $request)
     {
-        if (Auth::user()){
-            $user_id = Auth::user()->id;
-            $getPromoCode = DB::table('promocode_usages')
-                ->where('user_id',$user_id)
-                ->first();
-//            print_r($getPromoCode);
-//            exit;
-            if (is_null($getPromoCode)){
-                $promoCodeDetails = 0;
-                $promocode_id = null;
-            }elseif ($getPromoCode->status == 'SELECTED'){
-                $promocode_id = $getPromoCode->promocode_id;
-                $promoCodeDetails = DB::table('promocodes')
-                    ->where('id',$promocode_id)
+        if (Auth::user()) {
+             try {
+                $user_id = Auth::user()->id;
+                $getPromoCode = DB::table('promocode_usages')
+                    ->where('user_id', $user_id)
                     ->first();
+                if (is_null($getPromoCode)) {
+                    $promoCodeDetails = 0;
+                    $promocode_id = null;
+                } elseif ($getPromoCode->status == 'SELECTED') {
+                    $promocode_id = $getPromoCode->promocode_id;
+                    $promoCodeDetails = DB::table('promocodes')
+                        ->where('id', $promocode_id)
+                        ->first();
 
 
-            }else{
-                $promoCodeDetails = 0;
-                $promocode_id = null;
-            }
-
-            $getProductItems = DB::table('user_carts')
-                ->where('user_id',$user_id)
-                ->where('order_id',null)
-                ->get();
-            if ($getProductItems->count() > 0) {
-                $shop_id = [];
-                foreach ($getProductItems as $key => $value) {
-                    array_push($shop_id,$value->shop_id);
+                } else {
+                    $promoCodeDetails = 0;
+                    $promocode_id = null;
                 }
-                $address_id = $request->address_id;
-                if (!is_null($address_id)) {
 
-//                    print_r($shop_id);
-//                    exit;
-                    $productItemDetails = [];
+                $getProductItems = DB::table('user_carts')
+                    ->where('user_id', $user_id)
+                    ->where('order_id', null)
+                    ->get();
+                if ($getProductItems->count() > 0) {
+                    $shop_id = [];
                     foreach ($getProductItems as $key => $value) {
-                        $product = DB::table('products')
-                            ->join('product_prices', 'product_prices.product_id', '=', 'products.id')
-                            ->where('product_id', $value->product_id)
-                            ->first();
-                        array_push($productItemDetails, $product);
+                        array_push($shop_id, $value->shop_id);
                     }
-//                    $totalPrice = 0;
-//                    foreach ($productItemDetails as $key => $value) {
-//                        $totalPrice += $value->price;
-//                    }
-                    $quantity = 0;
-                    $totalPrice = 0;
-                    foreach ($getProductItems as $key => $value) {
-                        $quantity += $value->quantity;
-                        $price_details = ProductHelper::getProductPrice($value->product_id);
-                        $totalPrice += $price_details->price * $value->quantity;
+                    $address_id = $request->address_id;
+                    if (!is_null($address_id)) {
 
-                    }
+                        $productItemDetails = [];
+                        foreach ($getProductItems as $key => $value) {
+                            $product = DB::table('products')
+                                ->join('product_prices', 'product_prices.product_id', '=', 'products.id')
+                                ->where('product_id', $value->product_id)
+                                ->first();
+                            array_push($productItemDetails, $product);
+                        }
+                        $quantity = 0;
+                        $totalPrice = 0;
+                        foreach ($getProductItems as $value) {
+                            $quantity += $value->quantity;
+                            $price_details = ProductHelper::getProductPrice($value->product_id);
+                            $totalPrice += $price_details->price * $value->quantity;
 
-                    $discount = 0 ;
-                    $grandPrice = 0;
-                    if ($promoCodeDetails !== 0) {
-                        if ($promoCodeDetails->promocode_type === 'percent') {
-                            $typeOf = '%';
-                            $grandPrice += ($promoCodeDetails->discount / 100) * $totalPrice;
-                            $discount += $totalPrice - $grandPrice;
+                        }
+
+                        $discount = 0;
+                        $grandPrice = 0;
+                        if ($promoCodeDetails !== 0) {
+                            if ($promoCodeDetails->promocode_type === 'percent') {
+                                $typeOf = '%';
+                                $grandPrice += ($promoCodeDetails->discount / 100) * $totalPrice;
+                                $discount += $totalPrice - $grandPrice;
+                            } else {
+                                $typeOf = '₹';
+                                $grandPrice += $totalPrice - $promoCodeDetails->discount;
+                                $discount += $promoCodeDetails->discount;
+                            }
                         } else {
                             $typeOf = '₹';
-                            $grandPrice += $totalPrice - $promoCodeDetails->discount;
-                            $discount += $promoCodeDetails->discount;
+                            $grandPrice += $totalPrice;
                         }
-                    } else {
-                        $typeOf = '₹';
-                        $grandPrice += $totalPrice;
-                    }
 
 
-                    $status = 'ORDERED';
-                    $newotp = rand(100000, 999999);
-                    $invoice_id = Uuid::uuid4()->toString();
-                    if ($request->has('delivery_date')) {
+                        $status = 'ORDERED';
+                        $newotp = rand(100000, 999999);
+                        $invoice_id = Uuid::uuid4()->toString();
+                        if ($request->has('delivery_date')) {
 
-                        $delivery_date = $request->delivery_date;
-                        if (Carbon::parse($delivery_date)->format('Y-m-d') . ' 00:00:00' == Carbon::today()) {
-                            $schedule_status = 0;
+                            $delivery_date = $request->delivery_date;
+                            if (Carbon::parse($delivery_date)->format('Y-m-d') . ' 00:00:00' == Carbon::today()) {
+                                $schedule_status = 0;
+                            } else {
+                                $schedule_status = 1;
+                            }
+
                         } else {
-                            $schedule_status = 1;
+
+                            $delivery_date = date('Y-m-d H:i');
+                            $schedule_status = 0;
                         }
+                        $dataOrder = [
+                            'invoice_id' => $invoice_id,
+                            'user_id' => $user_id,
+                            'user_address_id' => $address_id,
+                            'shop_id' => $shop_id[0],
+                            'delivery_date' => $delivery_date,
+                            'order_otp' => $newotp,
+                            'status' => $status,
+                            'schedule_status' => $schedule_status,
+                            'route_key' => 1,
 
-                    } else {
-
-                        $delivery_date = date('Y-m-d H:i');
-                        $schedule_status = 0;
-                    }
-                    $dataOrder = [
-                        'invoice_id' => $invoice_id,
-                        'user_id' => $user_id,
-                        'user_address_id' => $address_id,
-                        'shop_id' => $shop_id[0],
-                        'delivery_date' => $delivery_date,
-                        'order_otp' => $newotp,
-                        'status' => $status,
-                        'schedule_status' => $schedule_status,
-                        'route_key' => 1,
-
-                    ];
+                        ];
                         $order_id = DB::table('orders')
                             ->insertGetId($dataOrder);
                         if (!is_null($order_id)) {
-                            $products = DB::table('user_carts')
-                                ->where('user_id', $user_id)
-                                ->where('order_id',null)
-                                ->get();
-
-
-
                             $status = 'pending';
                             $payment_mode = 'online';
 
@@ -439,15 +425,15 @@ class CheckOutController extends Controller
                             $invoice_details = DB::table('order_invoices')
                                 ->insert($data);
 
-                            $ordered_product = DB::table('user_carts')
-                                ->where('user_id',$user_id)
-                                ->where('order_id',null)
-                                ->update(['order_id' => $order_id , 'promocode_id' => $promocode_id ?: null]);
+                            DB::table('user_carts')
+                                ->where('user_id', $user_id)
+                                ->where('order_id', null)
+                                ->update(['order_id' => $order_id, 'promocode_id' => $promocode_id ?: null]);
 
                             if ($invoice_details) {
                                 DB::table('promocode_usages')
-                                    ->where('user_id',$user_id)
-                                    ->where('promocode_id',$promocode_id ?: null)
+                                    ->where('user_id', $user_id)
+                                    ->where('promocode_id', $promocode_id ?: null)
                                     ->update(['status' => 'USED']);
 
 
@@ -463,19 +449,22 @@ class CheckOutController extends Controller
                                 ];
                                 return view('website.confirm_payment')->with($data);
                             } else {
-                                return back()->with('error','something went wrong');
+                                return back()->with('error', 'something went wrong');
                             }
-
                         } else {
-                            return back()->with('error','order not taken internal error');
+                            return back()->with('error', 'order not taken internal error');
                         }
-
-//            print_r($promoCodeDetails);
-
-                }else{ return back()->with('error','please select address');}
-            }else{ return back()->with('error','Cart is empty!!');}
-        }else{
-            return back()->with('error','Please login first!');
+                    } else {
+                        return back()->with('error', 'please select address');
+                    }
+                } else {
+                    return back()->with('error', 'Cart is empty!!');
+                }
+            }catch (Exception $e){
+                return back()->with('error','Some thing went wrong internal error');
+            }
+        } else {
+            return back()->with('error', 'Please login first!');
         }
     }
 }

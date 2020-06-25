@@ -21,16 +21,20 @@ class CartApiController extends Controller
             $product_id = $request->product_id;
             $note = $request->note;
             $shop_id = $request->shop_id;
-            if (user_cart::where('product_id', '=', $product_id)->count() > 0)
+            if (user_cart::where('product_id', '=', $product_id)
+                    ->where('order_id','=',null)
+                    ->count() > 0)
             {
                 $get_count = user_cart::where('product_id', '=' , $product_id)
                 ->where('user_id','=',$user_id)
+                ->where('order_id','=',null)
                 ->first();
 
                 $final_quantity = $get_count->quantity + 1;
                 $update_count = DB::table('user_carts')
                     ->where('user_id',$user_id)
                     ->where('product_id',$product_id)
+                    ->where('order_id',null)
                     ->update(['quantity'=> $final_quantity]);
                 if ($update_count === 1)
                 {
@@ -139,12 +143,14 @@ class CartApiController extends Controller
                     if (!is_null($product_id)) {
                         $get_count = user_cart::where('product_id', '=', $product_id)
                             ->where('user_id', '=', $user_id)
+                            ->where('order_id','=',null)
                             ->first();
 
                         $final_quantity = $get_count->quantity + 1;
                         $update_count = DB::table('user_carts')
                             ->where('user_id', $user_id)
                             ->where('product_id', $product_id)
+                            ->where('order_id',null)
                             ->update(['quantity' => $final_quantity]);
                         if ($update_count === 1) {
                             $response = [
@@ -192,6 +198,7 @@ class CartApiController extends Controller
                     if (!is_null($product_id)) {
                         $get_count = user_cart::where('product_id', '=', $product_id)
                             ->where('user_id', '=', $user_id)
+                            ->where('order_id', '=', null)
                             ->first();
                         if ($get_count->quantity === 1)
                         {
@@ -211,6 +218,7 @@ class CartApiController extends Controller
                         $update_count = DB::table('user_carts')
                             ->where('user_id', $user_id)
                             ->where('product_id', $product_id)
+                            ->where('order_id',null)
                             ->update(['quantity' => $final_quantity]);
                         if ($update_count === 1) {
                             $response = [

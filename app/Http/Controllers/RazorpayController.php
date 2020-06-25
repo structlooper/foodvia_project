@@ -11,10 +11,7 @@ use DB;
 
 class RazorpayController extends Controller
 {
-    public function payWithRazorpay()
-    {
-        return view('payWithRazorpay');
-    }
+
 
     public function payment(request $request)
     {

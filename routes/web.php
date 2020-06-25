@@ -75,8 +75,6 @@ Route::group(['prefix' => 'api', 'namespace' => 'Front'], function () {
  * razorpay payment routes
  * @structlooper
  * */
-// Get Route For Show Payment Form
-Route::get('paywithrazorpay', 'RazorpayController@payWithRazorpay')->name('paywithrazorpay');
 // Post Route For Makw Payment Request
 Route::post('payment', 'RazorpayController@payment')->name('payment');
 
