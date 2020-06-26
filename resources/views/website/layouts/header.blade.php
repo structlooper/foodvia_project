@@ -40,7 +40,10 @@
     <!-- place -->
     {{-- page specific css --}}
     <link rel="stylesheet" href="{{ asset('jquery-toast-plugin-master/src/jquery.toast.css') }}">
-    
+
+    <script src={{ asset("website/assets/js/jquery.min.js") }}></script>
+
+
     @yield('css')
 </head>
 

@@ -157,7 +157,37 @@ class WebController extends Controller
     }
     public function order_details()
     {
-        return view('website.order_details');
+        if (Auth::user()){
+            $orderDetails = DB::table('orders')
+                ->where('user_id',Auth::user()->id)
+                ->get();
+
+            $orders = [];
+            foreach ($orderDetails as $value) {
+                $orderInvoice = DB::table('orders')
+                    ->join('order_invoices', 'order_invoices.order_id', '=', 'orders.id')
+                    ->join('shops','shops.id','=','orders.shop_id')
+                    ->join('user_addresses','user_addresses.id','=','orders.user_address_id')
+                    ->where('order_id', $value->id)
+                    ->select('order_invoices.*',
+                        'orders.invoice_id','orders.status'
+                        , 'shops.name','shops.address','shops.estimated_delivery_time',
+                            'user_addresses.building','user_addresses.street','user_addresses.city','user_addresses.state','user_addresses.country','user_addresses.pincode','user_addresses.landmark','user_addresses.type')
+                    ->get();
+                    array_push($orders, $orderInvoice);
+
+            }
+//                print_r($orders);
+//                exit;
+            $data = [
+                'currentOrders' => $orders,
+            ];
+
+            return view('website.order_details')->with($data);
+
+        }else{
+            return back()->with('error','please login first!');
+        }
     }
     public function user_profile()
     {

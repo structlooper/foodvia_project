@@ -38,10 +38,7 @@ class RazorpayController extends Controller
                     ->where('order_id',$request->order_id)
                     ->update(['status' => 'success']);
                 if ($update){
-                    return [
-                        'status' => 1,
-                        'message' => 'payment success',
-                    ];
+                    return redirect(route('order_details'))->with('message','Order placed successfully');
                 }
             }else{
                 $update = DB::table('order_invoices')

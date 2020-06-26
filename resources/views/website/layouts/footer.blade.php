@@ -216,7 +216,6 @@
 
 <!-- Place all Scripts Here -->
 <!-- jQuery -->
-<script src={{ asset("website/assets/js/jquery.min.js") }}></script>
 <!-- Popper -->
 <script src={{ asset("website/assets/js/popper.min.js") }}></script>
 <!-- Bootstrap -->

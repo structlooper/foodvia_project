@@ -115,7 +115,8 @@ function place_order(){
                     icon: 'success',
                     position: 'top-right',
                 })
-
+                console.log(base_url+'order_details')
+                location.href  = base_url+'/web/order_details'; //have to change ofter setting.
 
             }
                 else {

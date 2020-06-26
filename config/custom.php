@@ -1,6 +1,6 @@
 <?php
 /*
- * Razorpay api here
+ * Razorpay api key and secret here
  * @structlooper
  */
     return [
