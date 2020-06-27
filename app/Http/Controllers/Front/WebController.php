@@ -61,7 +61,7 @@ class WebController extends Controller
             ->get();
             array_push($final_shops_data,$filtered_shops_data);
         }
-        if(!is_null($final_shops_data))
+        if(sizeof($final_shops_data) != 0)
         {
             $data = [
                 'final_shops_data' => $final_shops_data,
@@ -80,7 +80,6 @@ class WebController extends Controller
         // shop details
         $shop_data = DB::table('shops')
         ->where('id',$shop_id)->first();
-        Session::put('shop_id',$shop_id);
 
         
         
@@ -108,14 +107,13 @@ class WebController extends Controller
             // var_dump($product_detalis);
             // exit;
 
-            if (!is_null($product_details)) {
+            if (count($product_details) > 0) {
                 # code...
                 
                 $data = [
                     'shop_data' =>$shop_data,
                     'categories' => $categories,
                     'product_details' => $product_details,
-
                 ];
                 return view('website.selected_restro')->with($data);
             }
@@ -140,20 +138,37 @@ class WebController extends Controller
     }
     public function login()
     {
-        return view('website.login');
+        if (Auth::user()){
+            return redirect(route('home'));
+        }else{
+            return view('website.login');
+        }
     }
     public function register()
     {
-        return view('website.register');
+
+        if (Auth::user()){
+            return redirect(route('home'));
+        }else {
+            return view('website.register');
+        }
     }
     public function checkout(request $request)
     {
 
-        $user_address = DB::table('user_addresses')
-            ->where('user_id',Auth::user()->id)
-            ->get();
+        if (Auth::user()){
+            $user_address = DB::table('user_addresses')
+                ->where('user_id',Auth::user()->id)
+                ->get();
+            return view('website.checkout')->with('user_address',$user_address);
 
-        return view('website.checkout')->with('user_address',$user_address);
+            return redirect(route('home'));
+        }else {
+            return view('website.login');
+        }
+
+
+
     }
     public function order_details()
     {
@@ -176,26 +191,88 @@ class WebController extends Controller
                     ->get();
                     array_push($orders, $orderInvoice);
 
+
             }
-//                print_r($orders);
-//                exit;
+
+//            print_r($orders);
+//            exit;
             $data = [
-                'currentOrders' => $orders,
+                'orders' => $orders,
             ];
 
             return view('website.order_details')->with($data);
 
         }else{
-            return back()->with('error','please login first!');
+            return redirect(Route('web_login'))->with('error','please login first!');
         }
     }
     public function user_profile()
     {
-        $user_address = DB::table('user_addresses')
-            ->where('user_id',Auth::user()->id)
-            ->get();
+        if (Auth::user()){
+            $user_address = DB::table('user_addresses')
+                ->where('user_id',Auth::user()->id)
+                ->get();
 //        print_r($user_address);
-        return view('website.user_profile')->with('user_address',$user_address);
+            return view('website.user_profile')->with('user_address',$user_address);
+
+        }else{
+            return redirect(route('web_login'));
+        }
+
+    }
+
+    public function restaurant($shop_id){
+        $selectedRestroDetail = DB::table('shops')
+            ->where('id',$shop_id)
+            ->first();
+
+
+
+
+//        $cuisine_shopDetails = [];
+//        foreach ($cuisine_shop as $key => $value) {
+//            $cuisine_shopDetail = DB::table('cuisines')
+//                ->where('id',$value->cuisine_id)
+//                ->get();
+//            array_push($cuisine_shopDetails,$cuisine_shopDetail);
+//        }
+
+
+        if (!is_null($selectedRestroDetail)){
+            $categories = DB::table('categories')
+                ->where('shop_id',$shop_id)
+                ->get();
+            $one_categories = DB::table('categories')
+                ->where('shop_id',$shop_id)
+                ->first();
+
+            $category_products = [];
+            $category_product = DB::table('category_product')
+                ->where('category_id',$one_categories->id)
+                ->get();
+            array_push($category_products,$category_product);
+
+
+            $productDetails = [];
+                foreach ($category_product as $item) {
+                    $productDetail = DB::table('products')
+                        ->where('id',$item->product_id)
+                        ->get();
+                    array_push($productDetails,$productDetail);
+                }
+
+            $data = [
+                'shop_data' => $selectedRestroDetail,
+                'categories' => $categories,
+                'productDetails' => $productDetails,
+                'one_categories' => $one_categories,
+
+            ];
+            return view('website.restaurant_specific')->with($data);
+        }else{
+            return back()->with('error','No restaurant found');
+        }
+
 
     }
 }

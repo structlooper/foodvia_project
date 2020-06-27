@@ -32,9 +32,9 @@ Route::group(['namespace' => 'Front', 'prefix' => 'web'], function () {
 
 
     });
-
-    Route::get('category/{id}','WebController@categories')->name('category');
-    Route::get('category/{id}/{it}','WebController@categories_product')->name('categories');
+    Route::get('selected/restaurant/{id}','WebController@restaurant')->name('restaurant');
+    Route::get('restaurant/{id}','WebController@categories')->name('category');
+    Route::get('restaurant/{id}/{it}','WebController@categories_product')->name('categories');
 
     Route::post('pay_online','CheckOutController@confirmation')->name('pay_online');
 });

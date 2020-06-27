@@ -27,73 +27,74 @@ function cart_data_database(){
         contentType: false,
         success: function(result) {
             if(result.status === 1){
-                $('#addDataCart').html('');
-                $('.addToHeaderCart').html('');
 
-                let total_price = 0
-                let total_item = 0
-                result.data.forEach(element => {
-                    let dish_count = element.quantity
-                    let dish_price = element.price
-                    if (dish_count > 1) { dish_price = dish_price * dish_count }
-                    total_price += dish_price;
-                    total_item += 1
-                    // console.log(element);
-                    $('#addDataCart').append(`<div class="cat-product-box product_struct" key="${element.product_id}" id="currentItem${element.id}">
-                      <div class="cat-product" >
-                      <div class="cat-name row" style="width:180px;">
-                      <div class="col-sm-12">
-                      <a href="#">
-                      <p>${element.name}</p>
-                      <span class="text-light-white fw-700">${element.description}</span>
-                      </a>
-                      </div>
-                      </div>
-                      <div class="row text-center border" style="width:55px;">
-                      <div style="width:15px; margin-left:2px;">
-                      <button type="button" class="text-dark-white" onclick="product_decrement(${element.product_id})"  >
-                       <i class="fa fa-minus" aria-hidden="true"></i>
-                       </button>
-                       </div>
-                       <div class="text-center" id="count_menu${element.id}" product_count${element.product_id}="${dish_count}"         style="width:15px;">${element.quantity}
-                       </div>
-                       <div style="width:15px;">
-                       <button type="button" class="text-center"  onclick="product_increment(${element.product_id});">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                      </button>
-                       </div>
-                       </div>
-                       <div class="price" style="width:40px;"> <span id="price_menu${element.product_id}" >${dish_price}</span>${element.currency}
-                       </div>
-                       </div>
-                       </div> `);
+                    $('#addDataCart').html('');
+                    $('.addToHeaderCart').html('');
 
-                    $('.addToHeaderCart').append(`<div class="cat-product-box">
-                                                <div class="cat-product" shop_id = ${shop_id}>
-                                                    <div class="cat-name" style="width: 170px;">
-                                                        <a href="#">
-                                                            <p class="text-light-green" ><span class="text-light-white">${element.quantity}</span>${element.name}</p> <span class="text-light-white">${element.description}</span>
-                                                        </a>
-                                                    </div>
-<!--                                                    <div class="delete-btn">-->
-                            <!--                                                        <a href="#" class="text-dark-white"> <i class="far fa-trash-alt"></i>-->
-                            <!--                                                        </a>-->
-                            <!--                                                    </div>-->
-                            <div class="price"> <a href="#" class="text-dark-white fw-500">
-                                ${element.price} ${element.currency}
-                            </a>
-                            </div>
-                            </div>
-                            </div> `)
+                    let total_price = 0
+                    let total_item = 0
+                    result.data.forEach(element => {
+                        let dish_count = element.quantity
+                        let dish_price = element.price
+                        if (dish_count > 1) { dish_price = dish_price * dish_count }
+                        total_price += dish_price;
+                        total_item += 1
+                        // console.log(element);
+                        $('#addDataCart').append(`<div class="cat-product-box product_struct" key="${element.product_id}" id="currentItem${element.id}">
+                          <div class="cat-product" >
+                          <div class="cat-name row" style="width:180px;">
+                          <div class="col-sm-12">
+                          <a href="#">
+                          <p>${element.name}</p>
+                          <span class="text-light-white fw-700">${element.description}</span>
+                          </a>
+                          </div>
+                          </div>
+                          <div class="row text-center border" style="width:55px;">
+                          <div style="width:15px; margin-left:2px;">
+                          <button type="button" class="text-dark-white" onclick="product_decrement(${element.product_id})"  >
+                           <i class="fa fa-minus" aria-hidden="true"></i>
+                           </button>
+                           </div>
+                           <div class="text-center" id="count_menu${element.id}" product_count${element.product_id}="${dish_count}"         style="width:15px;">${element.quantity}
+                           </div>
+                           <div style="width:15px;">
+                           <button type="button" class="text-center"  onclick="product_increment(${element.product_id});">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                          </button>
+                           </div>
+                           </div>
+                           <div class="price" style="width:40px;"> <span id="price_menu${element.product_id}" >${dish_price}</span>${element.currency}
+                           </div>
+                           </div>
+                           </div> `);
 
-                });
-                $('.blankDiv').hide()
+                        $('.addToHeaderCart').append(`<div class="cat-product-box">
+                                                    <div class="cat-product" shop_id = ${shop_id}>
+                                                        <div class="cat-name" style="width: 170px;">
+                                                            <a href="#">
+                                                                <p class="text-light-green" ><span class="text-light-white">${element.quantity}</span>${element.name}</p> <span class="text-light-white">${element.description}</span>
+                                                            </a>
+                                                        </div>
+    
+                                <div class="price"> <a href="#" class="text-dark-white fw-500">
+                                    ${element.price} ${element.currency}
+                                </a>
+                                </div>
+                                </div>
+                                </div> `)
 
-                $('.user-alert-cart').html(total_item)
-                $('.final_price').html(`${total_price} ₹`)
+                    });
+                    $('.showItem01').show('slow')
+                    $('.blankDiv').hide()
 
-            }
-            if (result.status === 2)
+                    $('.user-alert-cart').html(total_item)
+                    $('.final_price').html(`${total_price} ₹`)
+
+                }
+
+            // }
+            else if (result.status === 2)
             {
                 console.log(result.message)
                 $.toast({
@@ -105,7 +106,7 @@ function cart_data_database(){
                 })
             }
 
-            if (result.status === 3)
+            else if (result.status === 3)
             {
                 console.log(result.message)
                 $.toast({
@@ -116,15 +117,9 @@ function cart_data_database(){
 
                 })
             }
-            if (result.status === 0){
+            else{
                 console.log(result.message)
-                $.toast({
-                    heading: 'error',
-                    text : result.message ,
-                    icon : 'error',
-                    position: 'top-right',
 
-                })
 
             }
 
@@ -155,7 +150,7 @@ function empty_cart(){
                 cart_data_database();
             }
 
-            if (result.status === 0){
+            else if (result.status === 0){
                 console.log(result.message);
                 $.toast({
                     heading: 'warning',
@@ -165,7 +160,7 @@ function empty_cart(){
                 })
                 cart_data_database();
             }
-            if (result.status === 2){
+            else if (result.status === 2){
                 $.toast({
                     heading: 'info',
                     text: result.message,

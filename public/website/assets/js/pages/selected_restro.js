@@ -8,13 +8,11 @@ $(document).ready(function(){
      * @ structlooper
      * 
      */
-    $('.item_class_str').click(function(event){
+    $('.item_class_str').click(function(){
 
-        event.preventDefault();
         $('.item_class_str').removeClass('working')
         let key =  $(this).attr('key');
-        $(function() {
-              
+        // $(function() {
                 let base_url = $('#urlfinder').attr('url');
                 $.ajax({
                     type: "Get",
@@ -111,15 +109,20 @@ $(document).ready(function(){
                             console.log(jqXHR.responseText);
                         }
                     })
-            });
+            // });
           });
 
-        })
+
+    $('.mainLink').click(function(){
+        location.reload();
+    })
+
+})
 
 
 
 /*
-* function for open modal
+* function for open add cart product modal
 * @structlooper
 * */
 function add_to_cart(id){

@@ -50,7 +50,7 @@
 <body>
     
     <!-- Navigation -->
-    <div class="header">
+    <div class="header" id="urlfinder" url = {{ url('/') }}>
         <header class="full-width">
             <div class="container-fluid">
                 <div class="row">
@@ -67,12 +67,12 @@
                                 <div class="row">
                                     <!-- location picker -->
                                     <div class="col-lg-6 col-md-5">
-                                        <a href="#" class="delivery-add p-relative"> <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
+                                        <a href="javascript:void(0);" class="delivery-add p-relative"> <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
                                             <span class="address">Find Food Near Me</span>
                                         </a>
                                     {{-- <form a > --}}
                                         <div class="location-picker">
-                                            <input type="text" id="pac-input " class="form-control" placeholder="Add new address">
+                                            <input type="text" id="pac-input" class="form-control" placeholder="Add new address">
                                                 <div id="map"></div>
                                                 <input type="hidden" id="latitude_cur" name="latitude" id="lat">
                                                 <input type="hidden" id="longitude_cur" name="longitude" id="lng">
@@ -81,8 +81,8 @@
                                             </div>
                                     {{-- </form> --}}
                                 </form>
-                                        
-                                    </div>
+
+                        </div>
                                     <!-- location picker -->
                                     <!-- search -->
                                     <div class="col-lg-6 col-md-7">
@@ -121,10 +121,10 @@
                                                         <div class="col-lg-3 col-sm-6">
                                                             <div class="menu-style">
                                                                 <div class="menu-title">
-                                                                    <h6 class="cat-name"><a href="#" class="text-light-black">Add Restaurants</a></h6>
+                                                                    <h6 class="cat-name"><a href="#" class="text-light-black">Restaurants</a></h6>
                                                                 </div>
                                                                 <ul>
-                                                                    <li class="active"><a href="{{ route('home') }}" class="text-light-white fw-500">Restaurants 1</a>
+                                                                    <li class="active"><a href="{{ route('home') }}" class="text-light-white fw-500">Restaurants</a>
                                                                     </li>
                                                                     
                                                                 </ul>
@@ -142,16 +142,7 @@
                                                                 </ul>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-3 col-sm-6">
-                                                            <div class="menu-style">
-                                                                <div class="menu-title">
-                                                                    <h6 class="cat-name"><a href="#" class="text-light-black">Restaurants</a></h6>
-                                                                </div>
-                                                                <ul>
-                                                                    <li><a href="{{ route('add_restaurant') }}" class="text-light-white fw-500">Restaurant</a>
-                                                                    </ul>
-                                                            </div>
-                                                        </div>
+
                                                         <div class="col-lg-3 col-sm-6">
                                                             <div class="menu-style">
                                                                 <div class="menu-title">
@@ -246,7 +237,7 @@
                                             </a>
                                         </li>
                                     </ul>
-                                    <div class="user-footer"> <span class="text-light-black">Not {{ Auth::user()->name }}?&nbsp <a herf="#" class="btn btn-outline-danger" id="signOut"><span>Sign out</span></a>
+                                    <div class="user-footer"> <span class="text-light-black">Not {{ Auth::user()->name }}?&nbsp </span><a herf="#" class="btn btn-outline-danger" id="signOut"><span>Sign out</span></a>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
@@ -265,7 +256,7 @@
                             <!-- user notification -->
                             @if (Auth::user())
 
-                            <div class="cart-btn notification-btn" id="urlfinder" url = {{ url('/') }}>
+                            <div class="cart-btn notification-btn" >
                                 <a href="#" class="text-light-green fw-700"> <i class="fas fa-bell"></i>
                                     <span class="user-alert-notification"></span>
                                 </a>
@@ -304,42 +295,7 @@
                                             <div class='addToHeaderCart' style="height: 300px; overflow: auto;">
 
                                             </div>
-{{--                                             <div class="cat-product-box">--}}
-{{--                                                <div class="cat-product">--}}
-{{--                                                    <div class="cat-name">--}}
-{{--                                                        <a href="#">--}}
-{{--                                                            <p class="text-light-green"><span class="text-dark-white">1</span> Chilli Chicken</p> <span class="text-light-white">small, chilli chicken</span>--}}
-{{--                                                        </a>--}}
-{{--                                                    </div>--}}
-{{--                                                    <div class="delete-btn">--}}
-{{--                                                        <a href="#" class="text-dark-white"> <i class="far fa-trash-alt"></i>--}}
-{{--                                                        </a>--}}
-{{--                                                    </div>--}}
-{{--                                                    <div class="price"> <a href="#" class="text-dark-white fw-500">--}}
-{{--                              $2.25--}}
-{{--                            </a>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-                                           
-{{--                                            <div class="cat-product-box">--}}
-{{--                                                <div class="cat-product">--}}
-{{--                                                    <div class="cat-name">--}}
-{{--                                                        <a href="#">--}}
-{{--                                                            <p class="text-light-green"><span class="text-dark-white">1</span> Tortia Chicken</p> <span class="text-light-white">small, chilli chicken</span>--}}
-{{--                                                        </a>--}}
-{{--                                                    </div>--}}
-{{--                                                    <div class="delete-btn">--}}
-{{--                                                        <a href="#" class="text-dark-white"> <i class="far fa-trash-alt"></i>--}}
-{{--                                                        </a>--}}
-{{--                                                    </div>--}}
-{{--                                                    <div class="price"> <a href="#" class="text-dark-white fw-500">--}}
-{{--                                                        $2.25--}}
-{{--                                                    </a>--}}
-{{--                                                </div>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-                                            <div class="item-total">
+                 <div class="item-total">
                                                 <div class="total-price border-0"> <span class="text-dark-white fw-700">Items subtotal:</span>
                                                     <span class="text-dark-white fw-700 final_price">0</span>
                                                 </div>
@@ -353,8 +309,8 @@
                                 </div>
                             </div>
                         @endif
-
                         <!-- user cart -->
+
                         </div>
                     </div>
                     <div class="col-sm-12 mobile-search">
@@ -376,8 +332,7 @@
                         </div>
                         
                     </div>
-{{--                </div>--}}
-{{--            </div>--}}
+
         </header>
     </div>
     <div class="main-sec"></div>

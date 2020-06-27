@@ -15,9 +15,6 @@ class CartApiController extends Controller
         public function add_to_cart(request $request)
         {
             $user_id = Auth::user()->id;
-//
-//            print_r('data') ;
-//            exit;
             $product_id = $request->product_id;
             $note = $request->note;
             $shop_id = $request->shop_id;
@@ -100,9 +97,7 @@ class CartApiController extends Controller
                             ->where('user_id', $user_id)
                             ->where('order_id',null)
                             ->get();
-//                    print_r($cart_data);
-
-                        if (!is_null($cart_data)) {
+                        if (!empty($cart_data)) {
                             $response = [
                                 'status' => 1,
                                 'message' => 'Data founded',

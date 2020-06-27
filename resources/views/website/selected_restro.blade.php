@@ -74,13 +74,10 @@ Hunger Wings | Food Delivery
 
             .my_div {
                     /* width:100px; */
-                    max-height:320px;
+                    max-height:400px;
                     overflow-y:auto;
                 }
-                /* .my_div::-webkit-scrollbar {
-                    display: none;
-                    
-                } */
+
             
 
     </style>
@@ -147,27 +144,20 @@ Hunger Wings | Food Delivery
     </div>
         <div class="container-fluid">
             <div class="row">
-                <aside class="col-lg-3 mb-md-40  " >
+                <aside class="col-lg-3 mb-md-40" >
                     
                     <div class="mt-2 mb-2   positionType"   >
                         <div class="sidenav border-right pr-4">
                             <h4 class="text-center ">{{ $shop_data->name }}</h4>
-                            <a href="#about" class="working" > Most-popular  <i class="fa fa-caret-left" aria-hidden="true"></i></a>
-                            <a href="#services" > Recomended  <i class="fa fa-caret-left" aria-hidden="true"></i></a>
                             <a href="#clients" > More Popular varieties  <i class="fa fa-caret-left" aria-hidden="true"></i></a>
                             <div class="my_div">
                             @foreach ($categories as $item)
                                    <a href="#clients" class="btn btn-sm  sublinks item_class_str" key={{ $item->id }} id="item_{{ $item->id }}"><i class="fa fa-arrow-right"  aria-hidden="true"></i> {{ $item->name }}</a>
                                    @endforeach
                                 </div> 
-                            {{-- <a href="#contact" class="border-right">Contact</a> --}}
                           </div>
-                        
-                        
-                        </div>                    
-                        
-                        {{-- </div> --}}
-                    
+                        </div>
+
                 </aside>
                 <div class="col-lg-6 browse-cat ">
                     <div class="row m-2 " id="append_after_this">
@@ -186,13 +176,13 @@ Hunger Wings | Food Delivery
                                             {{-- @if (@getimagesize($image->url)) --}}
                                             {{-- src={{ $image->url }} --}}
                                             {{-- @else --}}
-                                            src={{ asset("website/assets/img/restaurants/255x150/shop-7.jpg") }}
+                                            src="{{ asset("website/assets/img/restaurants/255x150/shop-7.jpg") }}"
                                             {{-- @endif   --}}
                                             class="img-fluid full-width" style="height:100px;" alt="product-img">
                                         </a>
                                         <div class="overlay">
                                             <div class="product-tags padding-10"> <span class="circle-tag">
-                                                <img src={{ asset("website/assets/img/svg/013-heart-1.svg") }} alt="tag">
+                                                <img src="{{ asset("website/assets/img/svg/013-heart-1.svg") }}" alt="tag">
                                             </span>
                                             @if ($item[0]->food_type == 'veg')
                                                 
@@ -255,18 +245,15 @@ Hunger Wings | Food Delivery
                             </div>
                             <div class="col-sm-6 " style="text-align: center;margin-top: 20px;">
 
-                                 <button type="button" onclick="empty_cart();" class="btn btn-sm btn-outline-danger text-light-black border-0"><i class="far fa-trash-alt"></i> Clear cart</button >
+                                 <button type="button" onclick="empty_cart();" class="btn btn-sm btn-outline-danger text-light-black border-0 showItem01" style="display: none;"><i class="far fa-trash-alt"></i> Clear cart</button >
                             </div>
                         </div>
                         <div class="item border"  >
                         <form action="#">
-{{--                            @if (is_null($cart_data))--}}
-
                             <div class="m-2 blankDiv">
 
                                 Cart is empty Please add something delicious!!
                             </div>
-{{--                            @else--}}
                                 <div class="sidebar" id="cradboxShow" >
                                     <div class="cart-detail-box">
                                         <div class="card">
@@ -277,7 +264,7 @@ Hunger Wings | Food Delivery
 
                                                 </div>
                                             </div>
-                                            <div class="card-footer p-0 modify-order">
+                                            <div class="card-footer p-0 modify-order showItem01" style="display: none;">
 
                                                 <a href="#" class="total-amount"> <span class="text-custom-white fw-700">TOTAL</span>
                                                     <span class="text-custom-white fw-700 final_price pr-4" ></span>
@@ -289,7 +276,7 @@ Hunger Wings | Food Delivery
 
 
                                 <div class="checkoutButton text-right m-2"  >
-                                    <a href="{{ route('web_checkout') }}" class="btn btn-primary btn-sm">Checkout <i class="fas fa-arrow-right"></i></a>
+                                    <a href="{{ route('web_checkout') }}" class="btn btn-primary btn-sm showItem01" style="display: none;">Checkout <i class="fas fa-arrow-right"></i></a>
                                 </div>
 {{--                            @endif--}}
 

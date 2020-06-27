@@ -16,9 +16,10 @@ Hunger Wings | Order Details
     <section class="checkout-page section-padding bg-light-theme">
         <div class="container">
 
-            @foreach( array_reverse($currentOrders) as $key => $item)
 
-<br>
+            @foreach( array_reverse($orders) as $key => $item)
+
+            <br>
             <div class="row">
                 <div class="col-md-12">
                     <div class="tracking-sec" >
