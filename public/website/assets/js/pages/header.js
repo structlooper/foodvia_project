@@ -45,21 +45,21 @@ function cart_data_database(){
                           <div class="cat-name row" style="width:180px;">
                           <div class="col-sm-12">
                           <a href="#">
-                          <p>${element.name}</p>
+                          <p style="width: 40px;">${element.name}</p>
                           <span class="text-light-white fw-700">${element.description}</span>
                           </a>
                           </div>
                           </div>
                           <div class="row text-center border" style="width:55px;">
                           <div style="width:15px; margin-left:2px;">
-                          <button type="button" class="text-dark-white" onclick="product_decrement(${element.product_id})"  >
+                          <button type="button" class="text-dark-white" id="minusIncrement${element.product_id}" onclick="product_decrement(${element.product_id})"  >
                            <i class="fa fa-minus" aria-hidden="true"></i>
                            </button>
                            </div>
                            <div class="text-center" id="count_menu${element.id}" product_count${element.product_id}="${dish_count}"         style="width:15px;">${element.quantity}
                            </div>
                            <div style="width:15px;">
-                           <button type="button" class="text-center"  onclick="product_increment(${element.product_id});">
+                           <button type="button" class="text-center" id="plusIncrement${element.product_id}"  onclick="product_increment(${element.product_id});">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                           </button>
                            </div>

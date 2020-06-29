@@ -63,26 +63,26 @@
                         </div>
                         <!-- logo -->
                         <div class="main-search mainNavCol">
-                            <form action="{{url('restaurants')}}" class="main-search search-form full-width">
                                 <div class="row">
                                     <!-- location picker -->
                                     <div class="col-lg-6 col-md-5">
-                                        <a href="javascript:void(0);" class="delivery-add p-relative"> <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
-                                            <span class="address">Find Food Near Me</span>
-                                        </a>
-                                    {{-- <form a > --}}
-                                        <div class="location-picker">
-                                            <input type="text" id="pac-input" class="form-control" placeholder="Add new address">
-                                                <div id="map"></div>
-                                                <input type="hidden" id="latitude_cur" name="latitude" id="lat">
-                                                <input type="hidden" id="longitude_cur" name="longitude" id="lng">
-                                                <input type="hidden" name="search_loc" id="location">
-                                                <button type="submit" value="submit" class="btn btn-warning">Find</button>
-                                            </div>
-                                    {{-- </form> --}}
-                                </form>
+                                        <form action="{{url('restaurants')}}" class="main-search search-form full-width">
+                                                <a href="javascript:void(0);" class="delivery-add p-relative"> <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
+                                                    <span class="address">Find Food Near Me</span>
+                                                </a>
+                                            {{-- <form a > --}}
+                                                <div class="location-picker">
+                                                    <input type="text" id="pac-input" class="form-control" placeholder="Add new address">
+                                                        <div id="map"></div>
+                                                        <input type="hidden" id="latitude_cur" name="latitude" id="lat">
+                                                        <input type="hidden" id="longitude_cur" name="longitude" id="lng">
+                                                        <input type="hidden" name="search_loc" id="location">
+                                                        <button type="submit" value="submit" class="btn btn-warning">Find</button>
+                                                    </div>
+                                            {{-- </form> --}}
+                                        </form>
 
-                        </div>
+                                     </div>
                                     <!-- location picker -->
                                     <!-- search -->
                                     <div class="col-lg-6 col-md-7">
@@ -90,6 +90,7 @@
                                             <input type="text" class="form-control" placeholder="Pizza, Burger, Chinese">
                                         </div>
                                     </div>
+
                                     <!-- search -->
                                 </div>
                         </div>
@@ -110,7 +111,7 @@
                                                 <div class="col-lg-4 col-md-5">
                                                     <div class="ex-collection-box h-100">
                                                         <a href="#">
-                                                            <img src={{ asset("website/assets/img/nav-1.jpg") }} class="img-fluid full-width h-100" alt="image">
+                                                            <img src="{{ asset("website/assets/img/nav-1.jpg") }}" class="img-fluid full-width h-100" alt="image">
                                                         </a>
                                                         <div class="category-type overlay padding-15"> <a href="restaurant.html" class="category-btn">Top rated</a>
                                                         </div>
@@ -313,6 +314,8 @@
 
                         </div>
                     </div>
+                    </div>
+                    </div>
                     <div class="col-sm-12 mobile-search">
                         <div class="mobile-address">
                             <a href="#" class="delivery-add" data-toggle="modal" data-target="#address-box"> <span class="address">Food Near me</span>
@@ -335,7 +338,7 @@
 
         </header>
     </div>
-    <div class="main-sec"></div>
+{{--    <div class="main-sec"></div>--}}
     
    
         

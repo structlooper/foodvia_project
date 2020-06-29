@@ -4,7 +4,7 @@ Hunger Wings | Register
 @endsection
 
 @section('main_content')
-<div class="inner-wrapper " >
+<div class="inner-wrapper section-padding" >
     <div class="container-fluid no-padding">
       <div class="row no-gutters overflow-auto">
         <div class="col-md-6">
@@ -19,11 +19,11 @@ Hunger Wings | Register
         <div class="col-md-6">
           <div class="section-2 user-page main-padding">
             <div class="login-sec">
-              <div class="login-box">
+              <div class="login-box section-padding">
+                  <h6 class="text-light-black fw-600">Create your account</h6>
                 <form  class="popup-form" method="POST" id="register_form" action="{{ url('/register') }}">
 
                   {{ csrf_field() }}
-                  <h4 class="text-light-black fw-600">Create your account</h4>
                   <div class="row">
 
                     <div class="col-12">
@@ -39,15 +39,20 @@ Hunger Wings | Register
                         <label class="text-light-white fs-14">Email</label>
                         <input type="email" id="email-field" name="email" class="form-control form-control-submit"  placeholder="email" required>
                       </div>
-                      <div class="form-group">
-                        <label class="text-light-white fs-14">Password (6 character minimum)</label>
-                        <input type="password" id="password-field" name="password" class="form-control form-control-submit"  placeholder="Password" required>
+                      <div class="form-group row">
+                        <div class="col-sm-6">
+                          <label class="text-light-white fs-14">Password <span class="text-danger">(mini char 6)</span></label>
+                        <input type="password" id="password-field" name="password" class="form-control "  placeholder="Password" required>
                         <div data-name="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></div>
+                        </div>
+                        <div class="col-sm-6">
+                          <label class="text-light-white fs-14">Confirm Password </label>
+                          <input type="password" id="c_password-field" name="password_confirmation" class="form-control"  placeholder="Confirm Password" required>
+                          <div data-name="#c_password-field" class="fa fa-fw fa-eye field-icon toggle-password"></div>
+                        </div>
                       </div>
                       <div class="form-group">
-                        <label class="text-light-white fs-14">Confirm Password </label>
-                        <input type="password" id="c_password-field" name="password_confirmation" class="form-control form-control-submit"  placeholder="Confirm Password" required>
-                        <div data-name="#c_password-field" class="fa fa-fw fa-eye field-icon toggle-password"></div>
+
                       </div>
                       <div class="form-group checkbox-reset">
                         <label class="custom-checkbox mb-0">

@@ -149,7 +149,7 @@
 
                     <div class="mt-2 mb-2   positionType"   >
                         <div class="sidenav border-right pr-4">
-                            <h4 class="text-center ">{{ $shop_data->name }}</h4>
+{{--                            <h4 class="text-center ">{{ $shop_data->name }}</h4>--}}
                                     <a href="javascript:void(0);" class="btn btn-sm  sublinks working mainLink" ><i class="fa fa-arrow-right"  aria-hidden="true"></i> <span class="text-muted">Recommended</span></a>
                             <a href="#clients" > More Popular varieties  <i class="fa fa-caret-left" aria-hidden="true"></i></a>
                             <div class="my_div">

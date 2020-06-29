@@ -3,6 +3,8 @@ $('.login_btn').on('click',function(){
     var password = $('#password-field').val();
     var csrf = $("input[name='_token']").val();
     var url = $('#login_form').attr('url');
+    $(this).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  Loading...`)
     $.ajax({
         url: url,
         type:'POST',
@@ -23,18 +25,17 @@ $('.login_btn').on('click',function(){
                 var errors = jqXhr.responseJSON;
                 console.log(errors);
                 $.each( errors , function( key, value ) {
+                    $('.login_btn').html(`Sign in`)
                 $.toast({
                     heading: 'error',
                     text: key +' -> '+value,
                     icon: 'error',
-                    // loader: true,        // Change it to false to disable loader
-                    // loaderBg: '#9EC600',  // To change the background
                     position: 'top-right',
                 })
-                    $("#login_form").find(".error_"+key).html(value);
                 });
             }
         }
     });
+
 });
 

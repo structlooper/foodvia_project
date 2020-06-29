@@ -14,71 +14,66 @@ class CartApiController extends Controller
     //
         public function add_to_cart(request $request)
         {
-            $user_id = Auth::user()->id;
-            $product_id = $request->product_id;
-            $note = $request->note;
-            $shop_id = $request->shop_id;
-            if (user_cart::where('product_id', '=', $product_id)
-                    ->where('order_id','=',null)
-                    ->count() > 0)
-            {
-                $get_count = user_cart::where('product_id', '=' , $product_id)
-                ->where('user_id','=',$user_id)
-                ->where('order_id','=',null)
-                ->first();
+            if (Auth::user()) {
+                $user_id = Auth::user()->id;
+                $product_id = $request->product_id;
+                $note = $request->note;
+                $shop_id = $request->shop_id;
+                if (user_cart::where('product_id', '=', $product_id)
+                        ->where('order_id', '=', null)
+                        ->count() > 0) {
+                    $get_count = user_cart::where('product_id', '=', $product_id)
+                        ->where('user_id', '=', $user_id)
+                        ->where('order_id', '=', null)
+                        ->first();
 
-                $final_quantity = $get_count->quantity + 1;
-                $update_count = DB::table('user_carts')
-                    ->where('user_id',$user_id)
-                    ->where('product_id',$product_id)
-                    ->where('order_id',null)
-                    ->update(['quantity'=> $final_quantity]);
-                if ($update_count === 1)
-                {
-                    return [
-                        'status' => 4,
-                        'message' => 'Dish already present in cart Count added',
-                        'debug'=> $update_count,
-                    ];
-                }
-            }
-            else{
-                if (is_null($user_id))
-                {
-                    return [
-                        'status' => 2,
-                        'message' => 'Please login first',
-                    ];
-                }
-                else{
-                    $data = [
-                        'user_id' => $user_id,
-                        'product_id' => $product_id,
-                        'note' => $note,
-                        'quantity' => 1,
-                        'created_at'=> Carbon::now(),
-                        'shop_id' => $shop_id,
-                        'updated_at'=>null,
-                        'deleted_at' =>null,
-                    ];
-                    $insert_to_cart = DB::table('user_carts')
-                        ->insert($data);
-                    if ($insert_to_cart)
-                    {
+                    $final_quantity = $get_count->quantity + 1;
+                    $update_count = DB::table('user_carts')
+                        ->where('user_id', $user_id)
+                        ->where('product_id', $product_id)
+                        ->where('order_id', null)
+                        ->update(['quantity' => $final_quantity]);
+                    if ($update_count === 1) {
                         return [
-                            'status' => 1,
-                            'message' => 'added to cart',
-                            'data' => $data,
-
+                            'status' => 4,
+                            'message' => 'Dish already present in cart Count added',
+                            'debug' => $update_count,
                         ];
                     }
-                    else{
-                        return [
-                            'status' => 0,
-                            'message' => 'something went wrong please try to refresh page',
+                } else {
+
+                        $data = [
+                            'user_id' => $user_id,
+                            'product_id' => $product_id,
+                            'note' => $note,
+                            'quantity' => 1,
+                            'created_at' => Carbon::now(),
+                            'shop_id' => $shop_id,
+                            'updated_at' => null,
+                            'deleted_at' => null,
                         ];
+                        $insert_to_cart = DB::table('user_carts')
+                            ->insert($data);
+                        if ($insert_to_cart) {
+                            return [
+                                'status' => 1,
+                                'message' => 'added to cart',
+                                'data' => $data,
+
+                            ];
+                        } else {
+                            return [
+                                'status' => 0,
+                                'message' => 'something went wrong please try to refresh page',
+                            ];
+                        }
                     }
-                }
+
+            }else{
+                return [
+                    'status' => 0,
+                    'message' => 'Please login first to add item in cart',
+                ];
             }
 
 
@@ -97,6 +92,8 @@ class CartApiController extends Controller
                             ->where('user_id', $user_id)
                             ->where('order_id',null)
                             ->get();
+
+
                         if (!empty($cart_data)) {
                             $response = [
                                 'status' => 1,

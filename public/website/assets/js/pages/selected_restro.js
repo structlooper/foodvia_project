@@ -159,6 +159,8 @@ function saveData(shop_id){
     const csrf = $("input[name='_token']").val();
     const id = $("input[name='product_id']").val();
     const note = $('.note').val()
+    $('#addData').html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  Loading...`)
     // console.log(shop_id)
     $.ajax({
         type:'post',
@@ -180,6 +182,8 @@ function saveData(shop_id){
                 $('#exampleModal').modal('hide');
             }
             if (result.status === 2){
+                $('#addData').html('<button type="button" onclick="saveData(${shop_id})"  class="btn btn-block btn-success finalAddCart" id="addData"> Add item</button>')
+
                 $.toast({
                     heading: 'info',
                     text: result.message,
@@ -188,6 +192,8 @@ function saveData(shop_id){
                 })
             }
             if (result.status === 0){
+                $('#addData').html('<button type="button" onclick="saveData(${shop_id})"  class="btn btn-block btn-success finalAddCart" id="addData"> Add item</button>')
+
                 console.log(result.message);
                 $.toast({
                     heading: 'warning',
@@ -198,6 +204,8 @@ function saveData(shop_id){
 
             }
             if (result.status === 4){
+                $('#addData').html('<button type="button" onclick="saveData(${shop_id})"  class="btn btn-block btn-success finalAddCart" id="addData"> Add item</button>')
+
                 $.toast({
                     heading: 'info',
                     text: result.message,
@@ -211,6 +219,7 @@ function saveData(shop_id){
         error:function(jqXHR)
         {
             console.log(jqXHR)
+            $('#addData').html('<button type="button" onclick="saveData(${shop_id})"  class="btn btn-block btn-success finalAddCart" id="addData"> Add item</button>')
             $.toast({
                 heading: 'error',
                 text : "Can't connect with server right now" ,
@@ -233,6 +242,7 @@ function product_increment(product_id)
 {
     let base_url = $('#urlfinder').attr('url');
     console.log(product_id);
+    $('#plusIncrement'+product_id).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`)
     $.ajax({
         type:'GET',
         url: base_url + '/api/increment/' + product_id,
@@ -245,6 +255,8 @@ function product_increment(product_id)
             }
 
             if (result.status === 0){
+                $('#plusIncrement'+product_id).html('<i class="fa fa-plus" aria-hidden="true"></i>')
+
                 console.log(result.message);
                 $.toast({
                     heading: 'warning',
@@ -255,6 +267,8 @@ function product_increment(product_id)
 
             }
             if (result.status === 2){
+                $('#plusIncrement'+product_id).html('<i class="fa fa-plus" aria-hidden="true"></i>')
+
                 $.toast({
                     heading: 'info',
                     text: result.message,
@@ -267,6 +281,8 @@ function product_increment(product_id)
         error:function(jqXHR)
         {
             console.log(jqXHR)
+            $('#plusIncrement'+product_id).html('<i class="fa fa-plus" aria-hidden="true"></i>')
+
             $.toast({
                 heading: 'error',
                 text : "Can't connect with server right now" ,
@@ -286,6 +302,7 @@ function product_increment(product_id)
 function product_decrement(product_id)
 {
     let base_url = $('#urlfinder').attr('url');
+    $('#minusIncrement'+product_id).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`)
     // console.log(product_id);
     $.ajax({
         type:'GET',
@@ -300,6 +317,7 @@ function product_decrement(product_id)
 
             if (result.status === 0){
                 console.log(result.message);
+                $('#minusIncrement'+product_id).html('<i class="fa fa-minus" aria-hidden="true"></i>')
                 $.toast({
                     heading: 'warning',
                     text: result.message,
@@ -309,6 +327,8 @@ function product_decrement(product_id)
 
             }
             if (result.status === 2){
+                $('#minusIncrement'+product_id).html('<i class="fa fa-minus" aria-hidden="true"></i>')
+
                 $.toast({
                     heading: 'info',
                     text: result.message,
@@ -318,6 +338,7 @@ function product_decrement(product_id)
 
             }
             if (result.status === 3){
+
                 $.toast({
                     heading: 'info',
                     text: result.message,
@@ -330,6 +351,8 @@ function product_decrement(product_id)
         error:function(jqXHR)
         {
             console.log(jqXHR)
+            $('#minusIncrement'+product_id).html('<i class="fa fa-minus" aria-hidden="true"></i>')
+
             $.toast({
                 heading: 'error',
                 text : "Can't connect with server right now" ,
