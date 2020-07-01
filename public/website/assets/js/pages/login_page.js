@@ -1,8 +1,8 @@
 $('.login_btn').on('click',function(){
-    var phoneNumber = $('#phone-field').val();
-    var password = $('#password-field').val();
-    var csrf = $("input[name='_token']").val();
-    var url = $('#login_form').attr('url');
+    let phoneNumber = '+91' + $('#phone-field').val();
+    const password = $('#password-field').val();
+    const csrf = $("input[name='_token']").val();
+    const url = $('#login_form').attr('url');
     $(this).html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
   Loading...`)
     $.ajax({
@@ -18,11 +18,11 @@ $('.login_btn').on('click',function(){
             // }
             $('#login_form').submit()
         },
-        error:function(jqXhr,status) {
+        error:function(jqXhr) {
             if(jqXhr.status === 422) {
                 $("#login_form .print-error-msg").html('');
                 $("#login_form .print-error-msg").show();
-                var errors = jqXhr.responseJSON;
+                const errors = jqXhr.responseJSON;
                 console.log(errors);
                 $.each( errors , function( key, value ) {
                     $('.login_btn').html(`Sign in`)

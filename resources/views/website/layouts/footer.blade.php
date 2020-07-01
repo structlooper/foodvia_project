@@ -1,4 +1,5 @@
 <!-- footer -->
+</div>
 <div class="footer-top section-padding bg-black" id="footer">
     <div class="container-fluid">
         <div class="row">
@@ -91,7 +92,7 @@
                         </li>
                         <li><a href="#" class="text-light-white fw-600">Socialize</a>
                         </li>
-                        <li><a href="#" class="text-light-white fw-600">Foodvia</a>
+                        <li><a href="#" class="text-light-white fw-600">Hunger wings</a>
                         </li>
                         <li><a href="#" class="text-light-white fw-600">Perks</a>
                         </li>

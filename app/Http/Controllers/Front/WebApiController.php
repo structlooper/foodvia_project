@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Front;
 
 use App\Helper\ProductHelper;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class WebApiController extends Controller
 {
@@ -44,10 +46,6 @@ class WebApiController extends Controller
 
         }
 
-
-
-        
-
         if (is_null($product_details)) {
             
             
@@ -67,5 +65,46 @@ class WebApiController extends Controller
             
         }
         return $response;
+    }
+    public function login(request $request)
+    {
+        if (!is_null($request->phoneNumber) and !is_null($request->password)) {
+            $user = DB::table('users')
+                ->where('phone', $request->phoneNumber)
+                ->first();
+            if (!is_null($user)) {
+                //test for password and like so
+                if (!Hash::check($request->password, $user->password)) {
+                    // wrong password
+                    return ['status' => 0,'message' => 'Entered password is incorrect'];
+                }else {
+                    if (Auth::attempt(['phone' => $request->phoneNumber, 'password' => $request->password],true)) {
+                        $request->session()->regenerate();
+                        return [
+                            'status' => 1,
+                            'message' => 'user logged in success',
+                            'data' => Auth::user()
+                        ];
+
+                    } else {
+                        return [
+                            'status' => 0,
+                            'message' => 'something went wrong',
+                        ];
+                    }
+
+                }
+            } else {
+                return [
+                    'status' => 0,
+                    'message' => 'Entered record not found'
+                ];
+            }
+        }else {
+            return [
+                'status' => 0,
+                'message' => 'Please enter both phone number and password'
+            ];
+        }
     }
 }

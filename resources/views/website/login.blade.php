@@ -26,11 +26,10 @@ Hunger Wings | Login
                   <h4 class="text-light-black fw-600">Sign in with your Hunger account</h4>
                   <div class="row">
                     <div class="col-12">
-{{--                      <p class="text-light-black">Have a corporate username? <a href="add-restaurant.html">Click here</a>--}}
-{{--                      </p>--}}
+
                       <div class="form-group">
                         <label class="text-light-white fs-14">Phone</label>
-                        <input type="text" name="#" id="phone-field" class="form-control form-control-submit" placeholder="Enter your phone number with +91" required>
+                        <input type="text" name="#" id="phone-field" class="form-control form-control-submit" placeholder="Enter your phone number" required>
                       </div>
                       <div class="form-group">
                         <label class="text-light-white fs-14">Password</label>
@@ -67,7 +66,6 @@ Hunger Wings | Login
       </div>
     </div>
   </div>
-{{--@include('user.layouts.partials.script')--}}
 @endsection
 
 @section('js')

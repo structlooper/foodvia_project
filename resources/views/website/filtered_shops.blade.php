@@ -9,12 +9,12 @@ Hunger Wings | Food Delivery
 
 <!-- slider -->
 <!-- Browse by category -->
-<section class="browse-cat u-line section-padding">
+<section class="browse-cat u-line p-2">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="section-header-left">
-                    <h3 class="text-light-black header-title title">Browse by cuisine {{ count($cuisine) }} <span class="fs-14"><a href="restaurant.html">See all restaurant</a></span></h3>
+                    <h3 class="text-light-black header-title title">Browse by cuisine {{ count($cuisine) }} <span class="fs-14"><a href="javascript:void(0)">See all restaurant</a></span></h3>
                 </div>
             </div>
             <div class="col-12" id="thisIdforUrl" url={{ url('api') }}>
@@ -44,7 +44,7 @@ Hunger Wings | Food Delivery
 </section>
 <!-- Browse by category -->
 <!-- Explore collection -->
-<section class="ex-collection section-padding">
+<section class="ex-collection p-2">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -57,9 +57,9 @@ Hunger Wings | Food Delivery
         <div class="row">
             <div class="col-lg-3 col-md-4">
                 <div class="large-product-box mb-xl-20 p-relative">
-                    <img src={{ asset("website/assets/img/restaurants/255x587/Banner-12.jpg") }} class="img-fluid full-width" alt="image">
+                    <img src="{{ asset("website/assets/img/restaurants/255x587/Banner-12.jpg") }}" class="img-fluid full-width" alt="image">
                     <div class="category-type overlay padding-15">
-                        <button class="category-btn">Most popular near you</button> <a href="restaurant.html" class="btn-first white-btn text-light-black fw-600 full-width">See all</a>
+                        <button class="category-btn">Most popular near you</button> <a href="javascript:void(0)" class="btn-first white-btn text-light-black fw-600 full-width">See all</a>
                     </div>
                 </div>
             </div>
@@ -69,21 +69,20 @@ Hunger Wings | Food Delivery
                     <div >
                         
                     </div>
-                    @if (!is_null($final_shops_data))
-                        
+                    @if (sizeof($final_shops_data) > 0)
                     @foreach ($final_shops_data as $item)
                     @if ($item[0]->status == 'active')
-                        
-                    
+
+
                     <div class="col-lg-4 col-md-6 col-sm-6 currentCards">
                         <div class="product-box mb-xl-20">
                             <div class="product-img">
-                                <a href="#">
+                                <a href="javascript:void(0)">
                                     <img 
                                     {{-- @if (@getimagesize($item[0]->avatar))
                                         src={{ $item[0]->avatar }} --}}
                                         {{-- @else --}}
-                                        src={{ asset("website/assets/img/restaurants/255x150/shop-7.jpg") }}
+                                        src="{{ asset("website/assets/img/restaurants/255x150/shop-7.jpg") }}"
                                         {{-- @endif   --}}
                                         class="img-fluid full-width" style="height:200px;" alt="product-img">
                                     </a>
@@ -112,7 +111,7 @@ Hunger Wings | Food Delivery
                         </div>
                         <div class="product-caption">
                             <div class="title-box">
-                                <h6 class="product-title" style="width: 50%; text-overflow: hidden;" ><a href="{{ route('category',$cuisine_data->id)}}/{{ $item[0]->id }}" class="text-light-black " > {{ $item[0]->name }}</a></h6>
+                               <h6 class="product-title" style="width: 50%; text-overflow: hidden;" ><a href="{{ route('category',$cuisine_data->id)}}/{{ $item[0]->id }}" class="text-light-black " > {{ $item[0]->name }}</a></h6>
                                 <div class="tags"> <span class="text-custom-white rectangle-tag bg-yellow">
                                     {{ $item[0]->rating }}
                                 </span>
@@ -161,7 +160,7 @@ Hunger Wings | Food Delivery
             <div class="col-lg-4 col-md-6 col-sm-6 currentCards">
                                 <div class="product-box mb-xl-20">
                                     <div class="product-img">
-                                        <a href="restaurant.html">
+                                        <a href="javascript:void(0)">
                                             <img src={{ asset("website/assets/img/restaurants/255x150/shop-5.jpg") }} class="img-fluid full-width" alt="product-img">
                                         </a>
                                         <div class="overlay">
@@ -177,7 +176,7 @@ Hunger Wings | Food Delivery
                                     </div>
                                     <div class="product-caption">
                                         <div class="title-box">
-                                            <h6 class="product-title"><a href="restaurant.html" class="text-light-black "> Lil Johnny’s</a></h6>
+                                            <h6 class="product-title"><a href="javascript:void(0)" class="text-light-black "> Lil Johnny’s</a></h6>
                                             <div class="tags"> <span class="text-custom-white rectangle-tag bg-red">
                             2.1
                         </span>
@@ -208,58 +207,7 @@ Hunger Wings | Food Delivery
             @endif
 
 
-                    {{-- <div class="col-lg-4 col-md-6 col-sm-6 currentCards">
-                        <div class="product-box mb-xl-20">
-                            <div class="product-img">
-                                <a href="restaurant.html">
-                                    <img src={{ asset("website/assets/img/restaurants/255x150/shop-6.jpg") }} class="img-fluid full-width" alt="product-img">
-                                </a>
-                                <div class="overlay">
-                                    <div class="product-tags padding-10"> <span class="circle-tag">
-                                 <img src={{ asset("website/assets/img/svg/013-heart-1.svg") }} alt="tag">
-                                    </span>
-                                        <span class="text-custom-white type-tag bg-gradient-orange">
-                                NEW
-                             </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-caption">
-                                <div class="title-box">
-                                    <h6 class="product-title"><a href="restaurant.html" class="text-light-black "> Choice Foods</a></h6>
-                                    <div class="tags"> <span class="text-custom-white rectangle-tag bg-green">
-                                 4.5
-                                </span>
-                                    </div>
-                                </div>
-                                <p class="text-light-white">Indian, Chinese, Tandoor</p>
-                                <div class="product-details">
-                                    <div class="price-time"> <span class="text-light-black time">30-40 min</span>
-                                        <span class="text-light-white price">$10 min</span>
-                                    </div>
-                                    <div class="rating"> <span>
-                              <i class="fas fa-star text-yellow"></i>
-                              <i class="fas fa-star text-yellow"></i>
-                              <i class="fas fa-star text-yellow"></i>
-                              <i class="fas fa-star text-yellow"></i>
-                              <i class="fas fa-star text-yellow"></i>
-                            </span>
-                                                  <span class="text-light-white text-right">4225 ratings</span>
-                                              </div>
-                                                          </div>
-                                                          <div class="product-footer"> <span class="text-custom-white square-tag">
-                                  <img src={{ asset("website/assets/img/svg/005-chef.svg") }} alt="tag">
-                                </span>
-                                                    <span class="text-custom-white square-tag">
-                                  <img src={{ asset("website/assets/img/svg/008-protein.svg") }} alt="tag">
-                                </span>
-                                                    <span class="text-custom-white square-tag">
-                                  <img src={{ asset("website/assets/img/svg/009-lemon.svg") }} alt="tag">
-                                </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
+      
                 </div>
             </div>
         </div>

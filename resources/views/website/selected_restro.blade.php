@@ -84,7 +84,7 @@ Hunger Wings | Food Delivery
 @endsection
 @section('main_content')
 
-<div class="most-popular section-padding">
+<div class="most-popular ">
     <div class="footer-top p-2 bg-secondary" >
         <div class="container-fluid">
             <div class="row">
@@ -149,10 +149,10 @@ Hunger Wings | Food Delivery
                     <div class="mt-2 mb-2   positionType"   >
                         <div class="sidenav border-right pr-4">
                             <h4 class="text-center ">{{ $shop_data->name }}</h4>
-                            <a href="#clients" > More Popular varieties  <i class="fa fa-caret-left" aria-hidden="true"></i></a>
+                            <a href="javascript:void(0)" > More Popular varieties  <i class="fa fa-caret-left" aria-hidden="true"></i></a>
                             <div class="my_div">
                             @foreach ($categories as $item)
-                                   <a href="#clients" class="btn btn-sm  sublinks item_class_str" key={{ $item->id }} id="item_{{ $item->id }}"><i class="fa fa-arrow-right"  aria-hidden="true"></i> {{ $item->name }}</a>
+                                   <a href="javascript:void(0)" class="btn btn-sm  sublinks item_class_str" key={{ $item->id }} id="item_{{ $item->id }}"><i class="fa fa-arrow-right"  aria-hidden="true"></i> {{ $item->name }}</a>
                                    @endforeach
                                 </div> 
                           </div>
@@ -167,7 +167,7 @@ Hunger Wings | Food Delivery
                             <div class="col-lg-4 col-md-6 col-sm-6 currentCards">
                                 <div class="product-box mb-xl-20">
                                     <div class="product-img">
-                                        <a href="#">
+                                        <a href="javascript:void(0)">
                                             <?php $image = App\Helper\ProductHelper::getProductImage($item[0]->id) ?>
                                             <?php $data = App\Helper\ProductHelper::getProductPrice($item[0]->id) ?>
                                         
@@ -222,7 +222,13 @@ Hunger Wings | Food Delivery
                                     </div>
                                     <div class="product-footer offset-auto" id = "dishButton{{ $item[0]->id }}">
                                         
-                                    <button type="button" id="dish{{ $item[0]->id }}" onclick="add_to_cart({{ $item[0]->id }});" dataname="{{ $item[0]->name }}" currency="{{ $data->currency }}" dataprice="{{ $data->price }}"  class="btn btn-sm btn-outline-primary"><i class="fas fa-plus"></i> Add Item
+                                    <button type="button" id="dish{{ $item[0]->id }}" @if (Auth::user())
+                                        logged ="{{ Auth::user()->id }}"
+                                    @else
+                                            logged = "0"
+
+                                    @endif
+                                     onclick="add_to_cart({{ $item[0]->id }});" dataname="{{ $item[0]->name }}" currency="{{ $data->currency }}" dataprice="{{ $data->price }}"  class="btn btn-sm btn-outline-primary"><i class="fas fa-plus"></i> Add Item
                                         </button>
                                         </div>
                                     </div>
@@ -266,7 +272,7 @@ Hunger Wings | Food Delivery
                                             </div>
                                             <div class="card-footer p-0 modify-order showItem01" style="display: none;">
 
-                                                <a href="#" class="total-amount"> <span class="text-custom-white fw-700">TOTAL</span>
+                                                <a href="javascript:void(0)" class="total-amount"> <span class="text-custom-white fw-700">TOTAL</span>
                                                     <span class="text-custom-white fw-700 final_price pr-4" ></span>
                                                 </a>
                                             </div>

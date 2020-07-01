@@ -85,7 +85,7 @@
 @section('main_content')
 
 
-    <div class="most-popular section-padding">
+    <div class="most-popular p-2">
         <div class="footer-top p-2 bg-secondary" >
             <div class="container-fluid">
                 <div class="row">
@@ -162,9 +162,9 @@
 
                 </aside>
                 <div class="col-lg-6 browse-cat ">
+                    <h4 class="text-left border-bottom mt-3 p-2">{{ ($shop_data->name) }} Categories</h4>
                     <div class="row m-2 " id="append_after_this">
 
-                    <h4 class="text-left border-bottom">{{ ($shop_data->name) }} Categories</h4>
                         @foreach ($productDetails as $item)
                             <div class="col-lg-4 col-md-6 col-sm-6 currentCards" style="">
                                 <div class="product-box mb-xl-20">
@@ -223,7 +223,13 @@
                                         </div>
                                         <div class="product-footer offset-auto">
 
-                                            <button type="button" id="dish{{ $item[0]->id }}" onclick="add_to_cart({{ $item[0]->id }})" dataname="{{ $item[0]->name }}" currency="{{ $data->currency }}" dataprice="{{ $data->price }}" dataid="{{ $item[0]->id }}" class="btn btn-sm btn-outline-primary "><i class="fas fa-plus"></i> Add Item</button>
+                                            <button type="button" id="dish{{ $item[0]->id }}"
+                                                    @if (Auth::user())
+                                                        logged="{{ Auth::user()->id }}"
+                                                    @else
+                                                            logged="0"
+                                                    @endif
+                                                    onclick="add_to_cart({{ $item[0]->id }})" dataname="{{ $item[0]->name }}" currency="{{ $data->currency }}" dataprice="{{ $data->price }}" dataid="{{ $item[0]->id }}" class="btn btn-sm btn-outline-primary "><i class="fas fa-plus"></i> Add Item</button>
                                         </div>
                                     </div>
                                 </div>

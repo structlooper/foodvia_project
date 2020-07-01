@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Shop;
 use DB;
 use Illuminate\Support\Facades\Auth;
 use stdClass;
@@ -14,20 +15,20 @@ class WebController extends Controller
 {
     public function index()
     {
-        $shop_id = 1;
-        $categories = DB::table('categories')
-        ->where('shop_id',$shop_id)
-        ->join('category_images','category_images.category_id', '=' , 'categories.id')
-        ->get();
+//        $shop_id = 1;
+//        $categories = DB::table('categories')
+//        ->where('shop_id',$shop_id)
+//        ->join('category_images','category_images.category_id', '=' , 'categories.id')
+//        ->get();
        
         $cuisine = DB::table('cuisines')->get();
-        $product = DB::table('products')
-        ->where('shop_id',$shop_id)
-        ->join('product_images','product_images.product_id','=',"products.id")
-        ->join('product_prices','product_prices.product_id','=',"products.id")
-        ->get();
+//        $product = DB::table('products')
+//        ->where('shop_id',$shop_id)
+//        ->join('product_images','product_images.product_id','=',"products.id")
+//        ->join('product_prices','product_prices.product_id','=',"products.id")
+//        ->get();
+        $shops = Shop::orderByRaw('RAND()')->take(10)->get();
 
-        $shops = DB::table('shops')->get();
         $data= [
             // 'categories' => $categories,
             // 'product' => $product,
@@ -63,6 +64,7 @@ class WebController extends Controller
         }
         if(sizeof($final_shops_data) != 0)
         {
+            shuffle($final_shops_data);
             $data = [
                 'final_shops_data' => $final_shops_data,
                 'cuisine' => $cuisine,
@@ -273,6 +275,18 @@ class WebController extends Controller
             return back()->with('error','No restaurant found');
         }
 
+
+    }
+
+    public function all_restro(){
+        $cuisine = DB::table('cuisines')->get();
+        $shops = DB::table('shops')->get();
+        $data= [
+
+            'cuisine' => $cuisine,
+            'shops' => $shops,
+        ];
+        return view('website.all_restro')->with($data);
 
     }
 }

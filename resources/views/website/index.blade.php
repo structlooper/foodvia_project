@@ -19,7 +19,7 @@ Hunger Wings | Food Delivery
                             <div class="right-side-content">
                                 <h1 class="text-custom-white fw-600">Increase takeout sales by 50%</h1>
                                 <h3 class="text-custom-white fw-400">with the largest delivery platform in the U.S. and Canada</h3>
-                                <a href="restaurant.html" class="btn-second btn-submit">Learn More.</a>
+                                <a href="javascript:void(0)" class="btn-second btn-submit">Learn More.</a>
                             </div>
                         </div>
                     </div>
@@ -35,7 +35,7 @@ Hunger Wings | Food Delivery
                             <div class="right-side-content text-center">
                                 <h1 class="text-custom-white fw-600">Increase takeout sales by 50%</h1>
                                 <h3 class="text-custom-white fw-400">with the largest delivery platform in the U.S. and Canada</h3>
-                                <a href="restaurant.html" class="btn-second btn-submit">Learn More.</a>
+                                <a href="javascript:void(0)" class="btn-second btn-submit">Learn More.</a>
                             </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@ Hunger Wings | Food Delivery
                             <div class="right-side-content text-right">
                                 <h1 class="text-custom-white fw-600">Increase takeout sales by 50%</h1>
                                 <h3 class="text-custom-white fw-400">with the largest delivery platform in the U.S. and Canada</h3>
-                                <a href="restaurant.html" class="btn-second btn-submit">Learn More.</a>
+                                <a href="javascript:void(0)" class="btn-second btn-submit">Learn More.</a>
                             </div>
                         </div>
                     </div>
@@ -70,7 +70,7 @@ Hunger Wings | Food Delivery
         <div class="row">
             <div class="col-12">
                 <div class="section-header-left">
-                    <h3 class="text-light-black header-title title">Browse by cuisine {{ count($cuisine) }} <span class="fs-14"><a href="restaurant.html">See all restaurant</a></span></h3>
+                    <h3 class="text-light-black header-title title">Browse by cuisine {{ count($cuisine) }} <span class="fs-14"><a href="javascript:void(0)">See all restaurant</a></span></h3>
                 </div>
             </div>
             <div class="col-12" id="thisIdforUrl" url={{ url('api') }}>
@@ -101,7 +101,7 @@ Hunger Wings | Food Delivery
 <!-- Browse by category -->
 
 <!-- Explore collection -->
-<section class="ex-collection section-padding">
+<section class="ex-collection p-2">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -114,14 +114,14 @@ Hunger Wings | Food Delivery
             <div class="col-md-6">
                 <div class="ex-collection-box mb-xl-20">
                     <img src={{ asset("website/assets/img/restaurants/540x300/collection-1.jpg") }} class="img-fluid full-width" alt="image">
-                    <div class="category-type overlay padding-15"> <a href="restaurant.html" class="category-btn">Top rated</a>
+                    <div class="category-type overlay padding-15"> <a href="javascript:void(0)" class="category-btn">Top rated</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="ex-collection-box mb-xl-20">
                     <img src={{ asset("website/assets/img/restaurants/540x300/collection-2.jpg") }} class="img-fluid full-width" alt="image">
-                    <div class="category-type overlay padding-15"> <a href="restaurant.html" class="category-btn">Top rated</a>
+                    <div class="category-type overlay padding-15"> <a href="javascript:void(0)" class="category-btn">Top rated</a>
                     </div>
                 </div>
             </div>
@@ -130,7 +130,7 @@ Hunger Wings | Food Delivery
             <div class="col-12">
                 <div class="banner-adv2 mb-xl-20">
                     <img src={{ asset("website/assets/img/restaurants/1110x100/vbanner-2.jpg") }} class="img-fluid full-width" alt="banner"> <span class="text">Unlimited Free Delivery with. <img src={{ asset("website/assets/img/tag.jpg") }} alt="logo">
-                        <a href="restaurant.html" class="btn-second btn-submit">Try 30 Days FREE</a></span>
+                        <a href="javascript:void(0)" class="btn-second btn-submit">Try 30 Days FREE</a></span>
                     <span class="close-banner"></span>
                 </div>
             </div>
@@ -138,7 +138,7 @@ Hunger Wings | Food Delivery
                 <div class="large-product-box mb-xl-20 p-relative">
                     <img src={{ asset("website/assets/img/restaurants/255x587/Banner-12.jpg") }} class="img-fluid full-width" alt="image">
                     <div class="category-type overlay padding-15">
-                        <button class="category-btn">Most popular near you</button> <a href="restaurant.html" class="btn-first white-btn text-light-black fw-600 full-width">See all</a>
+                        <button class="category-btn">Most popular near you</button> <a href="javascript:void(0)" class="btn-first white-btn text-light-black fw-600 full-width">See all</a>
                     </div>
                 </div>
             </div>
@@ -160,7 +160,7 @@ Hunger Wings | Food Delivery
                                     {{-- @if (@getimagesize($item->avatar))
                                     src={{ $item->avatar }}
                                     @else --}}
-                                    src={{ asset("website/assets/img/restaurants/255x150/shop-7.jpg") }}
+                                    src="{{ asset("website/assets/img/restaurants/255x150/shop-7.jpg") }}"
                                     {{-- @endif   --}}
                                     class="img-fluid full-width" style="height:200px;" alt="product-img">
                                 </a>
@@ -175,7 +175,7 @@ Hunger Wings | Food Delivery
                                     </span>
                                     @endif
                                     <div class="custom-tag"> <span class="text-custom-white rectangle-tag bg-gradient-red">
-                                         {{ $item->offer_percent }}%
+                                         {{ $item->offer_percent }}% off
                                     </span>
                                     @if ($item->popular == 1)
                                         
@@ -189,7 +189,7 @@ Hunger Wings | Food Delivery
                     </div>
                     <div class="product-caption">
                         <div class="title-box">
-                            <h6 class="product-title" style="width: 50%; text-overflow: hidden;" ><a href="{{ route('restaurant',$item->id) }}" class="text-light-black " > {{ $item->name }}</a></h6>
+                            <h6 class="product-title" style="width: 50%;" ><a href="{{ route('restaurant',$item->id) }}" class="text-light-black " > {{ $item->name }}</a></h6>
                                 <div class="tags"> <span class="text-custom-white rectangle-tag bg-yellow">
                                     {{ $item->rating }}
                                 </span>

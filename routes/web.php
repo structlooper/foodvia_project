@@ -32,6 +32,7 @@ Route::group(['namespace' => 'Front', 'prefix' => 'web'], function () {
 
 
     });
+    Route::get('restaurant','WebController@all_restro')->name('all_restro');
     Route::get('selected/restaurant/{id}','WebController@restaurant')->name('restaurant');
     Route::get('restaurant/{id}','WebController@categories')->name('category');
     Route::get('restaurant/{id}/{it}','WebController@categories_product')->name('categories');
@@ -47,6 +48,8 @@ Route::group(['prefix' => 'api', 'namespace' => 'Front'], function () {
 
     Route::get('categories','WebApiCOntroller@categories');
     Route::get('product_category/{id}','WebApiController@product_category');
+    Route::post('customLogin','WebApiController@login');
+
 
     /*
      * cart APIs routes

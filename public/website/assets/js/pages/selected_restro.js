@@ -126,12 +126,44 @@ $(document).ready(function(){
 * @structlooper
 * */
 function add_to_cart(id){
-    let p_name = $('#dish'+ id).attr('dataname')
-    let p_currency = $('#dish'+ id).attr('currency')
-    let p_dataprice = $('#dish'+ id).attr('dataprice')
-    // $('.finalAddCart').attr('p_id',id)
-    $('#product_id').val(id)
-    $('.modal-body').html(`
+
+    let logged = $('#dish' + id).attr('logged')
+    const csrf = $("input[name='_token']").val();
+    if (logged == 0) {
+        $.toast({
+            heading: 'info',
+            text: 'Please login first',
+            icon: 'info',
+            position : 'top-right',
+        })
+        $('.modal-body').html(`
+<!--        this is modal ${csrf}-->
+            <form action="" id="loginViaModal">
+                <input type="hidden" name="_token" value="${csrf}">
+              <div class="form-group">
+                <label for="modalInputphone">Phone</label>
+                <input type="number" class="form-control" id="modalInputphone" aria-describedby="phoneHelp" name="phoneNumber" placeholder="Enter phone number">
+                <small id="phoneHelp" class="form-text text-muted">We'll never share your phone with anyone else.</small>
+              </div>
+              <div class="form-group">
+                <label for="modalInputPassword1">Password</label>
+                <input type="password" class="form-control" id="modalInputPassword1" name="password" placeholder="Password">
+              </div>
+              
+              <button type="button" onclick="loginByModal();" class="btn btn-danger btn-block">Login</button>
+            </form>
+    
+    `).unbind();
+        $('#addData').css('display','none');
+        $('#exampleModalLabel').html('Please Login first');
+        $('#exampleModal').modal();
+
+    }else{
+        let p_name = $('#dish' + id).attr('dataname')
+        let p_currency = $('#dish' + id).attr('currency')
+        let p_dataprice = $('#dish' + id).attr('dataprice')
+        $('#product_id').val(id)
+        $('.modal-body').html(`
         <div class="card" >
           <div class="card-body">
             <h5 class="card-title">1. Item</h5>
@@ -145,8 +177,10 @@ function add_to_cart(id){
                     </div>
     
     `)
-    $('#addData').html(`<i class="fa fa-shopping-cart" aria-hidden="true"></i> ${p_dataprice}${p_currency} Add Item`)
-    $('#exampleModal').modal()
+        $('#addData').html(`<i class="fa fa-shopping-cart" aria-hidden="true"></i> ${p_dataprice}${p_currency} Add Item`)
+        $('#exampleModal').modal()
+
+    }
 }
 
 /*
@@ -365,3 +399,60 @@ function product_decrement(product_id)
     })
 }
 
+/*
+* METHOD TO LOGIN USER VIA MODAL
+* :.@STRUCTLOOPER
+* */
+function loginByModal(){
+    const csrf = $("input[name='_token']").val();
+    let phoneNumber = '+91' + $('#modalInputphone').val()
+    let password = $('#modalInputPassword1').val()
+
+    console.log(phoneNumber,password,csrf)
+    let base_url = $('#urlfinder').attr('url');
+    $.ajax({
+        type:'POST',
+        url: base_url + '/api/customLogin',
+        data: { phoneNumber:phoneNumber,password:password,'_token':csrf },
+
+
+        success:function(result){
+            console.log(result)
+            if (result.status === 1) {
+                console.log(result.message);
+                $.toast({
+                    heading: 'success',
+                    text: result.message,
+                    icon: 'success',
+                    position : 'top-right',
+                })
+                cart_data_database();
+                location.reload();
+            }
+
+            else{
+                console.log(result.message);
+                $.toast({
+                    heading: 'warning',
+                    text: result.message,
+                    icon: 'warning',
+                    position : 'top-right',
+                })
+            }
+
+
+        },
+        error:function(jqXHR)
+        {
+            console.log(jqXHR)
+            $.toast({
+                heading: 'error',
+                text : "Can't connect with server right now" ,
+                icon : 'error',
+                position: 'top-right',
+
+            })
+        }
+
+    })
+}

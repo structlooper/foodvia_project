@@ -10,11 +10,11 @@
     {{-- <title>Foodvia | Food Delivery</title> --}}
     <title>@yield('title')</title>
     <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="#">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="#">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="#">
-    <link rel="apple-touch-icon-precomposed" href="#">
-    <link rel="shortcut icon" href="#">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="javascript:void(0)">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="javascript:void(0)">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="javascript:void(0)">
+    <link rel="apple-touch-icon-precomposed" href="javascript:void(0)">
+    <link rel="shortcut icon" href="javascript:void(0)">
     <!-- Bootstrap -->
     <link href={{ asset("website/assets/css/bootstrap.min.css") }} rel="stylesheet">
     <!-- Fontawesome -->
@@ -71,8 +71,8 @@
                                                     <span class="address">Find Food Near Me</span>
                                                 </a>
                                             {{-- <form a > --}}
-                                                <div class="location-picker">
-                                                    <input type="text" id="pac-input" class="form-control" placeholder="Add new address">
+                                                <div class="location-picker" style="width: 500px;">
+                                                    <input type="text" id="pac-input" class="form-control"  placeholder="Add new address">
                                                         <div id="map"></div>
                                                         <input type="hidden" id="latitude_cur" name="latitude" id="lat">
                                                         <input type="hidden" id="longitude_cur" name="longitude" id="lng">
@@ -96,12 +96,12 @@
                         </div>
                         <div class="right-side fw-700 mainNavCol">
                             <div class="gem-points">
-                                <a href="#"> <i class="fas fa-concierge-bell"></i>
+                                <a href="{{ Route('all_restro') }}"> <i class="fas fa-concierge-bell"></i>
                                     <span>Order Now</span>
                                 </a>
                             </div>
                             <div class="catring parent-megamenu">
-                                <a href="#"> <span>Menu<i class="fas fa-caret-down"></i></span>
+                                <a href="javascript:void(0)"> <span>Menu<i class="fas fa-caret-down"></i></span>
                                     <i class="fas fa-bars"></i>
                                 </a>
                                 <div class="megamenu">
@@ -110,7 +110,7 @@
                                             <div class="row">
                                                 <div class="col-lg-4 col-md-5">
                                                     <div class="ex-collection-box h-100">
-                                                        <a href="#">
+                                                        <a href="javascript:void(0)">
                                                             <img src="{{ asset("website/assets/img/nav-1.jpg") }}" class="img-fluid full-width h-100" alt="image">
                                                         </a>
                                                         <div class="category-type overlay padding-15"> <a href="restaurant.html" class="category-btn">Top rated</a>
@@ -122,7 +122,7 @@
                                                         <div class="col-lg-3 col-sm-6">
                                                             <div class="menu-style">
                                                                 <div class="menu-title">
-                                                                    <h6 class="cat-name"><a href="#" class="text-light-black">Restaurants</a></h6>
+                                                                    <h6 class="cat-name"><a href="javascript:void(0)" class="text-light-black">Restaurants</a></h6>
                                                                 </div>
                                                                 <ul>
                                                                     <li class="active"><a href="{{ route('home') }}" class="text-light-white fw-500">Restaurants</a>
@@ -134,7 +134,7 @@
                                                         <div class="col-lg-3 col-sm-6">
                                                             <div class="menu-style">
                                                                 <div class="menu-title">
-                                                                    <h6 class="cat-name"><a href="#" class="text-light-black">About Us</a></h6>
+                                                                    <h6 class="cat-name"><a href="javascript:void(0)" class="text-light-black">About Us</a></h6>
                                                                 </div>
                                                                 <ul>
                                                                     <li><a href="{{ route('about') }}" class="text-light-white fw-500">About</a>
@@ -147,7 +147,7 @@
                                                         <div class="col-lg-3 col-sm-6">
                                                             <div class="menu-style">
                                                                 <div class="menu-title">
-                                                                    <h6 class="cat-name"><a href="#" class="text-light-black">Account</a></h6>
+                                                                    <h6 class="cat-name"><a href="javascript:void(0)" class="text-light-black">Account</a></h6>
                                                                 </div>
                                                                 <ul>
                                                                     @if(Auth::user())
@@ -177,54 +177,33 @@
 
                             <!-- mobile search -->
                             <div class="mobile-search">
-                                <a href="#" data-toggle="modal" data-target="#search-box"> <i class="fas fa-search"></i>
+                                <a href="javascript:void(0)" data-toggle="modal" data-target="#search-box"> <i class="fas fa-search"></i>
                                 </a>
                             </div>
                             <!-- mobile search -->
                             <!-- user account -->
                             @if(Auth::user())
                             <div class="user-details p-relative">
-                                <a href="#" class="text-light-white fw-500">
+                                <a href="javascript:void(0)" class="text-light-white fw-500">
                                     <img src={{ asset("website/assets/img/user-1.png") }} class="rounded-circle" alt="userimg"> <span>Hi, {{ Auth::user()->name }}</span>
                                 </a>
                                 <div class="user-dropdown">
                                     <ul>
                                         <li>
-                                            <a href="order-details.html">
+                                            <a href="{{ route('order_details') }}">
                                                 <div class="icon"><i class="flaticon-rewind"></i>
-                                                </div> <span class="details">Past Orders</span>
+                                                </div> <span class="details">Orders</span>
                                             </a>
                                         </li>
+
+
                                         <li>
-                                            <a href="order-details.html">
-                                                <div class="icon"><i class="flaticon-takeaway"></i>
-                                                </div> <span class="details">Upcoming Orders</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="icon"><i class="flaticon-breadbox"></i>
-                                                </div> <span class="details">Saved</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="icon"><i class="flaticon-gift"></i>
-                                                </div> <span class="details">Gift cards</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
+                                            <a href="javascript:void(0)" disabled="disabled">
                                                 <div class="icon"><i class="flaticon-refer"></i>
                                                 </div> <span class="details">Refer a friend</span>
                                             </a>
                                         </li>
-                                        <li>
-                                            <a href="#">
-                                                <div class="icon"><i class="flaticon-diamond"></i>
-                                                </div> <span class="details">Perks</span>
-                                            </a>
-                                        </li>
+
                                         <li>
                                             <a href="{{ route('user_profile') }}">
                                                 <div class="icon"><i class="flaticon-user"></i>
@@ -232,13 +211,13 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a href="javascript:void(0)">
                                                 <div class="icon"><i class="flaticon-board-games-with-roles"></i>
                                                 </div> <span class="details">Help</span>
                                             </a>
                                         </li>
                                     </ul>
-                                    <div class="user-footer"> <span class="text-light-black">Not {{ Auth::user()->name }}?&nbsp </span><a herf="#" class="btn btn-outline-danger" id="signOut"><span>Sign out</span></a>
+                                    <div class="user-footer"> <span class="text-light-black">Not {{ Auth::user()->name }}?&nbsp </span><a href="javascript:void(0)" class="btn btn-outline-danger" id="signOut"><span>Sign out</span></a>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
@@ -258,12 +237,12 @@
                             @if (Auth::user())
 
                             <div class="cart-btn notification-btn" >
-                                <a href="#" class="text-light-green fw-700"> <i class="fas fa-bell"></i>
+                                <a href="javascript:void(0)" class="text-light-green fw-700"> <i class="fas fa-bell"></i>
                                     <span class="user-alert-notification"></span>
                                 </a>
                                 <div class="notification-dropdown">
                                     <div class="product-detail">
-                                        <a href="#">
+                                        <a href="javascript:void(0)">
                                             <div class="img-box">
                                                 <img src={{ asset("website/assets/img/shop-1.png") }} class="rounded" alt="image">
                                             </div>
@@ -286,7 +265,7 @@
                             <!-- user notification -->
                             <!-- user cart -->
                             <div class="cart-btn cart-dropdown">
-                                <a href="#" class="text-light-green fw-700"> <i class="fas fa-shopping-bag"></i>
+                                <a href="javascript:void(0)" class="text-light-green fw-700"> <i class="fas fa-shopping-bag"></i>
                                     <span class="user-alert-cart">0</span>
                                 </a>
                                 <div class="cart-detail-box">
@@ -300,7 +279,7 @@
                                                 <div class="total-price border-0"> <span class="text-dark-white fw-700">Items subtotal:</span>
                                                     <span class="text-dark-white fw-700 final_price">0</span>
                                                 </div>
-                                                <div class="empty-bag padding-15"> <a href="#" onclick="empty_cart();">Empty bag</a>
+                                                <div class="empty-bag padding-15"> <a href="javascript:void(0)" onclick="empty_cart();">Empty bag</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -318,7 +297,7 @@
                     </div>
                     <div class="col-sm-12 mobile-search">
                         <div class="mobile-address">
-                            <a href="#" class="delivery-add" data-toggle="modal" data-target="#address-box"> <span class="address">Food Near me</span>
+                            <a href="javascript:void(0)" class="delivery-add" data-toggle="modal" data-target="#address-box"> <span class="address">Food Near me</span>
                             </a>
                         </div>
                         <div class="sorting-addressbox"> <span class="full-address text-light-green">location</span>
@@ -338,7 +317,7 @@
 
         </header>
     </div>
-{{--    <div class="main-sec"></div>--}}
+    <div class="section-padding">
     
    
         

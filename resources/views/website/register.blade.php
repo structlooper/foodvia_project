@@ -4,8 +4,8 @@ Hunger Wings | Register
 @endsection
 
 @section('main_content')
-<div class="inner-wrapper section-padding" >
-    <div class="container-fluid no-padding">
+<div class="inner-wrapper " >
+    <div class="container-fluid ">
       <div class="row no-gutters overflow-auto">
         <div class="col-md-6">
           <div class="main-banner">
@@ -19,9 +19,9 @@ Hunger Wings | Register
         <div class="col-md-6">
           <div class="section-2 user-page main-padding">
             <div class="login-sec">
-              <div class="login-box section-padding">
+              <div class="login-box" style="margin-top: 60px;">
                   <h6 class="text-light-black fw-600">Create your account</h6>
-                <form  class="popup-form" method="POST" id="register_form" action="{{ url('/register') }}">
+                <form  class="" method="POST" id="register_form" action="{{ url('/register') }}">
 
                   {{ csrf_field() }}
                   <div class="row">

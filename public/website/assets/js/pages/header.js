@@ -186,6 +186,9 @@ function empty_cart(){
     })
 }
 
+
+
+
 /*
 * FUNCTION TO GET IF PROMO CODE SELECTED OR NOT
 * @structlooper
