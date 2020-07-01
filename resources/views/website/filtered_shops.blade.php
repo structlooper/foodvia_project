@@ -70,8 +70,10 @@ Hunger Wings | Food Delivery
                         
                     </div>
                     @if (sizeof($final_shops_data) > 0)
-                    @foreach ($final_shops_data as $item)
-                    @if ($item[0]->status == 'active')
+                    @foreach ($final_shops_data as $value)
+                            @foreach( $value as $key => $item)
+
+                    @if ($item->status == 'active')
 
 
                     <div class="col-lg-4 col-md-6 col-sm-6 currentCards">
@@ -79,8 +81,8 @@ Hunger Wings | Food Delivery
                             <div class="product-img">
                                 <a href="javascript:void(0)">
                                     <img 
-                                    {{-- @if (@getimagesize($item[0]->avatar))
-                                        src={{ $item[0]->avatar }} --}}
+                                    {{-- @if (@getimagesize($item->avatar))
+                                        src={{ $item->avatar }} --}}
                                         {{-- @else --}}
                                         src="{{ asset("website/assets/img/restaurants/255x150/shop-7.jpg") }}"
                                         {{-- @endif   --}}
@@ -90,16 +92,16 @@ Hunger Wings | Food Delivery
                                         <div class="product-tags padding-10"> <span class="circle-tag">
                                             <img src={{ asset("website/assets/img/svg/013-heart-1.svg") }} alt="tag">
                                         </span>
-                                        @if ($item[0]->pure_veg == 1)
+                                        @if ($item->pure_veg == 1)
                                         
                                     <span class="type-tag bg-gradient-green text-custom-white">
                                         pure Veg
                                     </span>
                                     @endif
                                     <div class="custom-tag"> <span class="text-custom-white rectangle-tag bg-gradient-red">
-                                         {{ $item[0]->offer_percent }}%
+                                         {{ $item->offer_percent }}%
                                         </span>
-                                        @if ($item[0]->popular == 1)
+                                        @if ($item->popular == 1)
                                         
                                         <span class="text-custom-white rectangle-tag bg-gradient-green">
                                             Popular
@@ -111,16 +113,16 @@ Hunger Wings | Food Delivery
                         </div>
                         <div class="product-caption">
                             <div class="title-box">
-                               <h6 class="product-title" style="width: 50%; text-overflow: hidden;" ><a href="{{ route('category',$cuisine_data->id)}}/{{ $item[0]->id }}" class="text-light-black " > {{ $item[0]->name }}</a></h6>
+                               <h6 class="product-title" style="width: 50%; text-overflow: hidden;" ><a href="{{ route('category',$cuisine_data->id)}}/{{ $item->id }}" class="text-light-black " > {{ $item->name }}</a></h6>
                                 <div class="tags"> <span class="text-custom-white rectangle-tag bg-yellow">
-                                    {{ $item[0]->rating }}
+                                    {{ $item->rating }}
                                 </span>
                             </div>
                         </div>
-                        <p class="text-light-white">{{ $item[0]->description }}</p>
+                        <p class="text-light-white">{{ $item->description }}</p>
                         <div class="product-details">
-                            <div class="price-time"> <span class="text-light-black time">{{ $item[0]->estimated_delivery_time }} mins</span><span class="m-auto">  </span>
-                                    <span class="text-light-white price"> {{ $item[0]->offer_min_amount }} rupee min</span>
+                            <div class="price-time"> <span class="text-light-black time">{{ $item->estimated_delivery_time }} mins</span><span class="m-auto">  </span>
+                                    <span class="text-light-white price"> {{ $item->offer_min_amount }} rupee min</span>
                                 </div>
                                 <div class="rating"> <span>
                                     <i class="fas fa-star text-yellow"></i>
@@ -152,6 +154,7 @@ Hunger Wings | Food Delivery
                 </div>
             </div>
             @endif
+            @endforeach
             @endforeach
             @else
             

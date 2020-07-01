@@ -126,7 +126,7 @@ $(document).ready(function(){
 * @structlooper
 * */
 function add_to_cart(id){
-
+    let base_url = $('#urlfinder').attr('url')
     let logged = $('#dish' + id).attr('logged')
     const csrf = $("input[name='_token']").val();
     if (logged == 0) {
@@ -151,6 +151,7 @@ function add_to_cart(id){
               </div>
               
               <button type="button" onclick="loginByModal();" class="btn btn-danger btn-block">Login</button>
+              <p class="text-center">Don't have account <a href="${base_url}/web/register">create</a></p>
             </form>
     
     `).unbind();
@@ -407,8 +408,6 @@ function loginByModal(){
     const csrf = $("input[name='_token']").val();
     let phoneNumber = '+91' + $('#modalInputphone').val()
     let password = $('#modalInputPassword1').val()
-
-    console.log(phoneNumber,password,csrf)
     let base_url = $('#urlfinder').attr('url');
     $.ajax({
         type:'POST',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use Setting;
 use App\Shop;
 use DB;
 use Illuminate\Support\Facades\Auth;
@@ -48,6 +49,7 @@ class WebController extends Controller
      */
     public function categories($id)
     {
+
         $cuisine = DB::table('cuisines')->get();
         $filtered_shops_id = DB::table('cuisine_shop')
         ->where('cuisine_id',$id)->get();
@@ -57,11 +59,28 @@ class WebController extends Controller
         $final_shops_data = [];
         foreach ($filtered_shops_id as  $one_id) {
             # code...
-            $filtered_shops_data = DB::table('shops')
-            ->where('id',$one_id->shop_id)
-            ->get();
-            array_push($final_shops_data,$filtered_shops_data);
+            if (Session::has('latitude') and Session::has('longitude'))
+            {
+                $longitude = Session::get('longitude');
+                $latitude = Session::get('latitude');
+                if (Setting::get('search_distance') > 0) {
+                    $distance = Setting::get('search_distance');
+
+                    $filtered_shops_data = Shop::select('shops.*')
+                        ->selectRaw("(6371 * acos( cos( radians('$latitude') ) * cos( radians(shops.latitude) ) * cos( radians(shops.longitude) - radians('$longitude') ) + sin( radians('$latitude') ) * sin( radians(shops.latitude) ) ) ) AS distance")
+                        ->whereRaw("(6371 * acos( cos( radians('$latitude') ) * cos( radians(shops.latitude) ) * cos( radians(shops.longitude) - radians('$longitude') ) + sin( radians('$latitude') ) * sin( radians(shops.latitude) ) ) ) <= $distance")
+                        ->where('id', '=' , $one_id->shop_id)
+                        ->get();
+                    array_push($final_shops_data, $filtered_shops_data);
+                }
+            }else {
+                $filtered_shops_data = DB::table('shops')
+                    ->where('id', $one_id->shop_id)
+                    ->get();
+                array_push($final_shops_data, $filtered_shops_data);
+            }
         }
+
         if(sizeof($final_shops_data) != 0)
         {
             shuffle($final_shops_data);
@@ -70,6 +89,7 @@ class WebController extends Controller
                 'cuisine' => $cuisine,
                 'cuisine_data' => $cuisine_data,
             ];
+
             return view('website.filtered_shops')->with($data);
         }
         else{
@@ -248,20 +268,24 @@ class WebController extends Controller
                 ->where('shop_id',$shop_id)
                 ->first();
 
-            $category_products = [];
-            $category_product = DB::table('category_product')
-                ->where('category_id',$one_categories->id)
-                ->get();
-            array_push($category_products,$category_product);
+            if (!is_null($one_categories)) {
+                $category_products = [];
+                $category_product = DB::table('category_product')
+                    ->where('category_id', $one_categories->id)
+                    ->get();
+                array_push($category_products, $category_product);
 
 
-            $productDetails = [];
+                $productDetails = [];
                 foreach ($category_product as $item) {
                     $productDetail = DB::table('products')
-                        ->where('id',$item->product_id)
+                        ->where('id', $item->product_id)
                         ->get();
-                    array_push($productDetails,$productDetail);
+                    array_push($productDetails, $productDetail);
                 }
+            }else{
+                $productDetails = [];
+            }
 
             $data = [
                 'shop_data' => $selectedRestroDetail,
@@ -280,7 +304,21 @@ class WebController extends Controller
 
     public function all_restro(){
         $cuisine = DB::table('cuisines')->get();
-        $shops = DB::table('shops')->get();
+        if (Session::has('latitude') and Session::has('longitude'))
+        {
+            $longitude = Session::get('longitude');
+            $latitude = Session::get('latitude');
+            if (Setting::get('search_distance') > 0) {
+                $distance = Setting::get('search_distance');
+
+                $shops = Shop::select('shops.*')
+                    ->selectRaw("(6371 * acos( cos( radians('$latitude') ) * cos( radians(shops.latitude) ) * cos( radians(shops.longitude) - radians('$longitude') ) + sin( radians('$latitude') ) * sin( radians(shops.latitude) ) ) ) AS distance")
+                    ->whereRaw("(6371 * acos( cos( radians('$latitude') ) * cos( radians(shops.latitude) ) * cos( radians(shops.longitude) - radians('$longitude') ) + sin( radians('$latitude') ) * sin( radians(shops.latitude) ) ) ) <= $distance")
+                    ->get();
+            }
+        }else{
+            $shops = DB::table('shops')->get();
+        }
         $data= [
 
             'cuisine' => $cuisine,

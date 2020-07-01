@@ -271,7 +271,7 @@ Route::group(['prefix' => 'transporter'], function () {
     Route::post('/setpassword', 'UserResource\ProfileController@password');
     Route::resource('orders', 'UserResource\OrderResource');
     Route::resource('useraddress', 'UserResource\AddressResource');
-    Route::get('/restaurants', 'UserResource\SearchResource@index')->name('restaurants');
+    Route::get('/Searchrestaurants', 'UserResource\SearchResource@searchLocation')->name('Searchrestaurants');
     Route::get('/restaurant/details', 'UserResource\SearchResource@show');
     Route::post('mycart', 'UserResource\CartResource@addToCart');
     Route::post('addcart', 'UserResource\CartResource@store');

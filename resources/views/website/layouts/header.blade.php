@@ -66,22 +66,54 @@
                                 <div class="row">
                                     <!-- location picker -->
                                     <div class="col-lg-6 col-md-5">
-                                        <form action="{{url('restaurants')}}" class="main-search search-form full-width">
-                                                <a href="javascript:void(0);" class="delivery-add p-relative"> <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
-                                                    <span class="address">Find Food Near Me</span>
-                                                </a>
-                                            {{-- <form a > --}}
-                                                <div class="location-picker" style="width: 500px;">
-                                                    <input type="text" id="pac-input" class="form-control"  placeholder="Add new address">
-                                                        <div id="map"></div>
-                                                        <input type="hidden" id="latitude_cur" name="latitude" id="lat">
-                                                        <input type="hidden" id="longitude_cur" name="longitude" id="lng">
-                                                        <input type="hidden" name="search_loc" id="location">
-                                                        <button type="submit" value="submit" class="btn btn-warning">Find</button>
-                                                    </div>
-                                            {{-- </form> --}}
-                                        </form>
+                                        <form action="{{url('Searchrestaurants')}}" id="searchLocation" class="main-search search-form full-width">
+                                                <a href="javascript:void(0);" class="delivery-add p-relative" > <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
+                                                    <span class="address" style="width: 400px; text-overflow: inherit;">
+                                                        @if (Session::has('search_loc'))
+                                                            {{ Session::get('search_loc') }}
+                                                        @else
+                                                        Find Food Near Me
+                                                        @endif
 
+                                                    </span>
+                                                </a>
+
+                                                <div class="location-picker" style="width: 500px;">
+                                                    <input type="text" id="pac-input" class="form-control"  placeholder="Add new address" autocomplete="off">
+                                                        <div id="map"></div>
+                                                        <input type="hidden" id="lat" name="latitude" >
+                                                        <input type="hidden" id="lng" name="longitude" >
+                                                        <input type="hidden" name="search_loc" id="location">
+                                                        <button type="button" value="submit" id='searchLocationButton' class="btn btn-warning">Find</button>
+                                                    </div>
+
+                                        </form>
+                                        <script>
+                                            $('#searchLocationButton').click(function(event){
+                                                event.preventDefault();
+                                                if($('#pac-input').val()==''){
+                                                    $.toast({
+                                                        heading: 'info',
+                                                        text : "location is empty" ,
+                                                        icon : 'info',
+                                                        position: 'top-right',
+
+                                                    })
+                                                }else{
+                                                    if($('#my_map_form #latitude').val()!='' && $('#my_map_form #longitude').val()!=''){
+                                                        $('#searchLocation').submit();
+                                                    }else{
+                                                        $.toast({
+                                                            heading: 'info',
+                                                            text : "lat long is empty" ,
+                                                            icon : 'info',
+                                                            position: 'top-right',
+
+                                                        })
+                                                    }
+                                                }
+                                            })
+                                        </script>
                                      </div>
                                     <!-- location picker -->
                                     <!-- search -->
@@ -318,9 +350,9 @@
         </header>
     </div>
     <div class="section-padding">
-    
-   
-        
+@include('include.alerts')
+
+
 
     @yield('main_content')
     

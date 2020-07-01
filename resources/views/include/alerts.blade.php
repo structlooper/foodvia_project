@@ -10,10 +10,10 @@
     </div>
 @endif
 
-@if(Session::has('flash_error'))
+@if(Session::has('error'))
     <div class="alert alert-danger mt-5">
         <button type="button" class="close over" data-dismiss="alert">×</button>
-        {{ Session::get('flash_error') }}
+        {{ Session::get('error') }}
     </div>
 @endif
 
