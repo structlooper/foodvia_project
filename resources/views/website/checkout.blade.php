@@ -47,7 +47,10 @@ Hunger Wings | Checkout
                                             <p class="text-light-black fw-600 mb-1">{{ $item->type }}</p>
                                             <input type="radio"  name="address_id" value="{{ $item->id }}"> <span class="checkmark"></span>
                                             <p class="text-light-white mb-1">{{ $item->building }} {{ $item->street }},
-                                               <br> {{ $item->state }} , {{ $item->city }}
+                                               <br>
+                                                {{ $item->landmark }}
+                                            </p>
+                                            <p class="text-light-white mb-1">{{ $item->map_address }} , {{ $item->pincode }}
                                             </p>
                                         </label>
                                     </div>
@@ -58,7 +61,7 @@ Hunger Wings | Checkout
                             @endforeach
                         </div>
                         <div class="col-md-6">
-                            <div class="advertisement-img">
+                            <div class="">
                                 <img src={{ asset("website/assets/img/checkout.jpg") }} class="img-fluid full-width" alt="advertisement-img">
                             </div>
                         </div>

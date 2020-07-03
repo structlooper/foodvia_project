@@ -77,7 +77,8 @@ Hunger Wings | Food Delivery
                 <div class="category-slider swiper-container">
                     <div class="swiper-wrapper">
 
-                        @foreach ($cuisine as $item)
+                        @foreach ($cuisine as $variable)
+                            @foreach( $variable as  $item)
                         <div class="swiper-slide">
                             <a href="{{ route('category',$item->id) }}" class="categories categoryWise">
                                 <div class="icon text-custom-white bg-light-green ">
@@ -87,6 +88,7 @@ Hunger Wings | Food Delivery
                                 </div> <span class="text-light-black cat-name">{{ $item->name }} </span>
                             </a>
                         </div>
+                            @endforeach
                         @endforeach
 
                     </div>
@@ -148,9 +150,11 @@ Hunger Wings | Food Delivery
                     <div >
                         
                     </div>
-                    @foreach ($shops as $item)
+                    @foreach ($shops as $variable)
+                        @foreach( $variable as $item)
+
                     @if ($item->status == 'active')
-                        
+
                     
                     <div class="col-lg-4 col-md-6 col-sm-6 currentCards">
                         <div class="product-box mb-xl-20">
@@ -230,6 +234,8 @@ Hunger Wings | Food Delivery
                         </div>
                     </div>
                     @endif
+
+                        @endforeach
                     @endforeach
 
 

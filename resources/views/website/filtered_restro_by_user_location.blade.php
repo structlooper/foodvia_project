@@ -21,7 +21,9 @@
                     <div class="category-slider swiper-container">
                         <div class="swiper-wrapper">
 
-                            @foreach ($cuisines as $item)
+                            @foreach ($cuisines as $value)
+                                @foreach( $value as  $item)
+
                                 <div class="swiper-slide">
                                     <a href="{{ route('category',$item->id) }}" class="categories categoryWise">
                                         <div class="icon text-custom-white bg-light-green ">
@@ -31,6 +33,7 @@
                                         </div> <span class="text-light-black cat-name">{{$item->name}} </span>
                                     </a>
                                 </div>
+                                @endforeach
                             @endforeach
 
                         </div>

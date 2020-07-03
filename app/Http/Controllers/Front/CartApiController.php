@@ -19,28 +19,91 @@ class CartApiController extends Controller
                 $product_id = $request->product_id;
                 $note = $request->note;
                 $shop_id = $request->shop_id;
-                if (user_cart::where('product_id', '=', $product_id)
-                        ->where('order_id', '=', null)
-                        ->count() > 0) {
-                    $get_count = user_cart::where('product_id', '=', $product_id)
-                        ->where('user_id', '=', $user_id)
-                        ->where('order_id', '=', null)
-                        ->first();
+                $checkIfDiffertShop = DB::table('user_carts')
+                    ->where('user_id',$user_id)
+                    ->where('order_id',null)
+                    ->get();
+                $cartProductShopIds = [];
+                foreach ($checkIfDiffertShop as $value) {
+                    array_push($cartProductShopIds,$value->shop_id);
+                }
+                if (sizeof($cartProductShopIds) > 0) {
+                    if (in_array(strval($shop_id), $cartProductShopIds)) {
+                        if (user_cart::where('product_id', '=', $product_id)
+                                ->where('order_id', '=', null)
+                                ->count() > 0) {
+                            $get_count = user_cart::where('product_id', '=', $product_id)
+                                ->where('user_id', '=', $user_id)
+                                ->where('order_id', '=', null)
+                                ->first();
 
-                    $final_quantity = $get_count->quantity + 1;
-                    $update_count = DB::table('user_carts')
-                        ->where('user_id', $user_id)
-                        ->where('product_id', $product_id)
-                        ->where('order_id', null)
-                        ->update(['quantity' => $final_quantity]);
-                    if ($update_count === 1) {
-                        return [
-                            'status' => 4,
-                            'message' => 'Dish already present in cart Count added',
-                            'debug' => $update_count,
-                        ];
+                            $final_quantity = $get_count->quantity + 1;
+                            $update_count = DB::table('user_carts')
+                                ->where('user_id', $user_id)
+                                ->where('product_id', $product_id)
+                                ->where('order_id', null)
+                                ->update(['quantity' => $final_quantity]);
+                            if ($update_count === 1) {
+                                return [
+                                    'status' => 4,
+                                    'message' => 'Dish already present in cart Count added',
+                                    'debug' => $update_count,
+                                ];
+                            }
+                        } else {
+
+                            $data = [
+                                'user_id' => $user_id,
+                                'product_id' => $product_id,
+                                'note' => $note,
+                                'quantity' => 1,
+                                'created_at' => Carbon::now(),
+                                'shop_id' => $shop_id,
+                                'updated_at' => null,
+                                'deleted_at' => null,
+                            ];
+                            $insert_to_cart = DB::table('user_carts')
+                                ->insert($data);
+                            if ($insert_to_cart) {
+                                return [
+                                    'status' => 1,
+                                    'message' => 'added to cart',
+                                    'data' => $data,
+
+                                ];
+                            } else {
+                                return [
+                                    'status' => 0,
+                                    'message' => 'something went wrong please try to refresh page',
+                                ];
+                            }
+                        }
+                    }else{
+                        return ['status' => 3 ,'message' => 'your cart is not empty please clear before adding product from different shop'];
                     }
-                } else {
+                }else{
+                    if (user_cart::where('product_id', '=', $product_id)
+                            ->where('order_id', '=', null)
+                            ->count() > 0) {
+                        $get_count = user_cart::where('product_id', '=', $product_id)
+                            ->where('user_id', '=', $user_id)
+                            ->where('order_id', '=', null)
+                            ->first();
+
+                        $final_quantity = $get_count->quantity + 1;
+                        $update_count = DB::table('user_carts')
+                            ->where('user_id', $user_id)
+                            ->where('product_id', $product_id)
+                            ->where('order_id', null)
+                            ->update(['quantity' => $final_quantity]);
+                        if ($update_count === 1) {
+                            return [
+                                'status' => 4,
+                                'message' => 'Dish already present in cart Count added',
+                                'debug' => $update_count,
+                            ];
+                        }
+                    } else {
 
                         $data = [
                             'user_id' => $user_id,
@@ -68,7 +131,7 @@ class CartApiController extends Controller
                             ];
                         }
                     }
-
+                }
             }else{
                 return [
                     'status' => 0,

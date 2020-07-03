@@ -17,7 +17,7 @@
     </div>
 @endif
 
-@if(Session::has('flash_failure mt-5'))
+@if(Session::has('flash_failure'))
     <div class="alert alert-danger">
         <button type="button" class="close" data-dismiss="alert">×</button>
         {{ Session::get('flash_failure') }}
@@ -25,7 +25,7 @@
 @endif
 
 
-@if(Session::has('flash_success mt-5'))
+@if(Session::has('flash_success'))
     <div class="alert alert-success">
         <button type="button" class="close" data-dismiss="alert">×</button>
         {{ Session::get('flash_success') }}

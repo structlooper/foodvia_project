@@ -66,9 +66,9 @@
                                 <div class="row">
                                     <!-- location picker -->
                                     <div class="col-lg-6 col-md-5">
-                                        <form action="{{url('Searchrestaurants')}}" id="searchLocation" class="main-search search-form full-width">
+                                        <div  class="main-search search-form full-width">
                                                 <a href="javascript:void(0);" class="delivery-add p-relative" > <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
-                                                    <span class="address" style="width: 400px; text-overflow: inherit;">
+                                                    <span class="address" style="text-overflow: inherit;">
                                                         @if (Session::has('search_loc'))
                                                             {{ Session::get('search_loc') }}
                                                         @else
@@ -80,14 +80,17 @@
 
                                                 <div class="location-picker" style="width: 500px;">
                                                     <input type="text" id="pac-input" class="form-control"  placeholder="Add new address" autocomplete="off">
-                                                        <div id="map"></div>
-                                                        <input type="hidden" id="lat" name="latitude" >
+                                                    <form action="{{url('Searchrestaurants')}}" id="searchLocation">
+                                                        <div class="map"></div>
+                                                        <input type="hidden"  id="lat" name="latitude" >
                                                         <input type="hidden" id="lng" name="longitude" >
                                                         <input type="hidden" name="search_loc" id="location">
                                                         <button type="button" value="submit" id='searchLocationButton' class="btn btn-warning">Find</button>
+                                                    </form>
                                                     </div>
 
-                                        </form>
+
+                                        </div>
                                         <script>
                                             $('#searchLocationButton').click(function(event){
                                                 event.preventDefault();
@@ -105,7 +108,7 @@
                                                     }else{
                                                         $.toast({
                                                             heading: 'info',
-                                                            text : "lat long is empty" ,
+                                                            text : "lat long is blank please refresh page" ,
                                                             icon : 'info',
                                                             position: 'top-right',
 
@@ -118,11 +121,85 @@
                                     <!-- location picker -->
                                     <!-- search -->
                                     <div class="col-lg-6 col-md-7">
-                                        <div class="search-box padding-10">
-                                            <input type="text" class="form-control" placeholder="Pizza, Burger, Chinese">
+                                        <div class="search-box padding-10 ml-4">
+                                            <form  id="search-box-cuisine">
+                                                <div class="row ">
+                                                    <div class="col-sm-10 text-center">
+                                                        <input type="text" class="form-control" id="search-cuisine-input" placeholder="Pizza, Burger, Chinese">
+                                                    </div>
+                                                        <button type="button" id="search-cuisine-button" class=" btn btn-outline-danger"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                                    <div class="col-sm-2">
+                                                    </div>
+
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
+                                    <script>
+                                        $('#search-cuisine-button').click(function(){
+                                            if ($('#search-cuisine-input').val() == ''){
+                                                $.toast({
+                                                    heading: 'info',
+                                                    text : "please type in search box" ,
+                                                    icon : 'info',
+                                                    position: 'top-right',
 
+                                                })
+                                            }else{
+                                                let productName = $('#search-cuisine-input').val()
+                                                let base_url = $('#urlfinder').attr('url');
+                                                $.ajax({
+                                                    type:'GET',
+                                                    url: base_url + '/api/search_product',
+                                                    data: { productName:productName },
+
+
+                                                    success:function(result){
+                                                        console.log(result)
+                                                        if (result.status === 1) {
+                                                            console.log(result.message);
+                                                            if (result.data.id == undefined) {
+                                                                $.toast({
+                                                                    heading: 'info',
+                                                                    text: 'sorry,no shops find in '+productName,
+                                                                    icon: 'info',
+                                                                    position : 'top-right',
+                                                                })
+                                                            } else {
+                                                                location.href = base_url + '/web/restaurant/' + result.data.id;
+                                                                // $('#search-box-cuisine').submit()
+                                                            }
+                                                        }
+
+                                                        else{
+                                                            console.log(result.message);
+                                                            $.toast({
+                                                                heading: 'warning',
+                                                                text: result.message,
+                                                                icon: 'warning',
+                                                                position : 'top-right',
+                                                            })
+                                                        }
+
+
+                                                    },
+                                                    error:function(jqXHR)
+                                                    {
+                                                        console.log(jqXHR)
+                                                        $.toast({
+                                                            heading: 'error',
+                                                            text : "Can't connect with server right now" ,
+                                                            icon : 'error',
+                                                            position: 'top-right',
+
+                                                        })
+                                                    }
+
+                                                })
+
+                                            }
+                                        })
+                                    </script>
                                     <!-- search -->
                                 </div>
                         </div>
@@ -145,7 +222,7 @@
                                                         <a href="javascript:void(0)">
                                                             <img src="{{ asset("website/assets/img/nav-1.jpg") }}" class="img-fluid full-width h-100" alt="image">
                                                         </a>
-                                                        <div class="category-type overlay padding-15"> <a href="restaurant.html" class="category-btn">Top rated</a>
+                                                        <div class="category-type overlay padding-15"> <a href="javascript:void(0)" class="category-btn">Top rated</a>
                                                         </div>
                                                     </div>
                                                 </div>

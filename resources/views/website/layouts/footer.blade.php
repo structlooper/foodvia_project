@@ -233,7 +233,6 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZJvjfei1Tbyo9xH4Supe_4enBrCEdhV0&libraries=places&callback=initMap"
 async defer></script>
 <script src={{ asset('website/assets/js/pages/google_map.js') }}></script>
-{{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnd9JwZvXty-1gHZihMoFhJtCXmHfeRQg"></script> --}}
 <!-- sticky sidebar -->
 <script src={{ asset("website/assets/js/sticksy.js") }}></script>
 <!-- Munch Box Js -->

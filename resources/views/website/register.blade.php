@@ -19,7 +19,7 @@ Hunger Wings | Register
         <div class="col-md-6">
           <div class="section-2 user-page main-padding">
             <div class="login-sec">
-              <div class="login-box" style="margin-top: 60px;">
+              <div class="login-box" >
                   <h6 class="text-light-black fw-600">Create your account</h6>
                 <form  class="" method="POST" id="register_form" action="{{ url('/register') }}">
 
@@ -64,16 +64,15 @@ Hunger Wings | Register
                       <div class="form-group">
                         <button type="button" class="btn-second btn-submit full-width register_btn">Create your account</button>
                       </div>
-                      <div class="form-group text-center"> <span>or</span>
-                      </div>
-                      <div class="form-group">
-                        <button type="submit" class="btn-second btn-facebook full-width">
-                          <img src={{ asset("website/assets/img/facebook-logo.svg") }} alt="btn_logo">Continue with Facebook</button>
-                      </div>
-                      <div class="form-group">
-                        <button type="submit" class="btn-second btn-google full-width">
-                          <img src={{ asset("website/assets/img/google-logo.png") }} alt="btn_logo">Continue with Google</button>
-                      </div>
+
+{{--                      <div class="form-group">--}}
+{{--                        <button type="submit" class="btn-second btn-facebook full-width">--}}
+{{--                          <img src={{ asset("website/assets/img/facebook-logo.svg") }} alt="btn_logo">Continue with Facebook</button>--}}
+{{--                      </div>--}}
+{{--                      <div class="form-group">--}}
+{{--                        <button type="submit" class="btn-second btn-google full-width">--}}
+{{--                          <img src={{ asset("website/assets/img/google-logo.png") }} alt="btn_logo">Continue with Google</button>--}}
+{{--                      </div>--}}
                       <div class="form-group text-center">
                         <p class="text-light-black mb-0">Have an account? <a href="{{ route('web_login') }}">Sign in</a>
                         </p>

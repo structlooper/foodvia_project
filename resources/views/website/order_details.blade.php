@@ -103,7 +103,8 @@ Hunger Wings | Order Details
                                         <span class="text-light-white ">{{ ucfirst(Auth::user()->name) }}</span>
                                         <span class="text-light-white ">{{ $item[0]->type }}</span>
                                         <span class="text-light-white ">{{ $item[0]->building }}</span>
-                                        <span class="text-light-white ">{{ $item[0]->street }}{{ $item[0]->city }} , {{ $item[0]->state }}, {{ $item[0]->country }}, {{ $item[0]->pincode }}</span>
+                                        <span class="text-light-white ">{{ $item[0]->street }} {{ $item[0]->pincode }}</span>
+                                        <span class="text-light-white ">{{ $item[0]->map_address }}</span>
                                         <p class="text-light-white ">{{ Auth::user()->phone }}</p>
                                     </div>
                                 </div>

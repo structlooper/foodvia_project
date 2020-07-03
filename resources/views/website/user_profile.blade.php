@@ -71,6 +71,7 @@
                                        aria-selected="false">Change Profile</a>
                                 </li>
                             </ul>
+
                             <div class="tab-content tab-bordered" id="myTab3Content">
                                 @if (count($errors) > 0)
                                     @if($errors->any())
@@ -121,7 +122,7 @@
                                                     <label ><strong>All address</strong></label>
                                                 </div>
                                                 <div class="col-3">
-                                                    <a href="#" class="col-11 btn btn-outline-warning text-dark border-0 m-2" data-toggle="modal" data-target="#add_user_address"><i class="fas fa-plus" ></i> Add</a>
+                                                    <a href="{{ route('add_address') }}" class="col-11 btn btn-outline-warning text-dark border-0 m-2"><i class="fas fa-plus" ></i> Add</a>
                                                 </div>
                                             </div>
 
@@ -130,9 +131,8 @@
                                                 <tr>
                                                     <th scope="col">#</th>
                                                     <th scope="col">Address</th>
-                                                    <th scope="col">City</th>
-                                                    <th scope="col">State</th>
-                                                    <th scope="col">Country</th>
+                                                    <th scope="col">street</th>
+                                                    <th scope="col">location</th>
                                                     <th scope="col">LandMark</th>
                                                     <th scope="col">Zip</th>
                                                     <th scope="col">Action</th>
@@ -144,12 +144,11 @@
 
                                                         <th scope="row{{ $key+1 }}" id={{ $key+1 }} >{{ $item->type }}</th>
                                                         <td>{{ $item->building }}</td>
-                                                        <td>{{ $item->city }}</td>
-                                                        <td>{{ $item->state }}</td>
-                                                        <td>{{ $item->country }}</td>
+                                                        <td>{{ $item->street }}</td>
+                                                        <td>{{ $item->map_address	 }}</td>
                                                         <td>{{ $item->landmark }}</td>
                                                         <td>{{ $item->pincode }}</td>
-                                                        <td><a href="#{{ $item->id }}" class="btn btn-outline-danger border-0"><i class="fa fa-trash"></i> del</a> </td>
+                                                        <td><button type="button" del="{{ $item->id }}"   class="btn btn-outline-danger border-0 delete_address"><i class="fa fa-trash"></i></button> </td>
 
                                                     </tr>
                                                 @endforeach
@@ -164,7 +163,8 @@
 
                                 </div>
                                 <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="profile-tab2">
-                                    <form  id="update_current_user" class="needs-validation" url="{{ url('api') }}">
+                                    <form action="{{ route('profile_update') }}" id="update_current_user" class="needs-validation" method="post" enctype='multipart/form-data'>
+                                        {{ csrf_field() }}
                                         <div class="card-header">
                                             <h4>Edit Profile</h4>
                                         </div>
@@ -172,35 +172,35 @@
                                             <div class="row">
                                                 <div class="form-group col-md-6 col-12">
                                                     <label>Name</label>
-                                                    <input type="text" class="form-control" name="user_name" value="{{ Auth::user()->name }}">
+                                                    <input type="text" class="form-control" name="user_name" id="user_name01" value="{{ Auth::user()->name }}" >
                                                     <div class="invalid-feedback">
                                                         Please fill in the first name
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-6 col-12">
                                                     <label>Profile Image</label>
-                                                    <input type="file" class="form-control"  name="user_image">
+                                                    <input type="file" class="form-control"  name="user_image" id="user_image01">
 
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="form-group col-md-7 col-12">
                                                     <label>Email</label>
-                                                    <input type="email" class="form-control" name="user_email" value="{{ Auth::user()->email }}">
+                                                    <input type="email" class="form-control" name="user_email" id="user_email01" value="{{ Auth::user()->email }}">
                                                     <div class="invalid-feedback">
                                                         Please fill in the email
                                                     </div>
                                                 </div>
-                                                <div class="form-group col-md-5 col-12">
-                                                    <label>Phone</label>
-                                                    <input type="tel" class="form-control" name="user_phone" value="{{ Auth::user()->phone }}">
-                                                </div>
+{{--                                                <div class="form-group col-md-5 col-12">--}}
+{{--                                                    <label>Phone</label>--}}
+{{--                                                    <input type="tel" class="form-control" name="user_phone" id="user_phone01" value="{{ Auth::user()->phone }}">--}}
+{{--                                                </div>--}}
                                             </div>
 
 
                                         </div>
                                         <div class="card-footer text-right">
-                                            <button class="btn btn-primary">Save Changes</button>
+                                            <button type="submit" class="btn btn-primary" id="profile-update-button">Save Changes</button>
                                         </div>
                                     </form>
                                 </div>
@@ -210,5 +210,47 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="deleteAddressModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure want to delete this address?
+                    </div>
+                    <div id="del">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" onclick="deleteAddress()" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 @endsection
+
+@section('js')
+    <script>
+        $('.delete_address').click(function(){
+            let id = $(this).attr('del')
+            $('#del').html(`
+                             <form action="{{route('delete_user_address')}}" method="post" id="deleteForm" style="dispaly:none">
+                                                            {{ csrf_field() }}
+            <input type="hidden" name="delete_id" value="${id}">
+
+                                                        </form>
+                                                        `)
+            $('#exampleModal').modal();
+        })
+        function deleteAddress(){
+            $('#deleteForm').submit();
+        }
+    </script>
+@stop
+

@@ -36,24 +36,24 @@ Hunger Wings | Login
                         <input type="password" id="password-field" name="#" class="form-control form-control-submit"  placeholder="Password" required>
                         <div data-name="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></div>
                       </div>
-                      <div class="form-group checkbox-reset">
-                        <label class="custom-checkbox mb-0">
-                          <input type="checkbox" name="#"> <span class="checkmark"></span> Keep me signed in</label> <a href="#">Reset password</a>
-                      </div>
+{{--                      <div class="form-group checkbox-reset">--}}
+{{--                        <label class="custom-checkbox mb-0">--}}
+{{--                          <input type="checkbox" name="#"> <span class="checkmark"></span> Keep me signed in</label> <a href="#">Reset password</a>--}}
+{{--                      </div>--}}
                       <div class="form-group">
                         <button type="button"  class="btn-second btn-submit full-width login_btn">
                           <img src={{ asset("website/assets/img/M.png") }} alt="btn_logo">Sign in</button>
                       </div>
                       <div class="form-group text-center"> <span>or</span>
                       </div>
-                      <div class="form-group">
-                        <button type="submit" class="btn-second btn-facebook full-width">
-                          <img src={{ asset("website/assets/img/facebook-logo.svg") }} alt="btn_logo">Continue with Facebook</button>
-                      </div>
-                      <div class="form-group">
-                        <button type="submit" class="btn-second btn-google full-width">
-                          <img src={{ asset("website/assets/img/google-logo.png") }} alt="btn_logo">Continue with Google</button>
-                      </div>
+{{--                      <div class="form-group">--}}
+{{--                        <button type="submit" class="btn-second btn-facebook full-width">--}}
+{{--                          <img src={{ asset("website/assets/img/facebook-logo.svg") }} alt="btn_logo">Continue with Facebook</button>--}}
+{{--                      </div>--}}
+{{--                      <div class="form-group">--}}
+{{--                        <button type="submit" class="btn-second btn-google full-width">--}}
+{{--                          <img src={{ asset("website/assets/img/google-logo.png") }} alt="btn_logo">Continue with Google</button>--}}
+{{--                      </div>--}}
                       <div class="form-group text-center mb-0"> <a href="{{ route('web_register') }}">Create your account</a>
                       </div>
                     </div>

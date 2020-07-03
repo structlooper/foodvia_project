@@ -107,4 +107,21 @@ class WebApiController extends Controller
             ];
         }
     }
+
+    public function search_product(request $request){
+        if ($request->has('productName')) {
+            $cuisineName = $request->productName;
+            $cusineIfPresent = DB::table('cuisines')
+                ->where('name',$cuisineName)
+                ->first();
+            if (!is_null($cusineIfPresent)){
+                return [ 'status' => 1, 'message' => 'founded', 'data' => $cusineIfPresent];
+            }else{
+                return [ 'status' => 0 , 'message' => $cuisineName . ' is not available in your area'];
+            }
+            }else{
+            return [ 'status' => 0 , 'message' => 'please enter product name' ];
+        }
+    }
+
 }

@@ -156,10 +156,6 @@ class SearchResource extends Controller
         }
 
 
-        // $Products = Product::listsearch($user_id, $request->name);
-
-//        $Shops = (new ShopResource)->filter($request);
-
         if ($request->has('latitude') && $request->has('longitude')) {
 
             $longitude = $request->longitude;
@@ -177,26 +173,37 @@ class SearchResource extends Controller
         } else {
             return back()->with('error','Please enter location correctly');
         }
-        $cuisines = DB::table('cuisines')
+        $cuisines = [];
+        foreach ($BannerImage as $value) {
+        $cuisine = DB::table('cuisine_shop')
+            ->where('shop_id',$value->id)
             ->get();
+            array_push($cuisines , $cuisine);
+        }
+        $cuisineWithDetails = [];
+        $currentId = [];
+        foreach ($cuisines as $value) {
+            foreach ($value as $item) {
+                $cuisineDetails = DB::table('cuisines')
+                    ->where('id',$item->cuisine_id)
+                    ->get();
+                if (in_array(strval($item->cuisine_id),$currentId)){
+                    continue;
+                }else {
+                    array_push($cuisineWithDetails, $cuisineDetails);
+                }
+                array_push($currentId , strval($item->cuisine_id));
+            }
+        }
+
         $data = [
             'shops' => $BannerImage,
-            'cuisines' => $cuisines,
-//            'BannerImage' => $BannerImage,
-//            'Shops_popular' => $Shops_popular,
-//            'Shops_superfast' => $Shops_superfast,
-//            'Shops_offers' => $Shops_offers,
-//            'Shops_vegiterian' => $Shops_vegiterian,
-//            'Shops_new' => $Shops_new,
+            'cuisines' => $cuisineWithDetails,
+
         ];
         return view('website.filtered_restro_by_user_location')->with($data);
 
-        // } catch (Exception $e) {
-        //     if ($request->ajax()) {
-        //         return response()->json(['error' => trans('form.whoops')], 500);
-        //     }
-        //     return back()->with('error', trans('form.whoops'));
-        // }
+
     }
 
 

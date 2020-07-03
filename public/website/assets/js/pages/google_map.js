@@ -1,50 +1,13 @@
-// {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC808NpIO-MZ_C-nXv21zGFDKC1OUm_MkQ"></script> --}}
-//     {{-- <script src="{{ asset('assets/user/js/jquery.googlemap.js')}}"></script> --}}
-    
-//     {{-- <script>
-//         let x = $('#address_div');
-//         $('#location').click(function (){
-//                 if (navigator.geolocation) {
-//             navigator.geolocation.getCurrentPosition(showPosition)
-//         }
-//         else{
-//                console.log('not support')
-//             }
-//         })
-//         function showPosition(position){
-//                 console.log(position.coords.latitude)
-//                 console.log(position.coords.longitude)
-//         let lat = position.coords.latitude;
-//         let long = position.coords.longitude
-//         let mapApi = 'https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBZJvjfei1Tbyo9xH4Supe_4enBrCEdhV0&latlng='+ lat +','+ long +'&sensor=ture';
 
-//         $.get({
-//             url :mapApi,
-//             success: function(data){
-//                 console.log(data)
-//             }
-//             // error: function(JSXError)
-//             // {
-//             //     console.log(JSXError)
-//             // }
-//         })
-
-//     }
-// </script> --}}
-// <script>
-    
-  function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
+      function initMap() {
+        var map = new google.maps.Map(document.getElementsByClassName('map'), {
           center: {
             lat: -33.8688, lng: 151.2195},
           zoom: 13
         });
         var input = /** @type {!HTMLInputElement} */(
-            document.getElementById('pac-input'));
+            document.getElementById('pac-input','sample'));
 
-        var types = document.getElementById('type-selector');
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
 
         var autocomplete = new google.maps.places.Autocomplete(input);
         autocomplete.bindTo('bounds', map);
@@ -86,7 +49,6 @@
         var item_Lat =place.geometry.location.lat()
         var item_Lng= place.geometry.location.lng()
         var item_Location = place.formatted_address;
-//alert("Lat= "+item_Lat+"_____Lang="+item_Lng+"_____Location="+item_Location);
         $("#lat").val(item_Lat);
         $("#lng").val(item_Lng);
         $("#location").val(item_Location);
@@ -100,22 +62,8 @@
           }
 
           infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-          infowindow.open(map, marker);
+          // infowindow.open(map, marker);
         });
 
-        // Sets a listener on a radio button to change the filter type on Places
-        // Autocomplete.
-        function setupClickListener(id, types) {
-          var radioButton = document.getElementById(id);
-          radioButton.addEventListener('click', function() {
-            autocomplete.setTypes(types);
-          });
-        }
-
-        setupClickListener('changetype-all', []);
-        setupClickListener('changetype-address', ['address']);
-        setupClickListener('changetype-establishment', ['establishment']);
-        setupClickListener('changetype-geocode', ['geocode']);
       }
 
-// </script>

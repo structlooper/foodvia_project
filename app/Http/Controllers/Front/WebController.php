@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Front;
 
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
 use Setting;
 use App\Shop;
 use DB;
@@ -16,23 +18,62 @@ class WebController extends Controller
 {
     public function index()
     {
-//        $shop_id = 1;
-//        $categories = DB::table('categories')
-//        ->where('shop_id',$shop_id)
-//        ->join('category_images','category_images.category_id', '=' , 'categories.id')
-//        ->get();
-       
-        $cuisine = DB::table('cuisines')->get();
-//        $product = DB::table('products')
-//        ->where('shop_id',$shop_id)
-//        ->join('product_images','product_images.product_id','=',"products.id")
-//        ->join('product_prices','product_prices.product_id','=',"products.id")
-//        ->get();
-        $shops = Shop::orderByRaw('RAND()')->take(10)->get();
+
+        $cuisine = [];
+
+        $shops = [];
+        if (Session::has('latitude') and Session::has('longitude'))
+        {
+            $longitude = Session::get('longitude');
+            $latitude = Session::get('latitude');
+            if (Setting::get('search_distance') > 0) {
+                $distance = Setting::get('search_distance');
+
+                $filtered_shops_data = Shop::select('shops.*')
+                    ->selectRaw("(6371 * acos( cos( radians('$latitude') ) * cos( radians(shops.latitude) ) * cos( radians(shops.longitude) - radians('$longitude') ) + sin( radians('$latitude') ) * sin( radians(shops.latitude) ) ) ) AS distance")
+                    ->whereRaw("(6371 * acos( cos( radians('$latitude') ) * cos( radians(shops.latitude) ) * cos( radians(shops.longitude) - radians('$longitude') ) + sin( radians('$latitude') ) * sin( radians(shops.latitude) ) ) ) <= $distance")
+                    ->orderByRaw('RAND()')->take(10)->get();
+
+                array_push($shops, $filtered_shops_data);
+
+                $cuisines = [];
+                foreach ($filtered_shops_data as $value) {
+                    $cusi = DB::table('cuisine_shop')
+                        ->where('shop_id', $value->id)
+                        ->get();
+                    array_push($cuisines, $cusi);
+                }
+
+
+                $currentId = [];
+                foreach ($cuisines as $value) {
+                    foreach ($value as $item) {
+                        $cuisineDetails = DB::table('cuisines')
+                            ->where('id', $item->cuisine_id)
+                            ->get();
+                        if (in_array(strval($item->cuisine_id), $currentId)) {
+                            continue;
+                        } else {
+                            array_push($cuisine, $cuisineDetails);
+                        }
+                        array_push($currentId, strval($item->cuisine_id));
+                    }
+                }
+
+
+            }
+        }else {
+            $filtered_shops_data = DB::table('shops')
+                 ->orderByRaw('RAND()')->take(10)->get();
+            array_push($shops, $filtered_shops_data);
+
+            $cuisine_1 = DB::table('cuisines')->get();
+            array_push($cuisine, $cuisine_1);
+
+        }
 
         $data= [
-            // 'categories' => $categories,
-            // 'product' => $product,
+
             'cuisine' => $cuisine,
             'shops' => $shops,
 
@@ -209,7 +250,7 @@ class WebController extends Controller
                     ->select('order_invoices.*',
                         'orders.invoice_id','orders.status'
                         , 'shops.name','shops.address','shops.estimated_delivery_time',
-                            'user_addresses.building','user_addresses.street','user_addresses.city','user_addresses.state','user_addresses.country','user_addresses.pincode','user_addresses.landmark','user_addresses.type')
+                            'user_addresses.building','user_addresses.street','user_addresses.map_address','user_addresses.pincode','user_addresses.landmark','user_addresses.type')
                     ->get();
                     array_push($orders, $orderInvoice);
 
@@ -264,14 +305,14 @@ class WebController extends Controller
             $categories = DB::table('categories')
                 ->where('shop_id',$shop_id)
                 ->get();
-            $one_categories = DB::table('categories')
+            $one_category = DB::table('categories')
                 ->where('shop_id',$shop_id)
                 ->first();
 
-            if (!is_null($one_categories)) {
+            if (!is_null($one_category)) {
                 $category_products = [];
                 $category_product = DB::table('category_product')
-                    ->where('category_id', $one_categories->id)
+                    ->where('category_id', $one_category->id)
                     ->get();
                 array_push($category_products, $category_product);
 
@@ -291,7 +332,7 @@ class WebController extends Controller
                 'shop_data' => $selectedRestroDetail,
                 'categories' => $categories,
                 'productDetails' => $productDetails,
-                'one_categories' => $one_categories,
+                'one_categories' => $one_category,
 
             ];
             return view('website.restaurant_specific')->with($data);
@@ -303,11 +344,12 @@ class WebController extends Controller
     }
 
     public function all_restro(){
-        $cuisine = DB::table('cuisines')->get();
+        $cuisineWithDetails = [];
         if (Session::has('latitude') and Session::has('longitude'))
         {
             $longitude = Session::get('longitude');
             $latitude = Session::get('latitude');
+
             if (Setting::get('search_distance') > 0) {
                 $distance = Setting::get('search_distance');
 
@@ -315,16 +357,152 @@ class WebController extends Controller
                     ->selectRaw("(6371 * acos( cos( radians('$latitude') ) * cos( radians(shops.latitude) ) * cos( radians(shops.longitude) - radians('$longitude') ) + sin( radians('$latitude') ) * sin( radians(shops.latitude) ) ) ) AS distance")
                     ->whereRaw("(6371 * acos( cos( radians('$latitude') ) * cos( radians(shops.latitude) ) * cos( radians(shops.longitude) - radians('$longitude') ) + sin( radians('$latitude') ) * sin( radians(shops.latitude) ) ) ) <= $distance")
                     ->get();
+
+                $cuisines = [];
+                foreach ($shops as $value) {
+                    $cuisine = DB::table('cuisine_shop')
+                        ->where('shop_id', $value->id)
+                        ->get();
+                    array_push($cuisines, $cuisine);
+                }
+
+
+                $currentId = [];
+                foreach ($cuisines as $value) {
+                    foreach ($value as $item) {
+                        $cuisineDetails = DB::table('cuisines')
+                            ->where('id', $item->cuisine_id)
+                            ->get();
+                        if (in_array(strval($item->cuisine_id), $currentId)) {
+                            continue;
+                        } else {
+                            array_push($cuisineWithDetails, $cuisineDetails);
+                        }
+                        array_push($currentId, strval($item->cuisine_id));
+                    }
+                }
+
             }
         }else{
             $shops = DB::table('shops')->get();
+            $cuisineDetails = DB::table('cuisines')->get();
+            foreach ($cuisineDetails as $key => $value) {
+                array_push($cuisineWithDetails,$cuisineDetails);
+            }
+
+
         }
         $data= [
 
-            'cuisine' => $cuisine,
+            'cuisine' => $cuisineWithDetails,
             'shops' => $shops,
         ];
         return view('website.all_restro')->with($data);
 
+    }
+    public function profile_update(request $request){
+        if (Auth::user()){
+            $user_name = $request->user_name;
+            $email = $request->user_email;
+            if($request->has('user_image')){
+                $file = $request->file('user_image');
+                $extension = $file->getClientOriginalExtension();
+                $image_name =  $user_name . '.' . $extension;
+                $file->move(public_path().'public/images/user/', $image_name);
+                $user_image = 'public/images/user/'.$image_name;
+            }
+            else{
+                $user_image = 'N/A';
+            }
+            $updateUserProfile = DB::table('users')
+                ->where('id',Auth::user()->id)
+                ->update([
+                    'name' => $user_name,
+                    'email' => $email,
+                    'avatar' => $user_image,
+                ]);
+            if ($updateUserProfile){
+                return back()->with('flash_success','profile updated successfully');
+            }else{
+                return back()->with('error','something went wrong please try after some times');
+            }
+
+        }else{
+            return back()->with('error','please login first');
+
+        }
+    }
+
+    public function add_address_page(){
+        return view('website.add_address_page');
+    }
+    public function add_new_address(request $request)
+    {
+        $validator = Validator::make(
+            Input::only(['type', 'building', 'latitude', 'longitude', 'search_loc', 'pin_code'])
+            , [
+            'type' => 'required',
+            'building' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'search_loc' => 'required',
+            'pin_code' => 'required',
+        ], [
+            'required' => 'this field is required',
+        ]);
+        if ($validator->fails()) {
+            return back()->with('error', 'please fill all required fields');
+        }
+        $building = $request->building;
+        $type = $request->type;
+        $latitude = $request->latitude;
+        $longitude = $request->longitude;
+        $search_loc = $request->search_loc;
+        $pin_code = $request->pin_code;
+        if ($request->has('street')) {
+            $street = $request->street;
+        }else{
+            $street= null;
+        }
+        if ($request->has('landmark')) {
+            $landmark = $request->landmark;
+        }else{
+            $landmark= null;
+        }
+
+        $add_address = DB::table('user_addresses')
+            ->insert([
+               'user_id' => Auth::user()->id,
+                'building' => $building,
+                'street' => $street,
+                'pincode' => $pin_code,
+                'landmark' => $landmark,
+                'map_address' => $search_loc,
+                'latitude' => $latitude,
+                'longitude' => $longitude,
+                'type' => $type,
+            ]);
+        if ($add_address){
+            return redirect(Route('user_profile'))->with('flash_success','address saved successfully');
+        }
+        else{
+            return redirect(Route('user_profile'))->with('flash_failure','address not saved');
+
+        }
+    }
+
+    public function delete_user_address(request $request){
+        if ($request->has('delete_id')){
+            $del_id = $request->delete_id;
+            $delete_address = DB::table('user_addresses')
+                ->where('user_id',Auth::user()->id)
+                ->where('id',$del_id)
+                ->delete();
+            if($delete_address){
+                return back()->with('flash_success','address deleted successfully');
+            }
+        }else{
+            return back()->with('error','some thing went wrong');
+        }
     }
 }

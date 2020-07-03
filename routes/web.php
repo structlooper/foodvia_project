@@ -29,13 +29,18 @@ Route::group(['namespace' => 'Front', 'prefix' => 'web'], function () {
         Route::get('checkout','WebController@checkout')->name('web_checkout');
         Route::get('order_details','WebController@order_details')->name('order_details');
         Route::get('user_profile','WebController@user_profile')->name('user_profile');
+        Route::get('add_address','WebController@add_address_page')->name('add_address');
 
+        Route::post('add_new_address','WebController@add_new_address')->name('add_new_address');
+        Route::post('delete_user_address','WebController@delete_user_address')->name('delete_user_address');
 
     });
     Route::get('restaurant','WebController@all_restro')->name('all_restro');
     Route::get('selected/restaurant/{id}','WebController@restaurant')->name('restaurant');
     Route::get('restaurant/{id}','WebController@categories')->name('category');
     Route::get('restaurant/{id}/{it}','WebController@categories_product')->name('categories');
+    Route::post('profile_update','WebController@profile_update')->name('profile_update');
+
 
     Route::post('pay_online','CheckOutController@confirmation')->name('pay_online');
 });
@@ -49,6 +54,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Front'], function () {
     Route::get('categories','WebApiCOntroller@categories');
     Route::get('product_category/{id}','WebApiController@product_category');
     Route::post('customLogin','WebApiController@login');
+    Route::get('search_product','WebApiController@search_product');
 
 
     /*
@@ -75,10 +81,10 @@ Route::group(['prefix' => 'api', 'namespace' => 'Front'], function () {
 
 });
 /*
- * razorpay payment routes
+ * razorpay payment route
  * @structlooper
  * */
-// Post Route For Makw Payment Request
+// Post Route For Make Payment Request
 Route::post('payment', 'RazorpayController@payment')->name('payment');
 
 

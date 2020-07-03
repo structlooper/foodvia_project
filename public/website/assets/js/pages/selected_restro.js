@@ -238,6 +238,19 @@ function saveData(shop_id){
                 })
 
             }
+            if (result.status === 3){
+                $('#addData').html('<button type="button" onclick="saveData(${shop_id})"  class="btn btn-block btn-success finalAddCart" id="addData"> Add item</button>')
+
+                console.log(result.message);
+                $.toast({
+                    heading: 'warning',
+                    text: result.message,
+                    icon: 'warning',
+                    hideAfter: false,
+                    position : 'top-right',
+                })
+
+            }
             if (result.status === 4){
                 $('#addData').html('<button type="button" onclick="saveData(${shop_id})"  class="btn btn-block btn-success finalAddCart" id="addData"> Add item</button>')
 

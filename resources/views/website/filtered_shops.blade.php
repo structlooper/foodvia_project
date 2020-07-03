@@ -9,39 +9,39 @@ Hunger Wings | Food Delivery
 
 <!-- slider -->
 <!-- Browse by category -->
-<section class="browse-cat u-line p-2">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="section-header-left">
-                    <h3 class="text-light-black header-title title">Browse by cuisine {{ count($cuisine) }} <span class="fs-14"><a href="javascript:void(0)">See all restaurant</a></span></h3>
-                </div>
-            </div>
-            <div class="col-12" id="thisIdforUrl" url={{ url('api') }}>
-                <div class="category-slider swiper-container">
-                    <div class="swiper-wrapper">
+{{--<section class="browse-cat u-line p-2">--}}
+{{--    <div class="container">--}}
+{{--        <div class="row">--}}
+{{--            <div class="col-12">--}}
+{{--                <div class="section-header-left">--}}
+{{--                    <h3 class="text-light-black header-title title">Browse by cuisine {{ count($cuisine) }} <span class="fs-14"><a href="javascript:void(0)">See all restaurant</a></span></h3>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="col-12" id="thisIdforUrl" url={{ url('api') }}>--}}
+{{--                <div class="category-slider swiper-container">--}}
+{{--                    <div class="swiper-wrapper">--}}
 
-                        @foreach ($cuisine as $item)
-                        <div class="swiper-slide">
-                            <a href="{{ route('category',$item->id) }}" class="categories categoryWise">
-                                <div class="icon text-custom-white bg-light-green ">
-                                    <img  src={{ asset("website/assets/img/restaurants/125x125/cuisine-2.jpg") }}
-                                      class="rounded-circle" alt="categories">
-                                    <input type="hidden" class="categoryVal" value="{{ $item->id }}">
-                                </div> <span class="text-light-black cat-name">{{ $item->name }} </span>
-                            </a>
-                        </div>
-                        @endforeach
+{{--                        @foreach ($cuisine as $item)--}}
+{{--                        <div class="swiper-slide">--}}
+{{--                            <a href="{{ route('category',$item->id) }}" class="categories categoryWise">--}}
+{{--                                <div class="icon text-custom-white bg-light-green ">--}}
+{{--                                    <img  src={{ asset("website/assets/img/restaurants/125x125/cuisine-2.jpg") }}--}}
+{{--                                      class="rounded-circle" alt="categories">--}}
+{{--                                    <input type="hidden" class="categoryVal" value="{{ $item->id }}">--}}
+{{--                                </div> <span class="text-light-black cat-name">{{ $item->name }} </span>--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
+{{--                        @endforeach--}}
 
-                    </div>
-                    <!-- Add Arrows -->
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+{{--                    </div>--}}
+{{--                    <!-- Add Arrows -->--}}
+{{--                    <div class="swiper-button-next"></div>--}}
+{{--                    <div class="swiper-button-prev"></div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</section>--}}
 <!-- Browse by category -->
 <!-- Explore collection -->
 <section class="ex-collection p-2">
@@ -49,7 +49,7 @@ Hunger Wings | Food Delivery
         <div class="row">
             <div class="col-12">
                 <div class="section-header-left">
-                    <h3 class="text-light-black header-title title">Explore in {{ ucfirst($cuisine_data->name) }}</h3>
+                    <h3 class="text-light-black header-title title">Explore in {{ ucfirst($cuisine_data->name) }}</h3><span class="fs-14"><a href="{{ route('all_restro') }}">See all restaurant</a></span>
                 </div>
             </div>
         </div>
