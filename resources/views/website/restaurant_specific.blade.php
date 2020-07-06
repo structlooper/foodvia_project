@@ -63,7 +63,7 @@
 
 
         .fixed_by_me{
-            top:100px;
+            top:50px;
             position: fixed;
             width: 22.8%;
         }
@@ -151,7 +151,11 @@
                         <div class="sidenav border-right pr-4">
 {{--                            <h4 class="text-center ">{{ $shop_data->name }}</h4>--}}
                                     <a href="javascript:void(0);" class="btn btn-sm  sublinks working mainLink" ><i class="fa fa-arrow-right"  aria-hidden="true"></i> <span class="text-muted">Recommended</span></a>
-                            <a href="#clients" > More Popular varieties  <i class="fa fa-caret-left" aria-hidden="true"></i></a>
+                            <a href="#clients" id="userInfo" @if (Auth::user())
+                            logged="{{ Auth::user()->id }}"
+                               @else
+                               logged="0"
+                                    @endif > More Popular varieties  <i class="fa fa-caret-left" aria-hidden="true"></i></a>
                             <div class="my_div">
                                 @foreach ($categories as $key =>  $item)
                                     <a href="javascript:void(0);" class="btn btn-sm  sublinks item_class_str " key={{ $item->id }} id="item_{{ $item->id }}"><i class="fa fa-arrow-right"  aria-hidden="true"></i> {{ $item->name }}</a>
@@ -178,6 +182,7 @@
                                                         {{-- src={{ $image->url }} --}}
                                                         {{-- @else --}}
                                                         src="{{ asset("website/assets/img/restaurants/255x150/shop-7.jpg") }}"
+{{--                                                        src="{{ asset("loader.gif") }}"--}}
                                                         {{-- @endif   --}}
                                                         class="img-fluid full-width" style="height:100px;" alt="product-img">
 {{--                                            <img src="https://spyeat.com/storage/products/BnPJFCAxlWabxRGkdU0KbBjhIEBxfBl2bdPWGZUd.jpeg" class="img-fluid full-width" style="height:100px;" alt="product-img">--}}
@@ -224,11 +229,7 @@
                                         <div class="product-footer offset-auto">
 
                                             <button type="button" id="dish{{ $item[0]->id }}"
-                                                    @if (Auth::user())
-                                                        logged="{{ Auth::user()->id }}"
-                                                    @else
-                                                            logged="0"
-                                                    @endif
+
                                                     onclick="add_to_cart({{ $item[0]->id }})" dataname="{{ $item[0]->name }}" currency="{{ $data->currency }}" dataprice="{{ $data->price }}" dataid="{{ $item[0]->id }}" class="btn btn-sm btn-outline-primary "><i class="fas fa-plus"></i> Add Item</button>
                                         </div>
                                     </div>
@@ -246,7 +247,7 @@
                                     <h4 class="text-light-black fw-600 title-2 pl-3 pt-3">Cart</h4>
 
                                 </div>
-                                <div class="col-sm-6 " style="text-align: center;margin-top: 20px;">
+                                <div class="col-sm-6 emptyCart" style="text-align: center;margin-top: 20px;">
 
                                     <button type="button" onclick="empty_cart();" class="btn btn-sm btn-outline-danger text-light-black border-0 showItem01" style="display: none;"><i class="far fa-trash-alt"></i> Clear cart</button >
                                 </div>

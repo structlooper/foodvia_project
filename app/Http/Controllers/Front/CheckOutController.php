@@ -376,7 +376,7 @@ class CheckOutController extends Controller
                         }
 
 
-                        $status = 'ORDERED';
+                        $status = 'FAILED';
                         $newotp = rand(100000, 999999);
                         $invoice_id = Uuid::uuid4()->toString();
                         if ($request->has('delivery_date')) {
@@ -428,7 +428,8 @@ class CheckOutController extends Controller
                             DB::table('user_carts')
                                 ->where('user_id', $user_id)
                                 ->where('order_id', null)
-                                ->update(['order_id' => $order_id, 'promocode_id' => $promocode_id ?: null]);
+                                ->where('promocode_id',null)
+                                ->update(['promocode_id' => $promocode_id ?: null]);
 
                             if ($invoice_details) {
                                 DB::table('promocode_usages')

@@ -72,7 +72,7 @@ function cart_data_database(){
                         $('.addToHeaderCart').append(`<div class="cat-product-box">
                                                     <div class="cat-product" shop_id = ${shop_id}>
                                                         <div class="cat-name" style="width: 170px;">
-                                                            <a href="#">
+                                                            <a href="${base_url}/web/selected_restaurant/${element.shop_id}">
                                                                 <p class="text-light-green" ><span class="text-light-white">${element.quantity}</span>${element.name}</p> <span class="text-light-white">${element.description}</span>
                                                             </a>
                                                         </div>
@@ -133,14 +133,16 @@ function cart_data_database(){
 
 function empty_cart(){
     let base_url = $('#urlfinder').attr('url');
+    $('.emptyCart').html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  Loading...`)
     $.ajax({
         type:'POST',
         url: base_url + '/api/empty_cart',
 
         success:function(result){
-            console.log(result)
+            // console.log(result)
             if (result.status === 1) {
-                console.log(result.message);
+                // console.log(result.message);
                 $.toast({
                     heading: 'info',
                     text: result.message,
@@ -148,6 +150,7 @@ function empty_cart(){
                     position : 'top-right',
                 })
                 cart_data_database();
+                $('.emptyCart').html('<button type="button" onclick="empty_cart();" class="btn btn-sm btn-outline-danger text-light-black border-0 showItem01" style="display: none;"><i class="far fa-trash-alt"></i> Clear cart</button >')
             }
 
             else if (result.status === 0){
@@ -159,6 +162,8 @@ function empty_cart(){
                     position : 'top-right',
                 })
                 cart_data_database();
+                $('.emptyCart').html('<button type="button" onclick="empty_cart();" class="btn btn-sm btn-outline-danger text-light-black border-0 showItem01" style="display: none;"><i class="far fa-trash-alt"></i> Clear cart</button >')
+
             }
             else if (result.status === 2){
                 $.toast({
@@ -168,12 +173,16 @@ function empty_cart(){
                     position : 'top-right',
                 })
                 cart_data_database();
+                $('.emptyCart').html('<button type="button" onclick="empty_cart();" class="btn btn-sm btn-outline-danger text-light-black border-0 showItem01" style="display: none;"><i class="far fa-trash-alt"></i> Clear cart</button >')
+
             }
 
         },
         error:function(jqXHR)
         {
             console.log(jqXHR)
+            $('.emptyCart').html('<button type="button" onclick="empty_cart();" class="btn btn-sm btn-outline-danger text-light-black border-0 showItem01" style="display: none;"><i class="far fa-trash-alt"></i> Clear cart</button >')
+
             $.toast({
                 heading: 'error',
                 text : "Can't connect with server right now" ,

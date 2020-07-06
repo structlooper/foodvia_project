@@ -11,7 +11,7 @@ Hunger Wings | Food Delivery
     @include('include.alerts')
     <div class="swiper-wrapper">
         <div class="swiper-slide slide-item">
-            <img src={{ asset("website/assets/img/about/blog/1920x700/banner-4.jpg") }} class="img-fluid full-width" alt="Banner">
+            <img src="{{ asset("website/assets/img/about/blog/1920x700/banner-4.jpg") }}" class="img-fluid full-width" alt="Banner">
             <div class="transform-center">
                 <div class="container">
                     <div class="row justify-content-start">
@@ -70,7 +70,7 @@ Hunger Wings | Food Delivery
         <div class="row">
             <div class="col-12">
                 <div class="section-header-left">
-                    <h3 class="text-light-black header-title title">Browse by cuisine {{ count($cuisine) }} <span class="fs-14"><a href="javascript:void(0)">See all restaurant</a></span></h3>
+                    <h3 class="text-light-black header-title title">Browse by cuisine {{ $cuisineCount }} <span class="fs-14"><a href="{{ Route('all_restro') }}">See all restaurant</a></span></h3>
                 </div>
             </div>
             <div class="col-12" id="thisIdforUrl" url={{ url('api') }}>

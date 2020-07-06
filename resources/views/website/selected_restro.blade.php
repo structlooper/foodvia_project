@@ -63,7 +63,7 @@ Hunger Wings | Food Delivery
 
 
             .fixed_by_me{
-                    top:100px;
+                    top:50px;
                     position: fixed;
                     width: 22.8%;
                 }    
@@ -149,7 +149,11 @@ Hunger Wings | Food Delivery
                     <div class="mt-2 mb-2   positionType"   >
                         <div class="sidenav border-right pr-4">
                             <h4 class="text-center ">{{ $shop_data->name }}</h4>
-                            <a href="javascript:void(0)" > More Popular varieties  <i class="fa fa-caret-left" aria-hidden="true"></i></a>
+                            <a href="javascript:void(0)" id="userInfo" @if (Auth::user())
+                            logged="{{ Auth::user()->id }}"
+                               @else
+                               logged="0"
+                                    @endif> More Popular varieties  <i class="fa fa-caret-left" aria-hidden="true"></i></a>
                             <div class="my_div">
                             @foreach ($categories as $item)
                                    <a href="javascript:void(0)" class="btn btn-sm  sublinks item_class_str" key={{ $item->id }} id="item_{{ $item->id }}"><i class="fa fa-arrow-right"  aria-hidden="true"></i> {{ $item->name }}</a>
@@ -207,7 +211,7 @@ Hunger Wings | Food Delivery
                             </div>
                             <div class="product-caption">
                                 <div class="title-box">
-                                    <h6 class="product-title" style="width: 50%;" ><a href="restaurant.html" class="text-light-black " > {{ $item[0]->name }}</a></h6>
+                                    <h6 class="product-title" style="width: 50%;" ><a href="javascript:void(0)" class="text-light-black " > {{ $item[0]->name }}</a></h6>
                                         <div class="tags"> <span class="text-custom-white rectangle-tag bg-yellow">
                                             {{ $data->price }} {{ $data->currency }}
                                         </span>
@@ -249,7 +253,7 @@ Hunger Wings | Food Delivery
                                 <h4 class="text-light-black fw-600 title-2 pl-3 pt-3">Cart</h4>
 
                             </div>
-                            <div class="col-sm-6 " style="text-align: center;margin-top: 20px;">
+                            <div class="col-sm-6 emptyCart" style="text-align: center;margin-top: 20px;">
 
                                  <button type="button" onclick="empty_cart();" class="btn btn-sm btn-outline-danger text-light-black border-0 showItem01" style="display: none;"><i class="far fa-trash-alt"></i> Clear cart</button >
                             </div>

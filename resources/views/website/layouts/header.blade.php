@@ -58,7 +58,7 @@
                         <!-- logo -->
                         <div class="logo mainNavCol">
                             <a href="{{ route('home') }}">
-                                <img src={{ asset("website/assets/img/hunger_wings1.png") }} class="img-fluid" alt="Logo">
+                                <img src="{{ asset("website/assets/img/hunger_wings1.png") }}" style="height: 50px; width: 100%!important;" class="img-fluid" alt="Logo">
                             </a>
                         </div>
                         <!-- logo -->
@@ -67,8 +67,8 @@
                                     <!-- location picker -->
                                     <div class="col-lg-6 col-md-5">
                                         <div  class="main-search search-form full-width">
-                                                <a href="javascript:void(0);" class="delivery-add p-relative" > <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
-                                                    <span class="address" style="text-overflow: inherit;">
+                                                <a href="javascript:void(0);" style="min-width: 350px;    max-width: 350px;" class="delivery-add p-relative" > <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
+                                                    <span class="address" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                                                         @if (Session::has('search_loc'))
                                                             {{ Session::get('search_loc') }}
                                                         @else
@@ -137,6 +137,7 @@
                                     </div>
                                     <script>
                                         $('#search-cuisine-button').click(function(){
+                                            $('#search-cuisine-button').html(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`)
                                             if ($('#search-cuisine-input').val() == ''){
                                                 $.toast({
                                                     heading: 'info',
@@ -145,6 +146,7 @@
                                                     position: 'top-right',
 
                                                 })
+                                                $('#search-cuisine-button').html('<i class="fa fa-search" aria-hidden="true"></i>')
                                             }else{
                                                 let productName = $('#search-cuisine-input').val()
                                                 let base_url = $('#urlfinder').attr('url');
@@ -159,26 +161,30 @@
                                                         if (result.status === 1) {
                                                             console.log(result.message);
                                                             if (result.data.id == undefined) {
-                                                                $.toast({
-                                                                    heading: 'info',
-                                                                    text: 'sorry,no shops find in '+productName,
-                                                                    icon: 'info',
-                                                                    position : 'top-right',
-                                                                })
+                                                                $('.alert_my').prepend(` <div class="container" > <div class="alert alert-warning">
+                                                            <button type="button" class="close" data-dismiss="alert">×</button>
+                                                            ${productName} is not available in your area
+                                                                </div>
+                                                                                </div>
+                                                                                                `)
+                                                                $('#search-cuisine-button').html('<i class="fa fa-search" aria-hidden="true"></i>')
+
                                                             } else {
                                                                 location.href = base_url + '/web/restaurant/' + result.data.id;
-                                                                // $('#search-box-cuisine').submit()
                                                             }
                                                         }
 
                                                         else{
                                                             console.log(result.message);
-                                                            $.toast({
-                                                                heading: 'warning',
-                                                                text: result.message,
-                                                                icon: 'warning',
-                                                                position : 'top-right',
-                                                            })
+                                                            $('.alert_my').prepend(` <div class="container" > <div class="alert alert-warning">
+                                                            <button type="button" class="close" data-dismiss="alert">×</button>
+                                                            ${productName} is not available in your area
+                                                                </div>
+                                                                                </div>
+                                                                                                `)
+                                                            $('#search-cuisine-button').html('<i class="fa fa-search" aria-hidden="true"></i>')
+
+
                                                         }
 
 
@@ -193,6 +199,8 @@
                                                             position: 'top-right',
 
                                                         })
+                                                        $('#search-cuisine-button').html('<i class="fa fa-search" aria-hidden="true"></i>')
+
                                                     }
 
                                                 })
@@ -293,8 +301,14 @@
                             <!-- user account -->
                             @if(Auth::user())
                             <div class="user-details p-relative">
-                                <a href="javascript:void(0)" class="text-light-white fw-500">
-                                    <img src={{ asset("website/assets/img/user-1.png") }} class="rounded-circle" alt="userimg"> <span>Hi, {{ Auth::user()->name }}</span>
+                                <a href="javascript:void(0)" class="text-light-white fw-500"><img
+                                             @if (@getimagesize($image->url))
+                                             src={{ Auth::user()->avatar }}
+                                             @else
+                                            src="{{ asset("website/unnamed.png") }}"
+                                             @endif
+                                            class="rounded-circle" style="height: 40px;" alt="user-img">
+                                     <span>Hi, {{ Auth::user()->name }}</span>
                                 </a>
                                 <div class="user-dropdown">
                                     <ul>
@@ -345,32 +359,32 @@
                             <!-- user notification -->
                             @if (Auth::user())
 
-                            <div class="cart-btn notification-btn" >
-                                <a href="javascript:void(0)" class="text-light-green fw-700"> <i class="fas fa-bell"></i>
-                                    <span class="user-alert-notification"></span>
-                                </a>
-                                <div class="notification-dropdown">
-                                    <div class="product-detail">
-                                        <a href="javascript:void(0)">
-                                            <div class="img-box">
-                                                <img src={{ asset("website/assets/img/shop-1.png") }} class="rounded" alt="image">
-                                            </div>
-                                            <div class="product-about">
-                                                <p class="text-light-black">Lil Johnny’s</p>
-                                                <p class="text-light-white">Spicy Maxican Grill</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="rating-box">
-                                        <p class="text-light-black">How was your last order ?.</p> <span class="text-dark-white"><i class="fas fa-star"></i></span>
-                                        <span class="text-dark-white"><i class="fas fa-star"></i></span>
-                                        <span class="text-dark-white"><i class="fas fa-star"></i></span>
-                                        <span class="text-dark-white"><i class="fas fa-star"></i></span>
-                                        <span class="text-dark-white"><i class="fas fa-star"></i></span>
-                                        <cite class="text-light-white">Ordered 2 days ago</cite>
-                                    </div>
-                                </div>
-                            </div>
+{{--                            <div class="cart-btn notification-btn" >--}}
+{{--                                <a href="javascript:void(0)" class="text-light-green fw-700"> <i class="fas fa-bell"></i>--}}
+{{--                                    <span class="user-alert-notification"></span>--}}
+{{--                                </a>--}}
+{{--                                <div class="notification-dropdown">--}}
+{{--                                    <div class="product-detail">--}}
+{{--                                        <a href="javascript:void(0)">--}}
+{{--                                            <div class="img-box">--}}
+{{--                                                <img src={{ asset("website/assets/img/shop-1.png") }} class="rounded" alt="image">--}}
+{{--                                            </div>--}}
+{{--                                            <div class="product-about">--}}
+{{--                                                <p class="text-light-black">Lil Johnny’s</p>--}}
+{{--                                                <p class="text-light-white">Spicy Maxican Grill</p>--}}
+{{--                                            </div>--}}
+{{--                                        </a>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="rating-box">--}}
+{{--                                        <p class="text-light-black">How was your last order ?.</p> <span class="text-dark-white"><i class="fas fa-star"></i></span>--}}
+{{--                                        <span class="text-dark-white"><i class="fas fa-star"></i></span>--}}
+{{--                                        <span class="text-dark-white"><i class="fas fa-star"></i></span>--}}
+{{--                                        <span class="text-dark-white"><i class="fas fa-star"></i></span>--}}
+{{--                                        <span class="text-dark-white"><i class="fas fa-star"></i></span>--}}
+{{--                                        <cite class="text-light-white">Ordered 2 days ago</cite>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                             <!-- user notification -->
                             <!-- user cart -->
                             <div class="cart-btn cart-dropdown">
@@ -388,7 +402,11 @@
                                                 <div class="total-price border-0"> <span class="text-dark-white fw-700">Items subtotal:</span>
                                                     <span class="text-dark-white fw-700 final_price">0</span>
                                                 </div>
-                                                <div class="empty-bag padding-15"> <a href="javascript:void(0)" onclick="empty_cart();">Empty bag</a>
+                     <div class="emptyCart">
+
+                        <button type="button" onclick="empty_cart();" class="btn btn-sm btn-outline-danger text-light-black border-0 showItem01" style="display: none;"><i class="far fa-trash-alt"></i> Clear cart</button >
+
+                     </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -402,8 +420,8 @@
 
                         </div>
                     </div>
-                    </div>
-                    </div>
+{{--                    </div>--}}
+{{--                    </div>--}}
                     <div class="col-sm-12 mobile-search">
                         <div class="mobile-address">
                             <a href="javascript:void(0)" class="delivery-add" data-toggle="modal" data-target="#address-box"> <span class="address">Food Near me</span>
@@ -421,12 +439,13 @@
                                 </div>
                             </div>
                         </div>
-                        
-                    </div>
 
+                    </div>
+            </div>
         </header>
     </div>
-    <div class="section-padding">
+    <div class="section-padding alert_my">
+
 @include('include.alerts')
 
 

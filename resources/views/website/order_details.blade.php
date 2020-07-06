@@ -13,27 +13,30 @@ Hunger Wings | Order Details
 
 @section('main_content')
 
-    <section class="checkout-page section-padding bg-light-theme">
+    <section class="checkout-page bg-light-theme">
         <div class="container">
 
 
-            @foreach( array_reverse($orders) as $key => $item)
+            @foreach( array_reverse($orders) as $key => $variable)
+                @foreach( $variable as $item)
 
             <br>
             <div class="row">
                 <div class="col-md-12">
                     <div class="tracking-sec" >
                         <div class="padding-20 p-relative"  style="width: 80%!important;">
-                            <h5 class="text-light-black fw-600">Order {{ $key+1 }}  -#<span class="text-muted">{{ $item[0]->status }}</span></h5>
+                            <h5 class="text-light-black fw-600">Order {{ $key+1 }}  -#<span class="text-muted">{{ $item->status }}</span> @if ($item->status  === 'FAILED')
+                                    Due to payment failed
+                                @endif</h5>
                             <span class="text-light-white">Estimated Delivery time</span>
                             <?php
                             $added_time =
-                                Carbon\Carbon::parse($item[0]->created_at)->addMinutes( intval($item[0]->estimated_delivery_time))
+                                Carbon\Carbon::parse($item->created_at)->addMinutes( intval($item->estimated_delivery_time))
                             ;
                             ?>
-                            <h2 class="text-light-black fw-700 no-margin">{{ date('h:i a',strtotime($item[0]->created_at) ) }}-{{ date('h:i a',strtotime($added_time)) }} ({{ $item[0]->estimated_delivery_time }} mins)</h2>
+                            <h2 class="text-light-black fw-700 no-margin">{{ date('h:i a',strtotime($item->created_at) ) }}-{{ date('h:i a',strtotime($added_time)) }} ({{ $item->estimated_delivery_time }} mins)</h2>
                             <div id="add-listing-tab" class="step-app">
-                                <ul class="step-steps" id="findOrderStatus{{$key}}" status="{{ $item[0]->status}}">
+                                <ul class="step-steps" id="findOrderStatus{{$key}}" status="{{ $item->status}}">
                                     <script>
                                         $(document).ready(function(){
                                             let status = $('#findOrderStatus{{$key}}').attr('status')
@@ -60,7 +63,7 @@ Hunger Wings | Order Details
                                     </script>
                                     <li class="" id="ordered_first{{$key}}">
                                         <a href="javascript:void(0)"> <span class="number"></span>
-                                            <span class="step-name">Order sent<br>{{ date('h:i a', strtotime($item[0]->created_at)) }}</span>
+                                            <span class="step-name">Order sent<br>{{ date('h:i a', strtotime($item->created_at)) }}</span>
                                         </a>
                                     </li>
                                     <li class="" id="process_second{{$key}}">
@@ -91,8 +94,8 @@ Hunger Wings | Order Details
                     <div class="recipt-sec padding-20" id="show{{$key}}" style="display: none;">
                         <div class="recipt-name title u-line full-width mb-xl-20">
                             <div class="recipt-name-box">
-                                <h5 class="text-light-black fw-600 mb-2">{{ $item[0]->name }}</h5>
-                                <p class="text-light-white ">{{ $item[0]->address }}</p>
+                                <h5 class="text-light-black fw-600 mb-2">{{ $item->name }}</h5>
+                                <p class="text-light-white ">{{ $item->address }}</p>
                             </div>
                         </div>
                         <div class="u-line mb-xl-20">
@@ -101,17 +104,17 @@ Hunger Wings | Order Details
                                     <div class="recipt-name full-width padding-tb-10 pt-0">
                                         <h5 class="text-light-black fw-600">Delivery (ASAP) to:</h5>
                                         <span class="text-light-white ">{{ ucfirst(Auth::user()->name) }}</span>
-                                        <span class="text-light-white ">{{ $item[0]->type }}</span>
-                                        <span class="text-light-white ">{{ $item[0]->building }}</span>
-                                        <span class="text-light-white ">{{ $item[0]->street }} {{ $item[0]->pincode }}</span>
-                                        <span class="text-light-white ">{{ $item[0]->map_address }}</span>
+                                        <span class="text-light-white ">{{ $item->type }}</span>
+                                        <span class="text-light-white ">{{ $item->building }}</span>
+                                        <span class="text-light-white ">{{ $item->street }} {{ $item->pincode }}</span>
+                                        <span class="text-light-white ">{{ $item->map_address }}</span>
                                         <p class="text-light-white ">{{ Auth::user()->phone }}</p>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="recipt-name full-width padding-tb-10 pt-0">
                                         <h5 class="text-light-black fw-600">Delivery LandMark</h5>
-                                        <p class="text-light-white ">{{ $item[0]->landmark }}</p>
+                                        <p class="text-light-white ">{{ $item->landmark }}</p>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
@@ -125,10 +128,10 @@ Hunger Wings | Order Details
                             <div class="row">
                                 <div class="col-lg-12">
                                     <h5 class="text-light-black fw-600 title">Your Order <span><a href="#" class="fs-12">Print recipt</a></span></h5>
-                                    <p class="title text-light-white">{{ date('F d, Y , H:i a', strtotime($item[0]->created_at)) }}<span class="text-light-black">Order : {{ $item[0]->invoice_id }}</span>
+                                    <p class="title text-light-white">{{ date('F d, Y , H:i a', strtotime($item->created_at)) }}<span class="text-light-black">Order : {{ $item->invoice_id }}</span>
                                     </p>
                                 </div>
-                                <?php $data = App\Helper\ProductHelper::getCartProduct($item[0]->order_id) ?>
+                                <?php $data = App\Helper\ProductHelper::getCartProduct($item->order_id) ?>
 
                                 <div class="col-lg-12">
                                 @foreach( $data as  $value)
@@ -156,7 +159,7 @@ Hunger Wings | Order Details
                                 <div class="payment-method mb-md-40">
                                     <h5 class="text-light-black fw-600">Payment Method</h5>
                                     <div class="method-type"> <i class="far fa-credit-card text-dark-white"></i>
-                                        <span class="text-light-white">@if ( $item[0]->payment_mode  == 'cash')
+                                        <span class="text-light-white">@if ( $item->payment_mode  == 'cash')
                                             Cash on delivery
                                             @else
                                                                            Online Payment
@@ -167,23 +170,23 @@ Hunger Wings | Order Details
                             <div class="col-lg-5">
                                 <div class="price-table u-line">
                                     <div class="item"> <span class="text-light-white">Item subtotal:</span>
-                                        <span class="text-light-white">{{ $item[0]->total_pay }} ₹</span>
+                                        <span class="text-light-white">{{ $item->total_pay }} ₹</span>
                                     </div>
                                     <div class="item"> <span class="text-light-white">Delivery fee:</span>
-                                        <span class="text-light-white">{{ $item[0]->delivery_charge }} ₹</span>
+                                        <span class="text-light-white">{{ $item->delivery_charge }} ₹</span>
                                     </div>
                                     <div class="item"> <span class="text-light-white">Tax and fees:</span>
-                                        <span class="text-light-white">{{ $item[0]->tax }} ₹</span>
+                                        <span class="text-light-white">{{ $item->tax }} ₹</span>
                                     </div>
-                                    @if ($item[0]->discount > 0)
+                                    @if ($item->discount > 0)
 
                                     <div class="item"> <span class="text-light-white">Discount :</span>
-                                        <span class="text-light-red">- {{ $item[0]->discount }} ₹</span>
+                                        <span class="text-light-red">- {{ $item->discount }} ₹</span>
                                     </div>
                                     @endif
                                 </div>
                                 <div class="total-price padding-tb-10">
-                                    <h5 class="title text-light-black fw-700">Total: <span>{{ $item[0]->payable }} ₹</span></h5>
+                                    <h5 class="title text-light-black fw-700">Total: <span>{{ $item->payable }} ₹</span></h5>
                                 </div>
                             </div>
                             <div class="col-12 d-flex"> <a href="#" class="btn-first white-btn fw-600 help-btn">Need Help?</a>
@@ -194,6 +197,8 @@ Hunger Wings | Order Details
             </div>
 
 
+
+                @endforeach
 
             @endforeach
         </div>

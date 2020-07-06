@@ -12,8 +12,9 @@ $(document).ready(function(){
 
         $('.item_class_str').removeClass('working')
         let key =  $(this).attr('key');
+        let base_url = $('#urlfinder').attr('url');
+        $('#append_after_this').html(`<img class="ml-5 currentCards" src="${base_url}/public/loader.gif"">`);
         // $(function() {
-                let base_url = $('#urlfinder').attr('url');
                 $.ajax({
                     type: "Get",
                     url: base_url + '/api/product_category/' + key,
@@ -24,11 +25,11 @@ $(document).ready(function(){
 
                             if (result.status == 1) {
                                 // console.log(result.data[0]);
+                                        $('.currentCards').hide()
                                 result.data.forEach(element => {
                                     // console.log(element[0]);
                                     let data = element[0];
                                         // console.log(data.name)
-                                        $('.currentCards').hide()
 
                                         let food_type = ''
                                         if (element[0].food_type === 'veg') {
@@ -127,7 +128,7 @@ $(document).ready(function(){
 * */
 function add_to_cart(id){
     let base_url = $('#urlfinder').attr('url')
-    let logged = $('#dish' + id).attr('logged')
+    let logged = $('#userInfo').attr('logged')
     const csrf = $("input[name='_token']").val();
     if (logged == 0) {
         $.toast({

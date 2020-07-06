@@ -24,15 +24,15 @@
                             @foreach ($cuisines as $value)
                                 @foreach( $value as  $item)
 
-                                <div class="swiper-slide">
-                                    <a href="{{ route('category',$item->id) }}" class="categories categoryWise">
-                                        <div class="icon text-custom-white bg-light-green ">
-                                            <img  src={{ asset("website/assets/img/restaurants/125x125/cuisine-2.jpg") }}
-                                                    class="rounded-circle" alt="categories">
-                                            <input type="hidden" class="categoryVal" value="$item->id ">
-                                        </div> <span class="text-light-black cat-name">{{$item->name}} </span>
-                                    </a>
-                                </div>
+                                    <div class="swiper-slide">
+                                        <a href="{{ route('category',$item->id) }}" class="categories categoryWise">
+                                            <div class="icon text-custom-white bg-light-green ">
+                                                <img  src={{ asset("website/assets/img/restaurants/125x125/cuisine-2.jpg") }}
+                                                        class="rounded-circle" alt="categories">
+                                                <input type="hidden" class="categoryVal" value="$item->id ">
+                                            </div> <span class="text-light-black cat-name">{{$item->name}} </span>
+                                        </a>
+                                    </div>
                                 @endforeach
                             @endforeach
 
@@ -151,56 +151,58 @@
                             @endforeach
                         @else
 
-{{--                            <h1>No restaurants found</h1>--}}
-                            <div class="col-lg-4 col-md-6 col-sm-6 currentCards">
-                                <div class="product-box mb-xl-20">
-                                    <div class="product-img">
-                                        <a href="javascript:void(0)">
-                                            <img src={{ asset("website/assets/img/restaurants/255x150/shop-5.jpg") }} class="img-fluid full-width" alt="product-img">
-                                        </a>
-                                        <div class="overlay">
-                                            <div class="product-tags padding-10"> <span class="circle-tag">
-                            <img src={{ asset("website/assets/img/svg/013-heart-1.svg") }} alt="tag">
-                        </span>
-                                                <div class="custom-tag"> <span class="text-custom-white rectangle-tag bg-gradient-red">
-                            20%
-                            </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-caption">
-                                        <div class="title-box">
-                                            <h6 class="product-title"><a href="javascript:void(0)" class="text-light-black ">No restaurants Found </a></h6>
-                                            <div class="tags"> <span class="text-custom-white rectangle-tag bg-red">
-                            2.1
-                        </span>
-                                            </div>
-                                        </div>
-                                        <p class="text-light-white">This is dummy data</p>
-                                        <div class="product-details">
-                                            <div class="price-time"> <span class="text-light-black time">30-40 min</span>
-                                                <span class="text-light-white price">$10 min</span>
-                                            </div>
-                                            <div class="rating"> <span>
-                            <i class="fas fa-star text-yellow"></i>
-                            <i class="fas fa-star text-yellow"></i>
-                            <i class="fas fa-star text-yellow"></i>
-                            <i class="fas fa-star text-yellow"></i>
-                            <i class="fas fa-star text-yellow"></i>
-                        </span>
-                                                <span class="text-light-white text-right">4225 ratings</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-footer"> <span class="text-custom-white square-tag">
-                        <img src={{ asset("website/assets/img/svg/008-protein.svg") }} alt="tag">
-                        </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <h4 class=" text-center" style="width:70%;">Sorry, No restaurants found in this location <i class="fa fa-map-marker" aria-hidden="true"></i> </h4>
 
-                            @endif
+                            <span>Try another location</span>
+                            {{--                            <div class="col-lg-4 col-md-6 col-sm-6 currentCards">--}}
+                            {{--                                <div class="product-box mb-xl-20">--}}
+                            {{--                                    <div class="product-img">--}}
+                            {{--                                        <a href="javascript:void(0)">--}}
+                            {{--                                            <img src={{ asset("website/assets/img/restaurants/255x150/shop-5.jpg") }} class="img-fluid full-width" alt="product-img">--}}
+                            {{--                                        </a>--}}
+                            {{--                                        <div class="overlay">--}}
+                            {{--                                            <div class="product-tags padding-10"> <span class="circle-tag">--}}
+                            {{--                            <img src={{ asset("website/assets/img/svg/013-heart-1.svg") }} alt="tag">--}}
+                            {{--                        </span>--}}
+                            {{--                                                <div class="custom-tag"> <span class="text-custom-white rectangle-tag bg-gradient-red">--}}
+                            {{--                            20%--}}
+                            {{--                            </span>--}}
+                            {{--                                                </div>--}}
+                            {{--                                            </div>--}}
+                            {{--                                        </div>--}}
+                            {{--                                    </div>--}}
+                            {{--                                    <div class="product-caption">--}}
+                            {{--                                        <div class="title-box">--}}
+                            {{--                                            <h6 class="product-title"><a href="javascript:void(0)" class="text-light-black ">No restaurants Found </a></h6>--}}
+                            {{--                                            <div class="tags"> <span class="text-custom-white rectangle-tag bg-red">--}}
+                            {{--                            2.1--}}
+                            {{--                        </span>--}}
+                            {{--                                            </div>--}}
+                            {{--                                        </div>--}}
+                            {{--                                        <p class="text-light-white">This is dummy data</p>--}}
+                            {{--                                        <div class="product-details">--}}
+                            {{--                                            <div class="price-time"> <span class="text-light-black time">30-40 min</span>--}}
+                            {{--                                                <span class="text-light-white price">$10 min</span>--}}
+                            {{--                                            </div>--}}
+                            {{--                                            <div class="rating"> <span>--}}
+                            {{--                            <i class="fas fa-star text-yellow"></i>--}}
+                            {{--                            <i class="fas fa-star text-yellow"></i>--}}
+                            {{--                            <i class="fas fa-star text-yellow"></i>--}}
+                            {{--                            <i class="fas fa-star text-yellow"></i>--}}
+                            {{--                            <i class="fas fa-star text-yellow"></i>--}}
+                            {{--                        </span>--}}
+                            {{--                                                <span class="text-light-white text-right">4225 ratings</span>--}}
+                            {{--                                            </div>--}}
+                            {{--                                        </div>--}}
+                            {{--                                        <div class="product-footer"> <span class="text-custom-white square-tag">--}}
+                            {{--                        <img src={{ asset("website/assets/img/svg/008-protein.svg") }} alt="tag">--}}
+                            {{--                        </span>--}}
+                            {{--                                        </div>--}}
+                            {{--                                    </div>--}}
+                            {{--                                </div>--}}
+                            {{--                            </div>--}}
+
+                        @endif
 
 
 

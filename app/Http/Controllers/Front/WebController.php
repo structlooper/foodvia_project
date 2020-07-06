@@ -20,7 +20,7 @@ class WebController extends Controller
     {
 
         $cuisine = [];
-
+        $cuisineCount = 0;
         $shops = [];
         if (Session::has('latitude') and Session::has('longitude'))
         {
@@ -55,6 +55,7 @@ class WebController extends Controller
                             continue;
                         } else {
                             array_push($cuisine, $cuisineDetails);
+                            $cuisineCount += 1;
                         }
                         array_push($currentId, strval($item->cuisine_id));
                     }
@@ -68,6 +69,9 @@ class WebController extends Controller
             array_push($shops, $filtered_shops_data);
 
             $cuisine_1 = DB::table('cuisines')->get();
+            foreach ($cuisine_1 as $key => $value) {
+                $cuisineCount += 1;
+            }
             array_push($cuisine, $cuisine_1);
 
         }
@@ -75,6 +79,7 @@ class WebController extends Controller
         $data= [
 
             'cuisine' => $cuisine,
+            'cuisineCount' => $cuisineCount,
             'shops' => $shops,
 
 
@@ -242,7 +247,7 @@ class WebController extends Controller
 
             $orders = [];
             foreach ($orderDetails as $value) {
-                $orderInvoice = DB::table('orders')
+                $orderInvoiceProduct = DB::table('orders')
                     ->join('order_invoices', 'order_invoices.order_id', '=', 'orders.id')
                     ->join('shops','shops.id','=','orders.shop_id')
                     ->join('user_addresses','user_addresses.id','=','orders.user_address_id')
@@ -252,13 +257,17 @@ class WebController extends Controller
                         , 'shops.name','shops.address','shops.estimated_delivery_time',
                             'user_addresses.building','user_addresses.street','user_addresses.map_address','user_addresses.pincode','user_addresses.landmark','user_addresses.type')
                     ->get();
-                    array_push($orders, $orderInvoice);
+                foreach ( $orderInvoiceProduct as  $variable) {
+                        if ($variable->status === 'FAILED') {
+                            continue;
+                        } else {
+                            array_push($orders, $orderInvoiceProduct);
+                    }
+                }
 
 
             }
 
-//            print_r($orders);
-//            exit;
             $data = [
                 'orders' => $orders,
             ];
@@ -288,9 +297,6 @@ class WebController extends Controller
         $selectedRestroDetail = DB::table('shops')
             ->where('id',$shop_id)
             ->first();
-
-
-
 
 //        $cuisine_shopDetails = [];
 //        foreach ($cuisine_shop as $key => $value) {
@@ -345,6 +351,7 @@ class WebController extends Controller
 
     public function all_restro(){
         $cuisineWithDetails = [];
+        $cuisineCount = 0;
         if (Session::has('latitude') and Session::has('longitude'))
         {
             $longitude = Session::get('longitude');
@@ -377,6 +384,8 @@ class WebController extends Controller
                             continue;
                         } else {
                             array_push($cuisineWithDetails, $cuisineDetails);
+                            $cuisineCount += 1;
+
                         }
                         array_push($currentId, strval($item->cuisine_id));
                     }
@@ -387,13 +396,14 @@ class WebController extends Controller
             $shops = DB::table('shops')->get();
             $cuisineDetails = DB::table('cuisines')->get();
             foreach ($cuisineDetails as $key => $value) {
-                array_push($cuisineWithDetails,$cuisineDetails);
+                $cuisineCount += 1;
             }
+                array_push($cuisineWithDetails,$cuisineDetails);
 
 
         }
         $data= [
-
+            'cuisineCount'=>$cuisineCount,
             'cuisine' => $cuisineWithDetails,
             'shops' => $shops,
         ];
