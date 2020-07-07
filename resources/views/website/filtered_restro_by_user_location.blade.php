@@ -61,7 +61,6 @@
 
                 <div class="col-lg-9 col-md-8">
                     <div class="row" id="append_after_this">
-                        {{-- {{ print_r($product) }} --}}
                         <div >
 
                         </div>
@@ -75,11 +74,11 @@
                                             <div class="product-img">
                                                 <a href="javascript:void(0)">
                                                     <img
-                                                            {{-- @if (@getimagesize($item->avatar))
-                                                                src={{ $item->avatar }} --}}
-                                                            {{-- @else --}}
+                                                            @if (@getimagesize($item->avatar))
+                                                                src={{ $item->avatar }} 
+                                                            @else
                                                             src="{{ asset("website/assets/img/restaurants/255x150/shop-7.jpg") }}"
-                                                            {{-- @endif   --}}
+                                                            @endif  
                                                             class="img-fluid full-width" style="height:200px;" alt="product-img">
                                                 </a>
                                                 <div class="overlay">

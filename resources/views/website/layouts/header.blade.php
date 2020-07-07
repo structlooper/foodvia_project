@@ -444,7 +444,11 @@
             </div>
         </header>
     </div>
-    <div class="section-padding alert_my">
+    <div class="section-padding alert_my" id="userInfo" @if (Auth::user())
+    logged="{{ Auth::user()->id }}"
+       @else
+       logged="0"
+            @endif>
 
 @include('include.alerts')
 

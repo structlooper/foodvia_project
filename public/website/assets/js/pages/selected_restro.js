@@ -11,9 +11,15 @@ $(document).ready(function(){
     $('.item_class_str').click(function(){
 
         $('.item_class_str').removeClass('working')
+        $('.item_class_str').removeClass('active')
         let key =  $(this).attr('key');
         let base_url = $('#urlfinder').attr('url');
-        $('#append_after_this').html(`<img class="ml-5 currentCards" src="${base_url}/public/loader.gif"">`);
+        $('#append_after_this').html(`<img class="ml-5 currentCards" src="${base_url}/public/loader1.gif" style="width:150px; height:100px; margin: 0;
+        position: absolute;
+        left: 30%;
+        top: 30%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);">`);
         // $(function() {
                 $.ajax({
                     type: "Get",
@@ -42,15 +48,15 @@ $(document).ready(function(){
                                         $('#append_after_this').append(`
                                         <div class="col-lg-4 col-md-6 col-sm-6 currentCards ${key}">
                                 <div class="product-box mb-xl-20">
-                                    <div class="product-img">
-                                        <a href="#">
+                                    <div class="product-img" style="min-width: 180px; min-height: 150px; ">
+                                        <a href="#" >
 
 
-                                            <img src="${data.url}" class="img-fluid full-width" style="height:100px;" alt="product-img">
+                                            <img src="${data.url}" class="img-fluid full-width" style="height:100px;" alt="product-img" >
                                         </a>
                                         <div class="overlay">
                                             <div class="product-tags padding-10"> <span class="circle-tag">
-                                                <img src="${base_url}/public/website/assets/img/svg/013-heart-1.svg" alt="tag">
+                                                <img src="${base_url}/public/website/assets/img/svg/013-heart-1.svg" alt="tag" >
                                             </span>
 
                                             <div class="custom-tag"> <span class="text-custom-white rectangle-tag bg-gradient-red">
@@ -64,7 +70,7 @@ $(document).ready(function(){
                             </div>
                             <div class="product-caption">
                                 <div class="title-box">
-                                    <h6 class="product-title" style="width: 50%; "><a href="restaurant.html" class="text-light-black "> ${data.name}</a></h6>
+                                    <h6 class="product-title" style="width: 50%; "><a href="#" class="text-light-black "> ${data.name}</a></h6>
                                         <div class="tags"> <span class="text-custom-white rectangle-tag bg-yellow">
                                             ${data.price} ${data.currency}
                                         </span>
@@ -79,7 +85,7 @@ $(document).ready(function(){
                                     </div>
                                     <div class="product-footer offset-auto">
 
-                                    <button type="button" id="dish${data.id}" onclick="add_to_cart(${data.id})" dataname="${data.name}" currency="${data.currency}" dataprice="${data.price}" dataid="${data.id}" class="btn btn-sm btn-outline-primary "><i class="fas fa-plus"></i> Add Item</button>
+                                    <button type="button" id="dish${data.product_id}" onclick="add_to_cart(${data.product_id})" dataname="${data.name}" currency="${data.currency}" dataprice="${data.price}" dataid="${data.id}" class="btn btn-sm btn-outline-primary "><i class="fas fa-plus"></i> Add Item</button>
                                         </div>
                                     </div>
                                 </div>
@@ -90,6 +96,7 @@ $(document).ready(function(){
                                         `);
                                         $('.'+key).show()
                                         $('#item_'+key).addClass('working')
+                                        $('#item_'+key).addClass('active')
 
                                 });
 
@@ -367,6 +374,7 @@ function product_decrement(product_id)
             if (result.status === 0){
                 console.log(result.message);
                 $('#minusIncrement'+product_id).html('<i class="fa fa-minus" aria-hidden="true"></i>')
+                cart_data_database();
                 $.toast({
                     heading: 'warning',
                     text: result.message,
@@ -377,7 +385,7 @@ function product_decrement(product_id)
             }
             if (result.status === 2){
                 $('#minusIncrement'+product_id).html('<i class="fa fa-minus" aria-hidden="true"></i>')
-
+                cart_data_database();
                 $.toast({
                     heading: 'info',
                     text: result.message,

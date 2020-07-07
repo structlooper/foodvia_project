@@ -20,10 +20,7 @@
                                                 src="{{ asset("website/unnamed.png") }}"
                                         @endif
                                     class="rounded-circle author-box-picture">
-{{--                                <div class="clearfix"></div>--}}
-{{--                                <div class="author-box-name text-center">--}}
-{{--                                    <button type="button" class="col-10 m-2 p-2 btn btn-sm btn-outline-primary " data-toggle="modal" data-target="#removeProfilePic">Remove Profile image</button>--}}
-{{--                                </div>--}}
+
                                 <div class="author-box-name text-center">
                                     <h3 >
                                         {{ ucfirst(Auth::user()->name) }}

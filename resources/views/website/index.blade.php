@@ -161,11 +161,11 @@ Hunger Wings | Food Delivery
                             <div class="product-img">
                                 <a href="#">
                                     <img 
-                                    {{-- @if (@getimagesize($item->avatar))
+                                    @if (@getimagesize($item->avatar))
                                     src={{ $item->avatar }}
-                                    @else --}}
+                                    @else
                                     src="{{ asset("website/assets/img/restaurants/255x150/shop-7.jpg") }}"
-                                    {{-- @endif   --}}
+                                    @endif  
                                     class="img-fluid full-width" style="height:200px;" alt="product-img">
                                 </a>
                                 <div class="overlay">

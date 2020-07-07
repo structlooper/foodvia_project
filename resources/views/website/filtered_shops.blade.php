@@ -7,42 +7,7 @@ Hunger Wings | Food Delivery
 @section('main_content')
 
 
-<!-- slider -->
-<!-- Browse by category -->
-{{--<section class="browse-cat u-line p-2">--}}
-{{--    <div class="container">--}}
-{{--        <div class="row">--}}
-{{--            <div class="col-12">--}}
-{{--                <div class="section-header-left">--}}
-{{--                    <h3 class="text-light-black header-title title">Browse by cuisine {{ count($cuisine) }} <span class="fs-14"><a href="javascript:void(0)">See all restaurant</a></span></h3>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <div class="col-12" id="thisIdforUrl" url={{ url('api') }}>--}}
-{{--                <div class="category-slider swiper-container">--}}
-{{--                    <div class="swiper-wrapper">--}}
 
-{{--                        @foreach ($cuisine as $item)--}}
-{{--                        <div class="swiper-slide">--}}
-{{--                            <a href="{{ route('category',$item->id) }}" class="categories categoryWise">--}}
-{{--                                <div class="icon text-custom-white bg-light-green ">--}}
-{{--                                    <img  src={{ asset("website/assets/img/restaurants/125x125/cuisine-2.jpg") }}--}}
-{{--                                      class="rounded-circle" alt="categories">--}}
-{{--                                    <input type="hidden" class="categoryVal" value="{{ $item->id }}">--}}
-{{--                                </div> <span class="text-light-black cat-name">{{ $item->name }} </span>--}}
-{{--                            </a>--}}
-{{--                        </div>--}}
-{{--                        @endforeach--}}
-
-{{--                    </div>--}}
-{{--                    <!-- Add Arrows -->--}}
-{{--                    <div class="swiper-button-next"></div>--}}
-{{--                    <div class="swiper-button-prev"></div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--</section>--}}
-<!-- Browse by category -->
 <!-- Explore collection -->
 <section class="ex-collection p-2">
     <div class="container">
@@ -65,7 +30,6 @@ Hunger Wings | Food Delivery
             </div>
             <div class="col-lg-9 col-md-8">
                 <div class="row" id="append_after_this">
-        {{-- {{ print_r($product) }} --}}
                     <div >
                         
                     </div>
@@ -81,11 +45,11 @@ Hunger Wings | Food Delivery
                             <div class="product-img">
                                 <a href="javascript:void(0)">
                                     <img 
-                                    {{-- @if (@getimagesize($item->avatar))
-                                        src={{ $item->avatar }} --}}
-                                        {{-- @else --}}
+                                    @if (@getimagesize($item->avatar))
+                                        src={{ $item->avatar }}
+                                        @else
                                         src="{{ asset("website/assets/img/restaurants/255x150/shop-7.jpg") }}"
-                                        {{-- @endif   --}}
+                                        @endif  
                                         class="img-fluid full-width" style="height:200px;" alt="product-img">
                                     </a>
                                     <div class="overlay">

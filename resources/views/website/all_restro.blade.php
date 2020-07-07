@@ -52,7 +52,6 @@
             <div class="row">
                 <div class="col-12">
                     <div class="section-header-left">
-{{--                        <h3 class="text-light-black header-title title">Explore in {{ ucfirst($cuisine_data->name) }}</h3>--}}
                     </div>
                 </div>
             </div>
@@ -82,11 +81,11 @@
                                             <div class="product-img">
                                                 <a href="javascript:void(0)">
                                                     <img
-                                                            {{-- @if (@getimagesize($item->avatar))
-                                                                src={{ $item->avatar }} --}}
-                                                            {{-- @else --}}
+                                                            @if (@getimagesize($item->avatar))
+                                                                src={{ $item->avatar }} 
+                                                            @else
                                                             src="{{ asset("website/assets/img/restaurants/255x150/shop-7.jpg") }}"
-                                                            {{-- @endif   --}}
+                                                             @endif 
                                                             class="img-fluid full-width" style="height:200px;" alt="product-img">
                                                 </a>
                                                 <div class="overlay">

@@ -19,39 +19,11 @@ Hunger Wings | Food Delivery
             padding: 8px 0;
             }
 
-            .sidenav a {
-            /* margin-left: 100px; */
-            text-align: right;
-            padding: 6px 8px 6px 16px;
-            text-decoration: none;
-            font-size: 15px;
-            color: black;
-            display: block;
-            }
-
-            .sidenav a:hover {
-            color: red;
-            }
-            .sublinks:hover {
-            color: rgb(17, 17, 10) !important;
-            background: #eeeeee;
-            }
-            .sublinks{
-                /* text-align: right !important; */
-                /* padding: 6px 8px 6px 16px; */
-                /* padding-right: 50px !important;  */
-                /* margin-right: 6px; */
-                text-decoration: none !important;
-                font-size: 12px !important;
-                color: rgb(33, 131, 243) !important;
-                display: block !important;
-
-            }
+           
 
             .working {
                 font-size: 18px !important;
-            text-align: right !important; 
-            color: red !important; 
+            text-align: center !important; 
             /* background-color:#ffbb00;  */
             text-decoration: none;
             }
@@ -89,7 +61,13 @@ Hunger Wings | Food Delivery
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12 col-4 col-md-4 ml-5">
-                    <img  src={{ asset("website/assets/img/restaurants/255x150/shop-7.jpg") }} alt="restro Image" style="height: 200px;">
+                    <img 
+                    @if (@getimagesize($shop_data->avatar))
+                    src={{ $shop_data->avatar }} 
+                    @else
+                    src={{ asset("website/assets/img/restaurants/255x150/shop-7.jpg") }} 
+                    @endif 
+                    alt="restro Image" style="height: 200px;">
                 </div>
                 <div class="col-sm-12 col-6 col-md-6 text-white">
                     <h2 class="text-white">
@@ -144,25 +122,26 @@ Hunger Wings | Food Delivery
     </div>
         <div class="container-fluid">
             <div class="row">
-                <aside class="col-lg-3 mb-md-40" >
+                <aside class="col-lg-3 mb-md-40 " id="sidebar-wrapper">
+                    <div class="main-sidebar sidebar-style-2">
+                  
+                   <ul class="sidebar-menu border mt-2">
+                       <li class="dropdown ">
+                           <h3 class="p-2 text-center">Categories</h3>
+                           
+                         </li>
+                         @foreach ($categories as $key =>  $item)
+                     <li class="dropdown">
+                       <button type="button" class="nav-link btn btn-block btn-outline-danger text-left item_class_str" key={{ $item->id }} id="item_{{ $item->id }}"><i class="fa fa-caret-right" aria-hidden="true"></i> <span >{{ $item->name }}</span></button>
+                     </li>
+                     @endforeach
+                  
                     
-                    <div class="mt-2 mb-2   positionType"   >
-                        <div class="sidenav border-right pr-4">
-                            <h4 class="text-center ">{{ $shop_data->name }}</h4>
-                            <a href="javascript:void(0)" id="userInfo" @if (Auth::user())
-                            logged="{{ Auth::user()->id }}"
-                               @else
-                               logged="0"
-                                    @endif> More Popular varieties  <i class="fa fa-caret-left" aria-hidden="true"></i></a>
-                            <div class="my_div">
-                            @foreach ($categories as $item)
-                                   <a href="javascript:void(0)" class="btn btn-sm  sublinks item_class_str" key={{ $item->id }} id="item_{{ $item->id }}"><i class="fa fa-arrow-right"  aria-hidden="true"></i> {{ $item->name }}</a>
-                                   @endforeach
-                                </div> 
-                          </div>
-                        </div>
-
-                </aside>
+                     
+                     
+                   </ul>
+                    </div>
+                 </aside>
                 <div class="col-lg-6 browse-cat ">
                     <div class="row m-2 " id="append_after_this">
                        
@@ -177,11 +156,11 @@ Hunger Wings | Food Delivery
                                         
                                             
                                             <img 
-                                            {{-- @if (@getimagesize($image->url)) --}}
-                                            {{-- src={{ $image->url }} --}}
-                                            {{-- @else --}}
+                                            @if (@getimagesize($image->url)) 
+                                            src={{ $image->url }}
+                                            @else
                                             src="{{ asset("website/assets/img/restaurants/255x150/shop-7.jpg") }}"
-                                            {{-- @endif   --}}
+                                            @endif  
                                             class="img-fluid full-width" style="height:100px;" alt="product-img">
                                         </a>
                                         <div class="overlay">
